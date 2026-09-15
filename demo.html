@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cozy Browser Pets — Interactive Playground</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐱</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-gradient: linear-gradient(135deg, #FFF1F2 0%, #FEF3C7 50%, #F0FDF4 100%);
+      --card-bg: rgba(255, 255, 255, 0.88);
+      --card-border: rgba(254, 205, 211, 0.6);
+      --primary: #FB7185;
+      --primary-dark: #881337;
+      --text: #1E293B;
+      --text-muted: #64748B;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: var(--bg-gradient);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    /* Header */
+    header {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(254, 205, 211, 0.5);
+      padding: 14px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-emoji {
+      font-size: 28px;
+      filter: drop-shadow(0 2px 4px rgba(251, 113, 133, 0.3));
+    }
+
+    .brand-title {
+      font-size: 20px;
+      font-weight: 900;
+      color: var(--primary-dark);
+      margin: 0;
+    }
+
+    .brand-sub {
+      font-size: 12px;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .live-badge {
+      background: #ECFDF5;
+      color: #059669;
+      border: 1px solid #A7F3D0;
+      padding: 5px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .live-dot {
+      width: 8px;
+      height: 8px;
+      background: #10B981;
+      border-radius: 50%;
+      animation: pulseDot 1.5s infinite;
+    }
+
+    @keyframes pulseDot {
+
+      0%,
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      50% {
+        opacity: 0.4;
+        transform: scale(0.8);
+      }
+    }
+
+    /* Main Container */
+    .container {
+      max-width: 960px;
+      margin: 28px auto;
+      padding: 0 20px 140px 20px;
+      width: 100%;
+    }
+
+    .card {
+      background: var(--card-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1.5px solid var(--card-border);
+      border-radius: 20px;
+      padding: 24px;
+      box-shadow: 0 12px 32px -8px rgba(251, 113, 133, 0.15);
+      margin-bottom: 20px;
+    }
+
+    .card h2 {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--primary-dark);
+      margin-bottom: 8px;
+    }
+
+    .card p {
+      color: var(--text-muted);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    /* Skin selector grid */
+    .grid-skins {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 12px;
+      margin: 18px 0;
+    }
+
+    .skin-item {
+      background: rgba(255, 255, 255, 0.9);
+      border: 2px solid #F1F5F9;
+      border-radius: 14px;
+      padding: 12px 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      transition: all 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .skin-item:hover {
+      border-color: #FDA4AF;
+      transform: translateY(-3px) scale(1.03);
+      background: #FFF1F2;
+    }
+
+    .skin-item.selected {
+      border-color: var(--primary);
+      background: #FFE4E6;
+      box-shadow: 0 0 0 2px var(--primary);
+    }
+
+    .swatch-circle {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: 2px solid rgba(0, 0, 0, 0.12);
+    }
+
+    .skin-item-title {
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--text);
+    }
+
+    /* Button rows */
+    .toolbar-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .btn-act {
+      background: #FFFFFF;
+      border: 1.5px solid #FBCFE8;
+      color: #881337;
+      font-size: 13px;
+      font-weight: 800;
+      padding: 9px 16px;
+      border-radius: 12px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+      box-shadow: 0 2px 6px rgba(251, 113, 133, 0.1);
+    }
+
+    .btn-act:hover {
+      background: #FFE4E6;
+      border-color: var(--primary);
+      transform: translateY(-2px);
+    }
+
+    .btn-act:active {
+      transform: scale(0.96);
+    }
+
+    /* Feature Highlights */
+    .feature-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .feature-box {
+      background: rgba(255, 255, 255, 0.7);
+      border: 1px solid rgba(254, 205, 211, 0.4);
+      padding: 12px 16px;
+      border-radius: 12px;
+      font-size: 13px;
+    }
+
+    .feature-box b {
+      color: var(--primary-dark);
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    /* Instructions Box */
+    .install-card {
+      background: #EFF6FF;
+      border: 1.5px solid #BFDBFE;
+      color: #1E3A8A;
+      border-radius: 16px;
+      padding: 18px 22px;
+      margin-top: 24px;
+    }
+
+    .install-card h3 {
+      font-size: 16px;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+
+    .install-card ol {
+      margin-left: 20px;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    /* Host container for pet */
+    #cozy-pet-host {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 2147483647;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Top Navigation -->
+  <header>
+    <div class="brand">
+      <span class="brand-emoji">🐾</span>
+      <div>
+        <h1 class="brand-title">Cozy Browser Pets</h1>
+        <p class="brand-sub">Manifest V3 Interactive Cat Extension</p>
+      </div>
+    </div>
+    <div class="live-badge">
+      <div class="live-dot"></div>
+      Cat is Roaming Free!
+    </div>
+  </header>
+
+  <!-- Main Playground Content -->
+  <main class="container">
+
+    <!-- Playground Controller Card -->
+    <div class="card">
+      <h2>🐱 Meet Your Desktop Companion!</h2>
+      <p>
+        Look down at the bottom of your screen! Your cat is actively exploring, loafing, and napping.
+        <b>Click & drag</b> the cat anywhere in mid-air to pick them up, or test the quick controls below:
+      </p>
+
+      <!-- Coat Customization -->
+      <div class="grid-skins">
+        <div class="skin-item selected" onclick="pickSkin('orange-tabby', this)">
+          <div class="swatch-circle" style="background: #FB923C;"></div>
+          <span class="skin-item-title">Orange Tabby</span>
+        </div>
+        <div class="skin-item" onclick="pickSkin('calico', this)">
+          <div class="swatch-circle"
+            style="background: linear-gradient(135deg, #FFF 33%, #EA580C 33%, #EA580C 66%, #18181B 66%);"></div>
+          <span class="skin-item-title">Calico</span>
+        </div>
+        <div class="skin-item" onclick="pickSkin('tuxedo', this)">
+          <div class="swatch-circle" style="background: linear-gradient(135deg, #18181B 60%, #FFF 60%);"></div>
+          <span class="skin-item-title">Tuxedo</span>
+        </div>
+        <div class="skin-item" onclick="pickSkin('void-cat', this)">
+          <div class="swatch-circle" style="background: #0F172A;"></div>
+          <span class="skin-item-title">Void Cat</span>
+        </div>
+        <div class="skin-item" onclick="pickSkin('siamese', this)">
+          <div class="swatch-circle" style="background: radial-gradient(circle, #451A03 35%, #FDF4E3 40%);"></div>
+          <span class="skin-item-title">Siamese</span>
+        </div>
+        <div class="skin-item" onclick="pickSkin('silver-tabby', this)">
+          <div class="swatch-circle" style="background: #94A3B8;"></div>
+          <span class="skin-item-title">Silver Tabby</span>
+        </div>
+      </div>
+
+      <!-- Quick Action Care Buttons -->
+      <div class="toolbar-row">
+        <button class="btn-act" onclick="petSit()">🪑 Sit Down</button>
+        <button class="btn-act" onclick="petLick()">😋 Lick Paws</button>
+        <button class="btn-act" onclick="feedPet('fish')">🐟 Feed Fish</button>
+        <button class="btn-act" onclick="feedPet('treat')">🍖 Treat Snack</button>
+        <button class="btn-act" onclick="petLove()">❤️ Pet & Purr</button>
+        <button class="btn-act" onclick="toggleLaser()">🔴 Laser Pointer</button>
+        <button class="btn-act" onclick="petNap()">💤 Nap Time</button>
+        <button class="btn-act" onclick="petWake()">☀️ Stand / Wake</button>
+      </div>
+
+      <!-- Scale & Speed Toolbar -->
+      <div class="toolbar-row" style="margin-top: 12px;">
+        <button class="btn-act" onclick="setScale(1.0)">📏 Size 1x</button>
+        <button class="btn-act" onclick="setScale(1.4)">📏 Size 1.5x</button>
+        <button class="btn-act" onclick="setScale(1.9)">📏 Size 2x</button>
+        <button class="btn-act" onclick="setSpeed(0.75)">🐌 Cozy Walk</button>
+        <button class="btn-act" onclick="setSpeed(1.2)">🚶 Normal Gait</button>
+        <button class="btn-act" onclick="setSpeed(2.5)">⚡ Cat Zoomies</button>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Shadow DOM Host for Pet Injection -->
+  <div id="cozy-pet-host"></div>
+
+  <!-- Extension Scripts -->
+  <script src="content/audio-synthesizer.js"></script>
+  <script src="content/pet-engine.js"></script>
+
+  <script>
+    let petEngine = null;
+
+    (async function initPlayground() {
+      const host = document.getElementById('cozy-pet-host');
+      const shadow = host.attachShadow({ mode: 'open' });
+
+      try {
+        const res = await fetch('content/styles.css');
+        if (res.ok) {
+          const css = await res.text();
+          const style = document.createElement('style');
+          style.textContent = css;
+          shadow.appendChild(style);
+        }
+      } catch (e) {
+        const link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = 'content/styles.css';
+        shadow.appendChild(link);
+      }
+
+      petEngine = new window.CozyPetEngine(shadow);
+      window.petEngine = petEngine;
+    })();
+
+    function pickSkin(skin, el) {
+      document.querySelectorAll('.skin-item').forEach(i => i.classList.remove('selected'));
+      if (el) el.classList.add('selected');
+      if (petEngine) {
+        petEngine.setSkin(skin);
+        petEngine.audio.chirp();
+      }
+    }
+
+    function petSit() {
+      if (petEngine) {
+        petEngine.setState('sit');
+        petEngine.stateTimer = 0;
+        petEngine.stateDuration = 8.0;
+        petEngine.say('Loafing comfy! 🍞', 2000);
+      }
+    }
+
+    function petLick() {
+      if (petEngine) {
+        petEngine.setState('lick');
+        petEngine.stateTimer = 0;
+        petEngine.stateDuration = 8.0;
+        petEngine.say('Nom nom! ✨', 2000);
+      }
+    }
+
+    function feedPet(type) {
+      if (petEngine) petEngine.feedTreat(type);
+    }
+
+    function petLove() {
+      if (petEngine) {
+        petEngine.handleSingleClick({
+          clientX: petEngine.x + 70,
+          clientY: petEngine.y + 40
+        });
+      }
+    }
+
+    function toggleLaser() {
+      if (petEngine) petEngine.toggleLaser();
+    }
+
+    function petNap() {
+      if (petEngine) petEngine.nap();
+    }
+
+    function petWake() {
+      if (petEngine) petEngine.wakeUp();
+    }
+
+    function setScale(scale) {
+      if (petEngine) petEngine.setScale(scale);
+    }
+
+    function setSpeed(spd) {
+      if (petEngine) petEngine.setSpeed(spd);
+    }
+  </script>
+</body>
+
+</html>

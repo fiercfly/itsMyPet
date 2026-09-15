@@ -1,0 +1,1517 @@
+/* ==========================================================================
+   COZY BROWSER PETS - ISOLATION & ANIMATION DESIGN SYSTEM
+   ========================================================================== */
+
+:host {
+  all: initial;
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 2147483647;
+  overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Nunito", sans-serif;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ===================== ROOT THEMES / SKINS ===================== */
+.skin-orange-tabby {
+  --coat: #FB923C;
+  --coat-shadow: #EA580C;
+  --stripe: #C2410C;
+  --belly: #FFF7ED;
+  --paw: #FFF7ED;
+  --ear-inner: #FF8596;
+  --nose: #FF758F;
+  --eye: #1E293B;
+  --eye-shine: #FFFFFF;
+  --outline: #1A1A1A;
+  --blush: rgba(255, 117, 143, 0.45);
+}
+
+.skin-calico {
+  --coat: #F8FAFC;
+  --coat-shadow: #E2E8F0;
+  --stripe: #EA580C;
+  --belly: #FFFFFF;
+  --paw: #FFFFFF;
+  --ear-inner: #FF8596;
+  --nose: #FF758F;
+  --eye: #059669;
+  --eye-shine: #FFFFFF;
+  --outline: #18181B;
+  --blush: rgba(255, 117, 143, 0.45);
+}
+
+.skin-tuxedo {
+  --coat: #18181B;
+  --coat-shadow: #09090B;
+  --stripe: #27272A;
+  --belly: #FFFFFF;
+  --paw: #FFFFFF;
+  --ear-inner: #FF8596;
+  --nose: #FF758F;
+  --eye: #10B981;
+  --eye-shine: #FFFFFF;
+  --outline: #09090B;
+  --blush: rgba(255, 117, 143, 0.45);
+}
+
+.skin-void-cat {
+  --coat: #0F172A;
+  --coat-shadow: #020617;
+  --stripe: #1E293B;
+  --belly: #1E293B;
+  --paw: #0F172A;
+  --ear-inner: #334155;
+  --nose: #475569;
+  --eye: #FBBF24;
+  --eye-shine: #FFFFFF;
+  --outline: #020617;
+  --blush: rgba(251, 191, 36, 0.35);
+}
+
+.skin-siamese {
+  --coat: #FDF4E3;
+  --coat-shadow: #F4E8D1;
+  --stripe: #451A03;
+  --belly: #FFFDF8;
+  --paw: #451A03;
+  --ear-inner: #290F02;
+  --nose: #290F02;
+  --eye: #0284C7;
+  --eye-shine: #FFFFFF;
+  --outline: #290F02;
+  --blush: rgba(244, 114, 182, 0.4);
+}
+
+.skin-silver-tabby {
+  --coat: #94A3B8;
+  --coat-shadow: #64748B;
+  --stripe: #334155;
+  --belly: #F8FAFC;
+  --paw: #F8FAFC;
+  --ear-inner: #FDA4AF;
+  --nose: #FB7185;
+  --eye: #0284C7;
+  --eye-shine: #FFFFFF;
+  --outline: #0F172A;
+  --blush: rgba(251, 113, 133, 0.45);
+}
+
+/* ===================== PET CONTAINER & PHYSICS ===================== */
+.cozy-pet-actor {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 140px;
+  height: 160px;
+  pointer-events: auto;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: none;
+  transform-origin: bottom center;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  transition: opacity 0.25s ease;
+}
+
+.cozy-pet-actor:active,
+.cozy-pet-actor.state-dragged {
+  cursor: grabbing !important;
+}
+
+/* Shadow underneath */
+.cozy-pet-shadow {
+  position: absolute;
+  bottom: 0px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 14px;
+  background: rgba(15, 23, 42, 0.18);
+  border-radius: 50%;
+  filter: blur(2.5px);
+  pointer-events: none;
+  transition: width 0.25s ease, opacity 0.25s ease;
+}
+
+/* Cat Rig Root */
+.cat-rig {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  bottom: 0;
+  left: 0;
+  transform-origin: bottom center;
+}
+
+/* Common border styling */
+.cat-border {
+  border: 3px solid var(--outline);
+}
+
+/* ===================== RIG PARTS ===================== */
+
+/* --- TAIL --- */
+.tail-anchor {
+  position: absolute;
+  bottom: 24px;
+  left: 18px;
+  width: 50px;
+  height: 45px;
+  z-index: 1;
+  transform-origin: bottom right;
+}
+
+.tail-segment {
+  position: absolute;
+  width: 16px;
+  height: 48px;
+  background: var(--coat);
+  border: 3px solid var(--outline);
+  border-radius: 14px 28px 10px 12px / 24px 38px 10px 14px;
+  bottom: 0;
+  right: 0;
+  transform-origin: bottom center;
+  transform: rotate(-45deg) skewX(6deg);
+  overflow: hidden;
+  animation: tailSwish 2.4s infinite alternate ease-in-out;
+}
+
+.tail-segment::after {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -1px;
+  width: calc(100% + 2px);
+  height: 18px;
+  background: var(--paw);
+  border-radius: 12px 22px 50% 50%;
+}
+
+.tail-stripe {
+  position: absolute;
+  width: 120%;
+  left: -10%;
+  height: 4px;
+  background: var(--stripe);
+  transform: rotate(-6deg);
+}
+.tail-stripe.s1 { bottom: 14px; }
+.tail-stripe.s2 { bottom: 24px; }
+
+/* --- LEGS / HIND PAWS --- */
+.hind-legs {
+  position: absolute;
+  bottom: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 18px;
+  z-index: 2;
+  transition: all 0.2s ease;
+}
+
+.hind-leg {
+  width: 22px;
+  height: 38px;
+  background: var(--coat);
+  border: 3px solid var(--outline);
+  border-radius: 11px;
+  overflow: hidden;
+  transform-origin: top center;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.hind-leg::after {
+  content: '';
+  position: absolute;
+  bottom: -3px;
+  left: 0;
+  width: 100%;
+  height: 16px;
+  background: var(--paw);
+  border-radius: 50%;
+}
+
+.leg-stripe {
+  position: absolute;
+  width: 100%;
+  height: 4px;
+  background: var(--stripe);
+}
+.leg-stripe.s1 { top: 8px; }
+.leg-stripe.s2 { top: 16px; }
+
+/* --- BODY & TORSO (Elongated Cute Belly) --- */
+.torso {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 76px;
+  height: 90px;
+  background: var(--coat);
+  border: 3px solid var(--outline);
+  border-radius: 38px 38px 42px 42px;
+  z-index: 3;
+  overflow: hidden;
+  transition: all 0.2s ease;
+}
+
+.torso-stripes {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+
+.torso-stripe {
+  position: absolute;
+  width: 12px;
+  height: 4px;
+  background: var(--stripe);
+  border-radius: 2px;
+}
+.torso-stripe.l1 { top: 26px; left: 0; }
+.torso-stripe.l2 { top: 44px; left: 0; }
+.torso-stripe.l3 { top: 62px; left: 0; }
+.torso-stripe.r1 { top: 26px; right: 0; }
+.torso-stripe.r2 { top: 44px; right: 0; }
+.torso-stripe.r3 { top: 62px; right: 0; }
+
+.torso-belly {
+  position: absolute;
+  bottom: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 54px;
+  height: 74px;
+  background: var(--belly);
+  border-radius: 26px 26px 36px 36px;
+}
+
+/* --- FRONT PAWS / ARMS --- */
+.front-paws {
+  position: absolute;
+  top: 66px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 98px;
+  height: 54px;
+  z-index: 4;
+  transition: all 0.2s ease;
+}
+
+.front-paw {
+  position: absolute;
+  width: 23px;
+  height: 52px;
+  background: var(--coat);
+  border: 3px solid var(--outline);
+  border-radius: 12px;
+  overflow: hidden;
+  transform-origin: top center;
+  transition: all 0.2s ease;
+}
+.front-paw.left { left: 0; transform: rotate(10deg); }
+.front-paw.right { right: 0; transform: rotate(-10deg); }
+
+.front-paw::after {
+  content: '';
+  position: absolute;
+  bottom: -3px;
+  left: 0;
+  width: 100%;
+  height: 18px;
+  background: var(--paw);
+  border-radius: 50%;
+}
+
+.paw-stripe {
+  position: absolute;
+  width: 100%;
+  height: 4px;
+  background: var(--stripe);
+}
+.paw-stripe.s1 { top: 12px; }
+.paw-stripe.s2 { top: 22px; }
+
+/* ===================== CUTE COLLAR, BOW & GOLDEN BELL ===================== */
+.cat-collar {
+  position: absolute;
+  top: 76px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 58px;
+  height: 24px;
+  z-index: 5;
+  pointer-events: auto;
+  transition: all 0.2s ease;
+}
+
+.collar-strap {
+  position: absolute;
+  top: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 54px;
+  height: 7px;
+  background: #E11D48;
+  border: 2px solid var(--outline);
+  border-radius: 4px;
+}
+
+.collar-bow {
+  position: absolute;
+  top: -1px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 32px;
+  height: 22px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.bow-wing {
+  width: 12px;
+  height: 14px;
+  background: #FB7185;
+  border: 2px solid var(--outline);
+  border-radius: 4px 6px 4px 6px;
+}
+.bow-wing.left  { transform: rotate(-15deg); margin-right: -3px; }
+.bow-wing.right { transform: rotate(15deg) scaleX(-1); margin-left: -3px; }
+
+.bow-knot {
+  position: absolute;
+  width: 8px;
+  height: 9px;
+  background: #E11D48;
+  border: 2px solid var(--outline);
+  border-radius: 3px;
+  z-index: 2;
+}
+
+/* Golden Bell */
+.golden-bell {
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 13px;
+  height: 13px;
+  background: radial-gradient(circle at 35% 35%, #FEF08A 0%, #FBBF24 55%, #D97706 100%);
+  border: 2px solid var(--outline);
+  border-radius: 50%;
+  z-index: 3;
+  transform-origin: top center;
+  animation: bellJingle 2.4s infinite alternate ease-in-out;
+}
+
+.bell-shine {
+  position: absolute;
+  top: 2px;
+  left: 2.5px;
+  width: 3px;
+  height: 3px;
+  background: #FFFFFF;
+  border-radius: 50%;
+}
+
+.bell-slit {
+  position: absolute;
+  bottom: 2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 2px;
+  background: var(--outline);
+  border-radius: 1px;
+}
+
+/* --- HEAD & EXPRESSIONS --- */
+.cat-head {
+  position: absolute;
+  top: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 126px;
+  height: 98px;
+  z-index: 6;
+  transition: transform 0.2s ease;
+}
+
+/* Ears */
+.ear {
+  position: absolute;
+  width: 36px;
+  height: 38px;
+  background: var(--coat);
+  border: 3px solid var(--outline);
+  border-radius: 18px 24px 8px 8px;
+  top: -12px;
+  z-index: 1;
+  transition: transform 0.2s ease;
+}
+
+.ear::after {
+  content: '';
+  position: absolute;
+  width: 18px;
+  height: 20px;
+  background: var(--ear-inner);
+  border: 2px solid var(--outline);
+  border-radius: 10px 14px 4px 4px;
+  top: 5px;
+  left: 6px;
+}
+
+.ear.left { left: 14px; transform: rotate(-22deg); }
+.ear.right { right: 14px; transform: scaleX(-1) rotate(-22deg); }
+
+/* Head Silhouette with Outline Filter */
+.head-contour {
+  position: absolute;
+  top: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 122px;
+  height: 90px;
+  filter: drop-shadow(3px 0 0 var(--outline)) 
+          drop-shadow(-3px 0 0 var(--outline)) 
+          drop-shadow(0 3px 0 var(--outline)) 
+          drop-shadow(0 -3px 0 var(--outline));
+  z-index: 3;
+}
+
+.head-base {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 108px;
+  height: 82px;
+  background: var(--coat);
+  border-radius: 54px 54px 40px 40px;
+  overflow: hidden;
+}
+
+.head-stripes {
+  position: absolute;
+  top: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 7px;
+  justify-content: center;
+}
+
+.head-stripe {
+  width: 9px;
+  height: 32px;
+  background: var(--stripe);
+  border-radius: 5px;
+}
+.head-stripe.l { transform: rotate(14deg); }
+.head-stripe.c { height: 38px; }
+.head-stripe.r { transform: rotate(-14deg); }
+
+/* Cheeks & Muzzle */
+.muzzle-cheeks {
+  position: absolute;
+  bottom: 3px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 118px;
+  height: 46px;
+  background: var(--belly);
+  border-radius: 36px 36px 44px 44px;
+}
+
+.cheek-puff {
+  position: absolute;
+  bottom: 2px;
+  width: 36px;
+  height: 36px;
+  background: var(--belly);
+  border-radius: 50%;
+}
+.cheek-puff.l { left: -4px; }
+.cheek-puff.r { right: -4px; }
+
+/* Whiskers */
+.whiskers {
+  position: absolute;
+  top: 58px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 146px;
+  display: flex;
+  justify-content: space-between;
+  pointer-events: none;
+  z-index: 7;
+}
+
+.whisker-side {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.whisker-line {
+  width: 24px;
+  height: 2px;
+  background: var(--outline);
+  border-radius: 1px;
+  opacity: 0.85;
+}
+.whisker-side.l .whisker-line { transform-origin: right center; }
+.whisker-side.r .whisker-line { transform-origin: left center; }
+.whisker-side.l .whisker-line:nth-child(1) { transform: rotate(8deg); }
+.whisker-side.l .whisker-line:nth-child(2) { transform: rotate(-8deg); }
+.whisker-side.r .whisker-line:nth-child(1) { transform: rotate(-8deg); }
+.whisker-side.r .whisker-line:nth-child(2) { transform: rotate(8deg); }
+
+/* Face Details */
+.face-cluster {
+  position: absolute;
+  top: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 128px;
+  height: 94px;
+  z-index: 5;
+  transition: transform 0.2s ease;
+}
+
+/* Blush */
+.blush-spots {
+  position: absolute;
+  top: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 96px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.blush {
+  width: 16px;
+  height: 10px;
+  background: var(--blush);
+  border-radius: 50%;
+}
+
+/* Eyes */
+.eyes-cluster {
+  position: absolute;
+  top: 44px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 78px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.eye {
+  width: 19px;
+  height: 30px;
+  background: var(--eye);
+  border-radius: 50%;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.eye::before {
+  content: '';
+  position: absolute;
+  width: 9px;
+  height: 13px;
+  background: var(--eye-shine);
+  border-radius: 50%;
+  top: 3px;
+  left: 5px;
+}
+
+.eye::after {
+  content: '';
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  background: var(--eye-shine);
+  border-radius: 50%;
+  bottom: 4px;
+  right: 4px;
+}
+
+/* Happy / Sleeping / Blissful Crinkled Crescent Eyes (^ ^) */
+.eye-closed {
+  display: none;
+  width: 22px;
+  height: 12px;
+  border-top: 3.5px solid var(--outline);
+  border-radius: 50% 50% 10% 10%;
+  position: relative;
+  top: 10px;
+}
+
+/* Nose */
+.nose {
+  position: absolute;
+  top: 66px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 15px;
+  height: 10px;
+  background: var(--nose);
+  border: 2px solid var(--outline);
+  border-radius: 50%;
+}
+
+/* Standard W Cat Mouth */
+.mouth-normal {
+  position: absolute;
+  top: 73px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: center;
+}
+.mouth-normal::before, .mouth-normal::after {
+  content: '';
+  width: 9px;
+  height: 5px;
+  border-bottom: 2px solid var(--outline);
+  border-radius: 50%;
+}
+.mouth-normal::before { border-right: 1.8px solid var(--outline); transform: rotate(14deg) translateX(1px); }
+.mouth-normal::after { border-left: 1.8px solid var(--outline); transform: rotate(-14deg) translateX(-1px); }
+
+/* Open Happy / Licking Mouth */
+.mouth-open {
+  display: none;
+  position: absolute;
+  top: 72px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 18px;
+  height: 16px;
+  background: #D83B58;
+  border: 2px solid var(--outline);
+  border-radius: 4px 4px 10px 10px;
+  overflow: hidden;
+  z-index: 4;
+}
+
+.mouth-tongue {
+  position: absolute;
+  bottom: -3px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 14px;
+  height: 12px;
+  background: var(--nose);
+  border-radius: 50%;
+}
+
+/* ===================== ANIMATIONS & STATES ===================== */
+
+/* --- IDLE STATE --- */
+.state-idle .cat-rig {
+  animation: idleBreathe 3.2s infinite ease-in-out;
+}
+.state-idle .cat-head {
+  animation: idleLookAround 6.5s infinite ease-in-out;
+}
+.state-idle .eye {
+  animation: naturalBlink 4.5s infinite ease-in-out;
+}
+
+/* --- WALK STATE --- */
+.state-walk .cat-rig {
+  animation: walkBob 0.38s infinite alternate ease-in-out;
+}
+.state-walk .hind-leg.left  { animation: walkLegL 0.38s infinite alternate ease-in-out; }
+.state-walk .hind-leg.right { animation: walkLegR 0.38s infinite alternate ease-in-out; }
+.state-walk .front-paw.left { animation: walkArmL 0.38s infinite alternate ease-in-out; }
+.state-walk .front-paw.right{ animation: walkArmR 0.38s infinite alternate ease-in-out; }
+.state-walk .cat-head       { animation: walkHeadBob 0.76s infinite ease-in-out; }
+.state-walk .tail-segment   { animation: tailWalkSwish 0.38s infinite alternate ease-in-out; }
+.state-walk .cozy-pet-shadow{ animation: walkShadow 0.38s infinite alternate ease-in-out; }
+
+/* --- RUN STATE (Smooth Bounding Gallop) --- */
+.state-run .cat-rig {
+  animation: runBounding 0.36s infinite ease-in-out;
+}
+.state-run .cat-head {
+  animation: runHeadTilt 0.36s infinite ease-in-out;
+}
+.state-run .ear.left { transform: rotate(-50deg) translateY(2px); }
+.state-run .ear.right { transform: scaleX(-1) rotate(-50deg) translateY(2px); }
+.state-run .front-paw.left  { animation: runPawL 0.36s infinite ease-in-out; }
+.state-run .front-paw.right { animation: runPawR 0.36s infinite ease-in-out; }
+.state-run .hind-leg.left   { animation: runLegL 0.36s infinite ease-in-out; }
+.state-run .hind-leg.right  { animation: runLegR 0.36s infinite ease-in-out; }
+.state-run .tail-segment    { animation: runTail 0.36s infinite ease-in-out; }
+.state-run .cozy-pet-shadow { animation: runShadow 0.36s infinite ease-in-out; }
+
+/* --- JUMP STATE (Smooth Aerodynamic Flight) --- */
+.state-jump .cat-rig {
+  animation: jumpFlightGlide 0.45s infinite alternate ease-in-out;
+}
+.state-jump .cat-head        { transform: translateX(-50%) translateY(-2px) rotate(2deg); }
+.state-jump .front-paw.left  { transform: rotate(-24deg) scaleY(1.12); }
+.state-jump .front-paw.right { transform: rotate(24deg) scaleY(1.12); }
+.state-jump .hind-leg.left   { transform: rotate(18deg) scaleY(1.15) translateY(2px); }
+.state-jump .hind-leg.right  { transform: rotate(-18deg) scaleY(1.15) translateY(2px); }
+.state-jump .tail-segment    { transform: rotate(-52deg) skewX(8deg); }
+.state-jump .cozy-pet-shadow { animation: jumpShadow 0.45s infinite alternate ease-in-out; }
+
+/* --- SIT & LICK PAWS STATE --- */
+.state-sit .cat-rig,
+.state-lick .cat-rig {
+  transform: translateY(12px);
+}
+
+.state-sit .torso,
+.state-lick .torso {
+  bottom: 8px;
+  width: 78px;
+  height: 86px;
+  border-radius: 39px 39px 42px 42px;
+}
+
+/* Hind paws rest flat ON THE FLOOR at the bottom corners */
+.state-sit .hind-legs,
+.state-lick .hind-legs {
+  bottom: 2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 96px;
+  display: flex;
+  justify-content: space-between;
+  z-index: 2;
+}
+
+.state-sit .hind-leg,
+.state-lick .hind-leg {
+  width: 30px;
+  height: 24px;
+  border-radius: 12px 12px 14px 14px;
+  transform-origin: center center;
+}
+
+.state-sit .hind-leg.left,
+.state-lick .hind-leg.left {
+  transform: rotate(12deg);
+}
+
+.state-sit .hind-leg.right,
+.state-lick .hind-leg.right {
+  transform: rotate(-12deg);
+}
+
+.state-sit .hind-leg::after,
+.state-lick .hind-leg::after {
+  bottom: -2px;
+  height: 14px;
+}
+
+/* Sitting Front Paws (Hands) rest neatly in front of chest below the chin */
+.state-sit .front-paws {
+  top: 94px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50px;
+  display: flex;
+  justify-content: space-between;
+  z-index: 5;
+}
+
+.state-sit .front-paw {
+  width: 22px;
+  height: 38px;
+  border-radius: 11px;
+  transform-origin: 11px 8px;
+  position: relative;
+}
+
+.state-sit .front-paw.left {
+  left: 0px;
+  transform: rotate(-10deg);
+}
+
+.state-sit .front-paw.right {
+  right: 0px;
+  transform: rotate(10deg);
+}
+
+/* Licking Paws: Shoulder joint stays anchored at body (top: 94px), left arm rotates UPWARDS towards mouth */
+.state-lick .front-paws {
+  top: 94px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50px;
+  display: flex;
+  justify-content: space-between;
+  z-index: 7;
+}
+
+.state-lick .front-paw {
+  width: 22px;
+  height: 38px;
+  border-radius: 11px;
+  transform-origin: 11px 8px;
+  position: relative;
+}
+
+.state-lick .front-paw.left {
+  left: 0px;
+  transform-origin: 11px 8px;
+  animation: pawLickingAction 0.44s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.state-lick .front-paw.right {
+  right: 0px;
+  transform: rotate(10deg);
+}
+
+/* Collar placement when sitting, licking, and sleeping */
+.state-sit .cat-collar,
+.state-lick .cat-collar {
+  top: 88px;
+  z-index: 6;
+  transform: translateX(-50%) scale(0.96);
+}
+
+.state-sleep .cat-collar {
+  top: 78px;
+  z-index: 6;
+  transform: translateX(-50%) scale(0.92);
+}
+
+.state-walk .golden-bell {
+  animation: bellJingle 0.38s infinite alternate ease-in-out;
+}
+
+.state-run .golden-bell {
+  animation: bellJingle 0.24s infinite alternate ease-in-out;
+}
+
+.state-jump .golden-bell {
+  animation: bellJingle 0.2s infinite alternate ease-in-out;
+}
+
+/* Tail resting naturally behind body while sitting (root deeply buried behind torso and paw, pointing upwards) */
+.state-sit .tail-anchor,
+.state-lick .tail-anchor {
+  bottom: 22px;
+  left: 8px;
+  width: 48px;
+  height: 68px;
+  z-index: 1;
+}
+
+.state-sit .tail-segment,
+.state-lick .tail-segment {
+  bottom: -10px;
+  right: 6px;
+  width: 16px;
+  height: 72px;
+  border-radius: 14px 32px 10px 12px / 26px 44px 10px 14px;
+  transform-origin: bottom center;
+  transform: rotate(-26deg) skewX(8deg);
+  animation: tailSitWag 2.8s infinite alternate ease-in-out;
+}
+
+/* Head slightly tilted down towards the licking paw */
+.state-sit .cat-head {
+  transform: translateX(-50%) translateY(2px);
+}
+
+.state-lick .cat-head {
+  transform: translateX(-50%) rotate(-4deg) translateY(4px);
+  animation: headLickBob 0.44s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Expressions for sit & lick */
+.state-sit .eye,
+.state-lick .eye {
+  display: none !important;
+}
+
+.state-sit .eye-closed,
+.state-lick .eye-closed {
+  display: block !important;
+}
+
+.state-sit .mouth-normal,
+.state-lick .mouth-normal {
+  display: none;
+}
+
+.state-sit .mouth-open {
+  display: block;
+}
+
+.state-lick .mouth-open {
+  display: block;
+  overflow: visible;
+  animation: mouthLickJoy 0.44s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.state-lick .mouth-tongue {
+  display: block;
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  background: #FF758F;
+  border: 1.5px solid var(--outline);
+  border-radius: 50%;
+  z-index: 8;
+  animation: tongueLickOut 0.44s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* --- SLEEP STATE (Loaf) --- */
+.state-sleep .cat-rig {
+  transform: translateY(16px);
+  animation: sleepBreathing 3.6s infinite ease-in-out;
+}
+
+.state-sleep .torso {
+  bottom: 8px;
+  width: 78px;
+  height: 84px;
+  border-radius: 39px 39px 42px 42px;
+}
+
+.state-sleep .eye { display: none !important; }
+.state-sleep .eye-closed { display: block !important; }
+.state-sleep .ear.left { transform: rotate(-35deg); }
+.state-sleep .ear.right { transform: scaleX(-1) rotate(-35deg); }
+
+.state-sleep .front-paws {
+  top: 82px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 48px;
+  display: flex;
+  justify-content: space-between;
+  z-index: 5;
+}
+
+.state-sleep .front-paw {
+  width: 20px;
+  height: 26px;
+  border-radius: 10px;
+  transform: rotate(0deg);
+}
+
+.state-sleep .hind-legs {
+  bottom: 2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 94px;
+  display: flex;
+  justify-content: space-between;
+  z-index: 2;
+}
+
+.state-sleep .hind-leg {
+  width: 28px;
+  height: 22px;
+  border-radius: 12px 12px 14px 14px;
+}
+.state-sleep .hind-leg.left { transform: rotate(10deg); }
+.state-sleep .hind-leg.right { transform: rotate(-10deg); }
+
+.state-sleep .tail-anchor {
+  bottom: 20px;
+  left: 8px;
+  width: 46px;
+  height: 56px;
+  z-index: 1;
+}
+
+.state-sleep .tail-segment {
+  bottom: -8px;
+  right: 6px;
+  width: 16px;
+  height: 52px;
+  border-radius: 14px 28px 10px 12px / 24px 36px 10px 14px;
+  transform-origin: bottom center;
+  transform: rotate(-30deg) skewX(8deg);
+  animation: tailSleepWag 4s infinite alternate ease-in-out;
+}
+
+/* --- DRAGGED / PANIC (Held in mid-air by scruff) --- */
+.state-dragged .cat-rig {
+  animation: draggedWiggle 0.18s infinite alternate ease-in-out;
+}
+.state-dragged .cat-head {
+  transform: translateX(-50%) translateY(-6px);
+}
+.state-dragged .front-paw.left  { animation: panicPawL 0.15s infinite alternate ease-in-out; }
+.state-dragged .front-paw.right { animation: panicPawR 0.15s infinite alternate ease-in-out; }
+.state-dragged .hind-leg.left   { animation: panicLegL 0.18s infinite alternate ease-in-out; }
+.state-dragged .hind-leg.right  { animation: panicLegR 0.18s infinite alternate ease-in-out; }
+.state-dragged .tail-segment    { animation: panicTail 0.14s infinite alternate ease-in-out; }
+.state-dragged .eye             { transform: scale(1.15); }
+.state-dragged .cozy-pet-shadow { opacity: 0.15; width: 45px; }
+
+/* --- LANDING SQUASH RECOVERY --- */
+.state-landing .cat-rig {
+  animation: landingBounce 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* --- PURR / LOVE STATE --- */
+.state-purr .cat-rig {
+  animation: purrThrum 0.3s infinite alternate ease-in-out;
+}
+.state-purr .eye { display: none !important; }
+.state-purr .eye-closed { display: block !important; }
+.state-purr .mouth-normal { display: none !important; }
+.state-purr .mouth-open { display: block !important; }
+
+/* ===================== HOVER PETTING & TICKLING REACTIONS ===================== */
+
+/* --- Chin & Cheeks Petting (Pure Bliss Purr & Head Tilt) --- */
+.cat-rig.petting-chin .cat-head {
+  transform: translateX(-50%) translateY(-5px) rotate(2deg) scale(1.03) !important;
+}
+.cat-rig.petting-chin .eye { display: none !important; }
+.cat-rig.petting-chin .eye-closed { display: block !important; }
+.cat-rig.petting-chin .mouth-normal { display: none !important; }
+.cat-rig.petting-chin .mouth-open { display: block !important; }
+.cat-rig.petting-chin {
+  animation: purrThrum 0.22s infinite alternate ease-in-out !important;
+}
+
+/* --- Ears & Forehead Scritches (Ear Wiggle & Happy Bunting) --- */
+.cat-rig.petting-ears .cat-head {
+  transform: translateX(-50%) translateY(-3px) rotate(-3deg) scale(1.02) !important;
+}
+.cat-rig.petting-ears .ear.left {
+  animation: earWiggleL 0.18s infinite alternate ease-in-out !important;
+}
+.cat-rig.petting-ears .ear.right {
+  animation: earWiggleR 0.18s infinite alternate ease-in-out !important;
+}
+.cat-rig.petting-ears .eye { display: none !important; }
+.cat-rig.petting-ears .eye-closed { display: block !important; }
+
+/* --- Belly Tickling (Playful Squirm & Paw Twitch) --- */
+.cat-rig.tickling-belly {
+  animation: bellySquirm 0.14s infinite alternate ease-in-out !important;
+}
+.cat-rig.tickling-belly .torso {
+  animation: bellyPuff 0.14s infinite alternate ease-in-out !important;
+}
+.cat-rig.tickling-belly .front-paw.left {
+  animation: ticklePawL 0.14s infinite alternate ease-in-out !important;
+}
+.cat-rig.tickling-belly .front-paw.right {
+  animation: ticklePawR 0.14s infinite alternate ease-in-out !important;
+}
+.cat-rig.tickling-belly .eye { display: none !important; }
+.cat-rig.tickling-belly .eye-closed { display: block !important; }
+.cat-rig.tickling-belly .mouth-normal { display: none !important; }
+.cat-rig.tickling-belly .mouth-open { display: block !important; }
+
+/* --- Tail Base Scratch / Tail Tickle (Elevator Butt & Rapid Wag) --- */
+.cat-rig.tickling-tail {
+  transform: translateY(-4px) scale(1.02) !important;
+}
+.cat-rig.tickling-tail .tail-segment {
+  animation: tailTickleWag 0.12s infinite alternate ease-in-out !important;
+}
+.cat-rig.tickling-tail .cat-head {
+  transform: translateX(-50%) rotate(4deg) !important;
+}
+
+/* --- Paws / Toe Beans Tickle (Gentle Kneading) --- */
+.cat-rig.petting-paws .front-paw.left {
+  animation: pawKneadL 0.24s infinite alternate ease-in-out !important;
+}
+.cat-rig.petting-paws .front-paw.right {
+  animation: pawKneadR 0.24s infinite alternate ease-in-out !important;
+}
+.cat-rig.petting-paws .eye { display: none !important; }
+.cat-rig.petting-paws .eye-closed { display: block !important; }
+
+/* ===================== KEYFRAME DEFINITIONS ===================== */
+@keyframes idleBreathe {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-3px); }
+}
+
+@keyframes idleLookAround {
+  0%, 100% { transform: translateX(-50%) rotate(0deg); }
+  25%      { transform: translateX(-52%) rotate(-3deg); }
+  75%      { transform: translateX(-48%) rotate(3deg); }
+}
+
+@keyframes naturalBlink {
+  0%, 94%, 100% { transform: scaleY(1); }
+  96%, 98%      { transform: scaleY(0.08); }
+}
+
+@keyframes tailSwish {
+  0%   { transform: rotate(-32deg) skewX(6deg); }
+  100% { transform: rotate(-62deg) skewX(9deg); }
+}
+
+/* --- WALK KEYFRAMES --- */
+@keyframes walkBob {
+  0%   { transform: translateY(0); }
+  100% { transform: translateY(-5px); }
+}
+
+@keyframes walkHeadBob {
+  0%, 100% { transform: translateX(-50%) rotate(-3deg); }
+  50%      { transform: translateX(-50%) rotate(3deg); }
+}
+
+@keyframes walkLegL { 0% { transform: rotate(-18deg); } 100% { transform: rotate(18deg); } }
+@keyframes walkLegR { 0% { transform: rotate(18deg); } 100% { transform: rotate(-18deg); } }
+@keyframes walkArmL { 0% { transform: rotate(22deg); } 100% { transform: rotate(-14deg); } }
+@keyframes walkArmR { 0% { transform: rotate(-14deg); } 100% { transform: rotate(22deg); } }
+@keyframes tailWalkSwish { 0% { transform: rotate(-35deg) skewX(6deg); } 100% { transform: rotate(-55deg) skewX(9deg); } }
+@keyframes walkShadow { 0% { transform: translateX(-50%) scaleX(0.92); } 100% { transform: translateX(-50%) scaleX(1.05); } }
+
+/* --- RUN KEYFRAMES (Seamless Rotary Bound) --- */
+@keyframes runBounding {
+  0%   { transform: translateY(0) scale(1.06, 0.94) rotate(-2deg); }
+  50%  { transform: translateY(-14px) scale(0.94, 1.08) rotate(2deg); }
+  100% { transform: translateY(0) scale(1.06, 0.94) rotate(-2deg); }
+}
+
+@keyframes runHeadTilt {
+  0%   { transform: translateX(-50%) rotate(-3deg); }
+  50%  { transform: translateX(-50%) rotate(3deg); }
+  100% { transform: translateX(-50%) rotate(-3deg); }
+}
+
+@keyframes runPawL {
+  0%   { transform: rotate(32deg) translateY(-2px); }
+  50%  { transform: rotate(-26deg) translateY(2px); }
+  100% { transform: rotate(32deg) translateY(-2px); }
+}
+
+@keyframes runPawR {
+  0%   { transform: rotate(-26deg) translateY(2px); }
+  50%  { transform: rotate(32deg) translateY(-2px); }
+  100% { transform: rotate(-26deg) translateY(2px); }
+}
+
+@keyframes runLegL {
+  0%   { transform: rotate(-30deg) translateY(2px); }
+  50%  { transform: rotate(26deg) translateY(-2px); }
+  100% { transform: rotate(-30deg) translateY(2px); }
+}
+
+@keyframes runLegR {
+  0%   { transform: rotate(26deg) translateY(-2px); }
+  50%  { transform: rotate(-30deg) translateY(2px); }
+  100% { transform: rotate(26deg) translateY(-2px); }
+}
+
+@keyframes runTail {
+  0%   { transform: rotate(-30deg) skewX(6deg); }
+  50%  { transform: rotate(-60deg) skewX(10deg); }
+  100% { transform: rotate(-30deg) skewX(6deg); }
+}
+
+@keyframes runShadow {
+  0%, 100% { transform: translateX(-50%) scaleX(1); opacity: 0.28; }
+  50%      { transform: translateX(-50%) scaleX(0.7); opacity: 0.14; }
+}
+
+/* --- JUMP AERODYNAMIC FLIGHT GLIDE --- */
+@keyframes jumpFlightGlide {
+  0%   { transform: scale(0.92, 1.10) rotate(-2deg); }
+  100% { transform: scale(0.96, 1.05) rotate(2deg); }
+}
+
+@keyframes jumpShadow {
+  0%   { transform: translateX(-50%) scale(0.45); opacity: 0.12; }
+  100% { transform: translateX(-50%) scale(0.35); opacity: 0.08; }
+}
+
+/* --- LICKING KEYFRAMES (Visible Lapping Tongue & Paw) --- */
+@keyframes pawLickingAction {
+  0%   { transform: rotate(-118deg); }
+  50%  { transform: rotate(-126deg); }
+  100% { transform: rotate(-134deg); }
+}
+
+@keyframes headLickBob {
+  0%   { transform: translateX(-50%) rotate(-2deg) translateY(2px); }
+  100% { transform: translateX(-50%) rotate(-6deg) translateY(5px); }
+}
+
+@keyframes mouthLickJoy {
+  0%   { transform: translateX(-50%) scale(0.92, 0.95); }
+  100% { transform: translateX(-50%) scale(1.06, 1.15); }
+}
+
+@keyframes tongueLickOut {
+  0% {
+    transform: translateX(-50%) translateY(2px) scale(0.85);
+    opacity: 0.8;
+  }
+  50% {
+    transform: translateX(-65%) translateY(-2px) scale(1.1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(-80%) translateY(-5px) scale(1.25);
+    opacity: 1;
+  }
+}
+
+@keyframes sleepBreathing {
+  0%, 100% { transform: translateY(18px) scale(1, 0.92); }
+  50%      { transform: translateY(16px) scale(1.03, 0.95); }
+}
+@keyframes sleepTailRest {
+  0%   { transform: rotate(-88deg); }
+  100% { transform: rotate(-94deg); }
+}
+
+@keyframes tailSitWag {
+  0%   { transform: rotate(-18deg) skewX(7deg); }
+  100% { transform: rotate(-34deg) skewX(9deg); }
+}
+
+@keyframes tailSleepWag {
+  0%   { transform: rotate(-24deg) skewX(7deg); }
+  100% { transform: rotate(-36deg) skewX(9deg); }
+}
+
+@keyframes draggedWiggle {
+  0%   { transform: rotate(-4deg) translateY(-2px); }
+  100% { transform: rotate(4deg) translateY(2px); }
+}
+@keyframes panicPawL { 0% { transform: rotate(35deg); } 100% { transform: rotate(-30deg); } }
+@keyframes panicPawR { 0% { transform: rotate(-30deg); } 100% { transform: rotate(35deg); } }
+@keyframes panicLegL { 0% { transform: rotate(-35deg); } 100% { transform: rotate(25deg); } }
+@keyframes panicLegR { 0% { transform: rotate(25deg); } 100% { transform: rotate(-35deg); } }
+@keyframes panicTail { 0% { transform: rotate(-10deg) skewX(6deg); } 100% { transform: rotate(-80deg) skewX(12deg); } }
+
+@keyframes landingBounce {
+  0%   { transform: scale(1.28, 0.72); }
+  45%  { transform: scale(0.92, 1.08); }
+  75%  { transform: scale(1.04, 0.96); }
+  100% { transform: scale(1, 1); }
+}
+
+@keyframes purrThrum {
+  0%   { transform: translateY(0px) scale(1); }
+  100% { transform: translateY(-1.5px) scale(1.02); }
+}
+
+@keyframes heartPump {
+  0%   { transform: scale(0.9); }
+  100% { transform: scale(1.2); }
+}
+
+/* ===================== PARTICLES & INTERACTION OVERLAYS ===================== */
+.cozy-particle {
+  position: absolute;
+  pointer-events: none;
+  z-index: 10;
+  user-select: none;
+  will-change: transform, opacity;
+}
+
+/* Floating Zzz Particles */
+.cozy-zzz-particle {
+  font-family: "Nunito", "Segoe UI", sans-serif;
+  font-weight: 800;
+  color: #818CF8;
+  text-shadow: 0 2px 8px rgba(129, 140, 248, 0.4);
+  animation: floatZzz 2.4s ease-out forwards;
+}
+
+@keyframes floatZzz {
+  0% {
+    opacity: 0;
+    transform: translateY(0) translateX(0) scale(0.5);
+  }
+  20% {
+    opacity: 0.95;
+    transform: translateY(-16px) translateX(8px) scale(0.8);
+  }
+  70% {
+    opacity: 0.8;
+    transform: translateY(-44px) translateX(22px) scale(1.1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-70px) translateX(32px) scale(1.3);
+  }
+}
+
+/* Floating Heart Burst */
+.cozy-heart-particle {
+  font-size: 20px;
+  animation: explodeHeart 1.1s cubic-bezier(0.18, 0.89, 0.32, 1.28) forwards;
+}
+
+@keyframes explodeHeart {
+  0% {
+    opacity: 1;
+    transform: translate(0, 0) scale(0.4) rotate(0deg);
+  }
+  60% {
+    opacity: 0.95;
+    transform: translate(var(--tx), var(--ty)) scale(1.2) rotate(var(--rot));
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--tx), calc(var(--ty) - 25px)) scale(0.9) rotate(var(--rot));
+  }
+}
+
+/* Snack / Treat Particle */
+.cozy-treat-particle {
+  font-size: 24px;
+  animation: dropTreat 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes dropTreat {
+  0% {
+    opacity: 1;
+    transform: translateY(-40px) scale(0.5);
+  }
+  60% {
+    transform: translateY(0) scale(1.15);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-6px) scale(0);
+  }
+}
+
+/* Laser Pointer Dot */
+.cozy-laser-dot {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  background: #EF4444;
+  border-radius: 50%;
+  box-shadow: 0 0 12px 4px #EF4444, 0 0 24px 8px rgba(239, 68, 68, 0.6);
+  pointer-events: none;
+  z-index: 20;
+  transform: translate(-50%, -50%);
+  animation: pulseLaser 0.6s infinite alternate ease-in-out;
+}
+
+@keyframes pulseLaser {
+  0%   { transform: translate(-50%, -50%) scale(0.85); opacity: 0.85; }
+  100% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
+}
+
+/* Speech / Thought Bubble */
+.cozy-speech-bubble {
+  position: absolute;
+  bottom: 165px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #FFFFFF;
+  border: 2px solid var(--outline);
+  border-radius: 16px;
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #1E293B;
+  white-space: nowrap;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+  pointer-events: none;
+  z-index: 15;
+  animation: popBubble 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.cozy-speech-bubble::after {
+  content: '';
+  position: absolute;
+  bottom: -7px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 10px;
+  height: 10px;
+  background: #FFFFFF;
+  border-right: 2px solid var(--outline);
+  border-bottom: 2px solid var(--outline);
+  transform: translateX(-50%) rotate(45deg);
+}
+
+@keyframes popBubble {
+  0%   { opacity: 0; transform: translateX(-50%) translateY(10px) scale(0.7); }
+  100% { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); }
+}
+
+/* --- PETTING & TICKLING KEYFRAMES --- */
+@keyframes earWiggleL {
+  0% { transform: rotate(-18deg); }
+  100% { transform: rotate(-32deg); }
+}
+@keyframes earWiggleR {
+  0% { transform: scaleX(-1) rotate(-18deg); }
+  100% { transform: scaleX(-1) rotate(-32deg); }
+}
+
+@keyframes bellySquirm {
+  0% { transform: rotate(-3.5deg) scale(1.03, 0.97); }
+  100% { transform: rotate(3.5deg) scale(0.97, 1.03); }
+}
+@keyframes bellyPuff {
+  0% { transform: translateX(-50%) scale(1.05, 0.95); }
+  100% { transform: translateX(-50%) scale(0.95, 1.05); }
+}
+@keyframes ticklePawL {
+  0% { transform: rotate(-18deg) translateY(-5px); }
+  100% { transform: rotate(28deg) translateY(2px); }
+}
+@keyframes ticklePawR {
+  0% { transform: rotate(28deg) translateY(-5px); }
+  100% { transform: rotate(-18deg) translateY(2px); }
+}
+
+@keyframes tailTickleWag {
+  0% { transform: rotate(-18deg) skewX(8deg); }
+  100% { transform: rotate(-58deg) skewX(12deg); }
+}
+
+@keyframes pawKneadL {
+  0% { transform: rotate(8deg) translateY(0); }
+  100% { transform: rotate(-18deg) translateY(-6px) scaleY(1.1); }
+}
+@keyframes pawKneadR {
+  0% { transform: rotate(-8deg) translateY(0); }
+  100% { transform: rotate(18deg) translateY(-6px) scaleY(1.1); }
+}
+
+/* Bell Jingle Animation */
+@keyframes bellJingle {
+  0%   { transform: translateX(-50%) rotate(-12deg); }
+  50%  { transform: translateX(-50%) rotate(0deg); }
+  100% { transform: translateX(-50%) rotate(12deg); }
+}
+
+

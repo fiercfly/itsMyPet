@@ -22,7 +22,9 @@
   padding: 0;
 }
 
-/* ===================== ROOT THEMES / SKINS ===================== */
+/* ===================== COMPANION CHARACTER SKINS ===================== */
+
+/* 1. Classic Orange Tabby */
 .skin-orange-tabby {
   --coat: #FB923C;
   --coat-shadow: #EA580C;
@@ -37,74 +39,242 @@
   --blush: rgba(255, 117, 143, 0.45);
 }
 
-.skin-calico {
-  --coat: #F8FAFC;
+/* 2. Pure White Kitty */
+.skin-white-kitty {
+  --coat: #FFFFFF;
   --coat-shadow: #E2E8F0;
-  --stripe: #EA580C;
-  --belly: #FFFFFF;
+  --stripe: transparent;
+  --belly: #FFF1F2;
   --paw: #FFFFFF;
-  --ear-inner: #FF8596;
-  --nose: #FF758F;
-  --eye: #059669;
-  --eye-shine: #FFFFFF;
-  --outline: #18181B;
-  --blush: rgba(255, 117, 143, 0.45);
-}
-
-.skin-tuxedo {
-  --coat: #18181B;
-  --coat-shadow: #09090B;
-  --stripe: #27272A;
-  --belly: #FFFFFF;
-  --paw: #FFFFFF;
-  --ear-inner: #FF8596;
-  --nose: #FF758F;
-  --eye: #10B981;
-  --eye-shine: #FFFFFF;
-  --outline: #09090B;
-  --blush: rgba(255, 117, 143, 0.45);
-}
-
-.skin-void-cat {
-  --coat: #0F172A;
-  --coat-shadow: #020617;
-  --stripe: #1E293B;
-  --belly: #1E293B;
-  --paw: #0F172A;
-  --ear-inner: #334155;
-  --nose: #475569;
-  --eye: #FBBF24;
-  --eye-shine: #FFFFFF;
-  --outline: #020617;
-  --blush: rgba(251, 191, 36, 0.35);
-}
-
-.skin-siamese {
-  --coat: #FDF4E3;
-  --coat-shadow: #F4E8D1;
-  --stripe: #451A03;
-  --belly: #FFFDF8;
-  --paw: #451A03;
-  --ear-inner: #290F02;
-  --nose: #290F02;
-  --eye: #0284C7;
-  --eye-shine: #FFFFFF;
-  --outline: #290F02;
-  --blush: rgba(244, 114, 182, 0.4);
-}
-
-.skin-silver-tabby {
-  --coat: #94A3B8;
-  --coat-shadow: #64748B;
-  --stripe: #334155;
-  --belly: #F8FAFC;
-  --paw: #F8FAFC;
   --ear-inner: #FDA4AF;
   --nose: #FB7185;
   --eye: #0284C7;
   --eye-shine: #FFFFFF;
+  --outline: #334155;
+  --blush: rgba(251, 113, 133, 0.45);
+}
+.skin-white-kitty .head-stripes,
+.skin-white-kitty .torso-stripes,
+.skin-white-kitty .tail-path-stripe,
+.skin-white-kitty .leg-stripe,
+.skin-white-kitty .paw-stripe {
+  display: none !important;
+}
+
+/* 3. Cute Brown Teddy Bear */
+.skin-cute-bear {
+  --coat: #D97706;
+  --coat-shadow: #B45309;
+  --stripe: transparent;
+  --belly: #FEF3C7;
+  --paw: #FEF3C7;
+  --ear-inner: #FDE68A;
+  --nose: #78350F;
+  --eye: #451A03;
+  --eye-shine: #FFFFFF;
+  --outline: #78350F;
+  --blush: rgba(245, 158, 11, 0.45);
+}
+.skin-cute-bear .head-stripes,
+.skin-cute-bear .torso-stripes,
+.skin-cute-bear .tail-path-stripe,
+.skin-cute-bear .leg-stripe,
+.skin-cute-bear .paw-stripe,
+.skin-cute-bear .whiskers {
+  display: none !important;
+}
+/* Round Bear Ears */
+.skin-cute-bear .ear {
+  width: 34px !important;
+  height: 34px !important;
+  border-radius: 50% !important;
+  top: -8px !important;
+}
+.skin-cute-bear .ear.left {
+  left: 2px !important;
+  transform: rotate(-15deg) !important;
+}
+.skin-cute-bear .ear.right {
+  right: 2px !important;
+  transform: rotate(15deg) !important;
+}
+.skin-cute-bear .ear-inner {
+  width: 18px !important;
+  height: 18px !important;
+  border-radius: 50% !important;
+  background: var(--ear-inner) !important;
+}
+.skin-cute-bear .ear-fluff {
+  display: none !important;
+}
+/* Fluffy Round Bear Tail (Plush Puff - Never Detaches) */
+.skin-cute-bear .tail-anchor {
+  width: 24px !important;
+  height: 24px !important;
+  bottom: 38px !important;
+  left: 24px !important;
+  z-index: 1 !important;
+  transform-origin: center center !important;
+}
+
+/* 4. Cute Baby Panda */
+.skin-cute-panda {
+  --coat: #FFFFFF;
+  --coat-shadow: #CBD5E1;
+  --stripe: transparent;
+  --belly: #FFFFFF;
+  --paw: #0F172A;
+  --ear-inner: #1E293B;
+  --nose: #0F172A;
+  --eye: #FFFFFF;
+  --eye-shine: #0F172A;
   --outline: #0F172A;
   --blush: rgba(251, 113, 133, 0.45);
+}
+.skin-cute-panda .head-stripes,
+.skin-cute-panda .torso-stripes,
+.skin-cute-panda .tail-path-stripe,
+.skin-cute-panda .leg-stripe,
+.skin-cute-panda .paw-stripe,
+.skin-cute-panda .whiskers {
+  display: none !important;
+}
+/* Panda Black Shoulders & Limbs */
+.skin-cute-panda .front-paw,
+.skin-cute-panda .hind-leg {
+  background: #0F172A !important;
+}
+.skin-cute-panda .front-paw::after,
+.skin-cute-panda .hind-leg::after {
+  background: #1E293B !important;
+}
+/* Round Black Panda Ears */
+.skin-cute-panda .ear {
+  width: 34px !important;
+  height: 34px !important;
+  border-radius: 50% !important;
+  background: #0F172A !important;
+  top: -8px !important;
+}
+.skin-cute-panda .ear.left {
+  left: 2px !important;
+  transform: rotate(-15deg) !important;
+}
+.skin-cute-panda .ear.right {
+  right: 2px !important;
+  transform: rotate(15deg) !important;
+}
+.skin-cute-panda .ear-inner {
+  width: 16px !important;
+  height: 16px !important;
+  border-radius: 50% !important;
+  background: #334155 !important;
+}
+.skin-cute-panda .ear-fluff {
+  display: none !important;
+}
+/* Distinctive Panda Eye Patches */
+.panda-patch {
+  display: none;
+}
+.skin-cute-panda .panda-patch {
+  display: block !important;
+}
+.skin-cute-panda .panda-patch.l {
+  position: absolute;
+  top: -4px;
+  left: -5px;
+  width: 22px;
+  height: 26px;
+  background: #0F172A;
+  border-radius: 50% 50% 45% 45%;
+  transform: rotate(-16deg);
+  z-index: 1;
+}
+.skin-cute-panda .panda-patch.r {
+  position: absolute;
+  top: -4px;
+  right: -5px;
+  width: 22px;
+  height: 26px;
+  background: #0F172A;
+  border-radius: 50% 50% 45% 45%;
+  transform: rotate(16deg);
+  z-index: 1;
+}
+.skin-cute-panda .eyes-cluster .eye {
+  z-index: 2 !important;
+  background: #FFFFFF !important;
+}
+.skin-cute-panda .eyes-cluster .eye::before {
+  background: #0F172A !important;
+}
+.skin-cute-panda .eyes-cluster .eye-closed {
+  stroke: #FFFFFF !important;
+  z-index: 2 !important;
+}
+.skin-cute-panda .tail-anchor {
+  width: 24px !important;
+  height: 24px !important;
+  bottom: 38px !important;
+  left: 24px !important;
+  z-index: 1 !important;
+  transform-origin: center center !important;
+}
+
+/* Fluffy Bear & Panda Tail Puff Styles (Never Detaches) */
+.skin-cute-bear .tail-svg,
+.skin-cute-panda .tail-svg {
+  display: none !important;
+}
+
+.skin-cute-bear .single-cat-tail,
+.skin-cute-panda .single-cat-tail {
+  width: 24px !important;
+  height: 24px !important;
+  border-radius: 50% !important;
+  border: 3px solid var(--outline) !important;
+  box-sizing: border-box !important;
+  transform-origin: center center !important;
+  animation: bearTailSway 2.4s infinite ease-in-out !important;
+}
+
+.skin-cute-bear .single-cat-tail {
+  background: var(--coat) !important;
+}
+
+.skin-cute-panda .single-cat-tail {
+  background: #0F172A !important;
+}
+
+/* Bear & Panda State Tail Position Overrides */
+.state-sit.skin-cute-bear .tail-anchor,
+.state-sit.skin-cute-panda .tail-anchor,
+.state-lick.skin-cute-bear .tail-anchor,
+.state-lick.skin-cute-panda .tail-anchor {
+  bottom: 22px !important;
+  left: 20px !important;
+}
+
+.state-sleep.skin-cute-bear .tail-anchor,
+.state-sleep.skin-cute-panda .tail-anchor {
+  bottom: 20px !important;
+  left: 18px !important;
+}
+
+.state-dragged.skin-cute-bear .single-cat-tail,
+.state-dragged.skin-cute-panda .single-cat-tail {
+  animation: bearTailPanic 0.14s infinite alternate ease-in-out !important;
+}
+
+@keyframes bearTailSway {
+  0%, 100% { transform: scale(1) translateY(0); }
+  50% { transform: scale(1.08) translateY(-2px); }
+}
+
+@keyframes bearTailPanic {
+  0% { transform: scale(1) translateY(0) rotate(-8deg); }
+  100% { transform: scale(1.15) translateY(-3px) rotate(8deg); }
 }
 
 /* ===================== PET CONTAINER & PHYSICS ===================== */
@@ -162,53 +332,55 @@
 
 /* ===================== RIG PARTS ===================== */
 
-/* --- TAIL --- */
+/* --- FULL SINGLE SEAMLESS CURVED CAT TAIL --- */
 .tail-anchor {
   position: absolute;
   bottom: 24px;
-  left: 18px;
-  width: 50px;
-  height: 45px;
+  left: 10px;
+  width: 60px;
+  height: 70px;
   z-index: 1;
-  transform-origin: bottom right;
+  pointer-events: auto;
 }
 
-.tail-segment {
+.single-cat-tail {
   position: absolute;
-  width: 16px;
-  height: 48px;
-  background: var(--coat);
-  border: 3px solid var(--outline);
-  border-radius: 14px 28px 10px 12px / 24px 38px 10px 14px;
   bottom: 0;
-  right: 0;
-  transform-origin: bottom center;
-  transform: rotate(-45deg) skewX(6deg);
-  overflow: hidden;
-  animation: tailSwish 2.4s infinite alternate ease-in-out;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transform-origin: 44px 64px;
+  animation: tailOrganicSway 3.2s infinite ease-in-out;
+  transition: transform 0.2s ease;
 }
 
-.tail-segment::after {
-  content: '';
-  position: absolute;
-  top: -2px;
-  left: -1px;
-  width: calc(100% + 2px);
-  height: 18px;
-  background: var(--paw);
-  border-radius: 12px 22px 50% 50%;
+.tail-svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  display: block;
 }
 
-.tail-stripe {
-  position: absolute;
-  width: 120%;
-  left: -10%;
-  height: 4px;
-  background: var(--stripe);
-  transform: rotate(-6deg);
+.tail-path-bg {
+  stroke: var(--outline);
+  stroke-width: 20px;
 }
-.tail-stripe.s1 { bottom: 14px; }
-.tail-stripe.s2 { bottom: 24px; }
+
+.tail-path-main {
+  stroke: var(--coat);
+  stroke-width: 14px;
+}
+
+.tail-path-tip {
+  stroke: var(--paw);
+  stroke-width: 14px;
+}
+
+.tail-path-stripe {
+  stroke: var(--stripe);
+  stroke-width: 14px;
+  opacity: 0.85;
+}
 
 /* --- LEGS / HIND PAWS --- */
 .hind-legs {
@@ -446,51 +618,122 @@
 /* --- HEAD & EXPRESSIONS --- */
 .cat-head {
   position: absolute;
-  top: 4px;
+  top: 2px;
   left: 50%;
   transform: translateX(-50%);
-  width: 126px;
-  height: 98px;
+  width: 128px;
+  height: 100px;
   z-index: 6;
-  transition: transform 0.2s ease;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-/* Ears */
+/* Kawaii Pointed Curved Cat Ears (Curved on both sides, cute rounded tips) */
 .ear {
   position: absolute;
-  width: 36px;
-  height: 38px;
+  width: 42px;
+  height: 50px;
   background: var(--coat);
-  border: 3px solid var(--outline);
-  border-radius: 18px 24px 8px 8px;
-  top: -12px;
+  border: 3.5px solid var(--outline);
+  top: -20px;
   z-index: 1;
-  transition: transform 0.2s ease;
+  transform-origin: bottom center;
+  transition: transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
+.ear.left {
+  left: 6px;
+  border-radius: 28px 24px 14px 22px / 42px 36px 14px 22px;
+  transform: rotate(-16deg);
+  animation: earAmbientSwayL 5.5s infinite ease-in-out;
+}
+
+.ear.right {
+  right: 6px;
+  border-radius: 24px 28px 22px 14px / 36px 42px 22px 14px;
+  transform: rotate(16deg);
+  animation: earAmbientSwayR 5.5s infinite ease-in-out;
+}
+
+/* Inner Pink Soft Ear Cavity (Curved naturally) */
+.ear-inner,
 .ear::after {
   content: '';
   position: absolute;
-  width: 18px;
-  height: 20px;
+  width: 22px;
+  height: 28px;
   background: var(--ear-inner);
   border: 2px solid var(--outline);
-  border-radius: 10px 14px 4px 4px;
-  top: 5px;
-  left: 6px;
+  top: 9px;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.08);
 }
 
-.ear.left { left: 14px; transform: rotate(-22deg); }
-.ear.right { right: 14px; transform: scaleX(-1) rotate(-22deg); }
+.ear.left .ear-inner,
+.ear.left::after {
+  left: 6px;
+  border-radius: 16px 14px 10px 14px / 24px 20px 10px 14px;
+}
+
+.ear.right .ear-inner,
+.ear.right::after {
+  right: 6px;
+  border-radius: 14px 16px 14px 10px / 20px 24px 14px 10px;
+}
+
+/* Cute Soft Fluffy Ear Tufts */
+.ear-fluff {
+  position: absolute;
+  bottom: 2px;
+  width: 14px;
+  height: 10px;
+  background: var(--belly);
+  border-radius: 50%;
+  opacity: 0.98;
+  z-index: 2;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+.ear-fluff::before {
+  content: '';
+  position: absolute;
+  top: -3px;
+  left: 2px;
+  width: 8px;
+  height: 7px;
+  background: var(--belly);
+  border-radius: 50%;
+}
+
+.ear.left .ear-fluff { left: 4px; transform: rotate(15deg); }
+.ear.right .ear-fluff { right: 4px; transform: rotate(-15deg); }
+
+/* Autonomous Ear Twitches & Wiggles */
+.cat-rig.ear-twitch-l .ear.left {
+  animation: earFlickL 0.42s ease-in-out !important;
+}
+.cat-rig.ear-twitch-r .ear.right {
+  animation: earFlickR 0.42s ease-in-out !important;
+}
+.cat-rig.ear-perk .ear.left {
+  animation: earPerkL 0.42s ease-in-out !important;
+}
+.cat-rig.ear-perk .ear.right {
+  animation: earPerkR 0.42s ease-in-out !important;
+}
+.cat-rig.ear-wiggle .ear.left {
+  animation: earWiggleQuickL 0.42s ease-in-out !important;
+}
+.cat-rig.ear-wiggle .ear.right {
+  animation: earWiggleQuickR 0.42s ease-in-out !important;
+}
 
 /* Head Silhouette with Outline Filter */
 .head-contour {
   position: absolute;
-  top: 4px;
+  top: 2px;
   left: 50%;
   transform: translateX(-50%);
-  width: 122px;
-  height: 90px;
+  width: 124px;
+  height: 94px;
   filter: drop-shadow(3px 0 0 var(--outline)) 
           drop-shadow(-3px 0 0 var(--outline)) 
           drop-shadow(0 3px 0 var(--outline)) 
@@ -503,10 +746,10 @@
   top: 0;
   left: 50%;
   transform: translateX(-50%);
-  width: 108px;
-  height: 82px;
+  width: 112px;
+  height: 86px;
   background: var(--coat);
-  border-radius: 54px 54px 40px 40px;
+  border-radius: 52px 52px 38px 38px / 46px 46px 40px 40px;
   overflow: hidden;
 }
 
@@ -530,36 +773,36 @@
 .head-stripe.c { height: 38px; }
 .head-stripe.r { transform: rotate(-14deg); }
 
-/* Cheeks & Muzzle */
+/* Squishy Chubby Cheeks & Soft Muzzle */
 .muzzle-cheeks {
   position: absolute;
-  bottom: 3px;
+  bottom: 2px;
   left: 50%;
   transform: translateX(-50%);
-  width: 118px;
-  height: 46px;
+  width: 120px;
+  height: 48px;
   background: var(--belly);
-  border-radius: 36px 36px 44px 44px;
+  border-radius: 38px 38px 46px 46px;
 }
 
 .cheek-puff {
   position: absolute;
-  bottom: 2px;
-  width: 36px;
-  height: 36px;
+  bottom: 1px;
+  width: 38px;
+  height: 38px;
   background: var(--belly);
   border-radius: 50%;
 }
-.cheek-puff.l { left: -4px; }
-.cheek-puff.r { right: -4px; }
+.cheek-puff.l { left: -6px; }
+.cheek-puff.r { right: -6px; }
 
 /* Whiskers */
 .whiskers {
   position: absolute;
-  top: 58px;
+  top: 56px;
   left: 50%;
   transform: translateX(-50%);
-  width: 146px;
+  width: 152px;
   display: flex;
   justify-content: space-between;
   pointer-events: none;
@@ -573,81 +816,97 @@
 }
 
 .whisker-line {
-  width: 24px;
+  width: 26px;
   height: 2px;
   background: var(--outline);
-  border-radius: 1px;
+  border-radius: 2px;
   opacity: 0.85;
 }
 .whisker-side.l .whisker-line { transform-origin: right center; }
 .whisker-side.r .whisker-line { transform-origin: left center; }
-.whisker-side.l .whisker-line:nth-child(1) { transform: rotate(8deg); }
-.whisker-side.l .whisker-line:nth-child(2) { transform: rotate(-8deg); }
-.whisker-side.r .whisker-line:nth-child(1) { transform: rotate(-8deg); }
-.whisker-side.r .whisker-line:nth-child(2) { transform: rotate(8deg); }
+.whisker-side.l .whisker-line:nth-child(1) { transform: rotate(7deg); }
+.whisker-side.l .whisker-line:nth-child(2) { transform: rotate(-7deg); }
+.whisker-side.r .whisker-line:nth-child(1) { transform: rotate(-7deg); }
+.whisker-side.r .whisker-line:nth-child(2) { transform: rotate(7deg); }
 
 /* Face Details */
 .face-cluster {
   position: absolute;
-  top: 4px;
+  top: 2px;
   left: 50%;
   transform: translateX(-50%);
   width: 128px;
-  height: 94px;
+  height: 96px;
   z-index: 5;
   transition: transform 0.2s ease;
 }
 
-/* Blush */
+/* Rosy Glowing Blush */
 .blush-spots {
   position: absolute;
-  top: 60px;
+  top: 58px;
   left: 50%;
   transform: translateX(-50%);
-  width: 96px;
+  width: 98px;
   display: flex;
   justify-content: space-between;
+  pointer-events: none;
 }
 
 .blush {
-  width: 16px;
-  height: 10px;
+  width: 18px;
+  height: 12px;
   background: var(--blush);
   border-radius: 50%;
+  filter: blur(0.5px);
+  animation: blushPulse 3.5s infinite ease-in-out;
 }
 
-/* Eyes */
+/* Sparkling Anime Cat Eyes */
 .eyes-cluster {
   position: absolute;
-  top: 44px;
+  top: 42px;
   left: 50%;
   transform: translateX(-50%);
-  width: 78px;
+  width: 80px;
   display: flex;
   justify-content: space-between;
 }
 
 .eye {
-  width: 19px;
-  height: 30px;
+  width: 21px;
+  height: 31px;
   background: var(--eye);
   border-radius: 50%;
   position: relative;
-  transition: all 0.2s ease;
+  box-shadow: inset 0 2px 3px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
 }
 
-.eye::before {
+.eye-pupil {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  transform: translate3d(0, 0, 0);
+  transition: transform 0.04s linear;
+}
+
+.eye-pupil::before {
   content: '';
   position: absolute;
-  width: 9px;
-  height: 13px;
+  width: 10px;
+  height: 14px;
   background: var(--eye-shine);
   border-radius: 50%;
   top: 3px;
   left: 5px;
+  box-shadow: 0 0 2px rgba(255, 255, 255, 0.8);
 }
 
-.eye::after {
+.eye-pupil::after {
   content: '';
   position: absolute;
   width: 5px;
@@ -658,34 +917,35 @@
   right: 4px;
 }
 
-/* Happy / Sleeping / Blissful Crinkled Crescent Eyes (^ ^) */
+/* Sweet Blissful / Purring Smiling Closed Eyes (^ ᆺ ^) */
 .eye-closed {
   display: none;
   width: 22px;
-  height: 12px;
-  border-top: 3.5px solid var(--outline);
-  border-radius: 50% 50% 10% 10%;
+  height: 14px;
+  border-top: 3.8px solid var(--outline);
+  border-radius: 50% 50% 12% 12%;
   position: relative;
   top: 10px;
+  box-shadow: 0 -1px 0 rgba(255, 255, 255, 0.5);
 }
 
-/* Nose */
+/* Cute Little Pink Nose */
 .nose {
   position: absolute;
-  top: 66px;
+  top: 64px;
   left: 50%;
   transform: translateX(-50%);
-  width: 15px;
-  height: 10px;
+  width: 13px;
+  height: 9px;
   background: var(--nose);
   border: 2px solid var(--outline);
-  border-radius: 50%;
+  border-radius: 4px 4px 6px 6px / 3px 3px 6px 6px;
 }
 
-/* Standard W Cat Mouth */
+/* Adorable Feline :3 Cat Mouth */
 .mouth-normal {
   position: absolute;
-  top: 73px;
+  top: 71px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -693,19 +953,19 @@
 }
 .mouth-normal::before, .mouth-normal::after {
   content: '';
-  width: 9px;
-  height: 5px;
-  border-bottom: 2px solid var(--outline);
+  width: 10px;
+  height: 6px;
+  border-bottom: 2.2px solid var(--outline);
   border-radius: 50%;
 }
-.mouth-normal::before { border-right: 1.8px solid var(--outline); transform: rotate(14deg) translateX(1px); }
-.mouth-normal::after { border-left: 1.8px solid var(--outline); transform: rotate(-14deg) translateX(-1px); }
+.mouth-normal::before { border-right: 2px solid var(--outline); transform: rotate(12deg) translateX(1px); }
+.mouth-normal::after { border-left: 2px solid var(--outline); transform: rotate(-12deg) translateX(-1px); }
 
-/* Open Happy / Licking Mouth */
+/* Open Happy / Licking Mouth with Cute Pink Tongue */
 .mouth-open {
   display: none;
   position: absolute;
-  top: 72px;
+  top: 70px;
   left: 50%;
   transform: translateX(-50%);
   width: 18px;
@@ -726,6 +986,7 @@
   height: 12px;
   background: var(--nose);
   border-radius: 50%;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.15);
 }
 
 /* ===================== ANIMATIONS & STATES ===================== */
@@ -750,7 +1011,7 @@
 .state-walk .front-paw.left { animation: walkArmL 0.38s infinite alternate ease-in-out; }
 .state-walk .front-paw.right{ animation: walkArmR 0.38s infinite alternate ease-in-out; }
 .state-walk .cat-head       { animation: walkHeadBob 0.76s infinite ease-in-out; }
-.state-walk .tail-segment   { animation: tailWalkSwish 0.38s infinite alternate ease-in-out; }
+.state-walk .single-cat-tail { animation: tailWalkOrganic 0.38s infinite alternate ease-in-out; }
 .state-walk .cozy-pet-shadow{ animation: walkShadow 0.38s infinite alternate ease-in-out; }
 
 /* --- RUN STATE (Smooth Bounding Gallop) --- */
@@ -760,26 +1021,26 @@
 .state-run .cat-head {
   animation: runHeadTilt 0.36s infinite ease-in-out;
 }
-.state-run .ear.left { transform: rotate(-50deg) translateY(2px); }
-.state-run .ear.right { transform: scaleX(-1) rotate(-50deg) translateY(2px); }
+.state-run .ear.left { transform: rotate(-44deg) translateY(2px); }
+.state-run .ear.right { transform: rotate(44deg) translateY(2px); }
 .state-run .front-paw.left  { animation: runPawL 0.36s infinite ease-in-out; }
 .state-run .front-paw.right { animation: runPawR 0.36s infinite ease-in-out; }
 .state-run .hind-leg.left   { animation: runLegL 0.36s infinite ease-in-out; }
 .state-run .hind-leg.right  { animation: runLegR 0.36s infinite ease-in-out; }
-.state-run .tail-segment    { animation: runTail 0.36s infinite ease-in-out; }
+.state-run .single-cat-tail { animation: tailRunOrganic 0.36s infinite ease-in-out; }
 .state-run .cozy-pet-shadow { animation: runShadow 0.36s infinite ease-in-out; }
 
-/* --- JUMP STATE (Smooth Aerodynamic Flight) --- */
+/* --- JUMP STATE (Graceful Aerodynamic Leap - Zero Facial Distortion) --- */
 .state-jump .cat-rig {
-  animation: jumpFlightGlide 0.45s infinite alternate ease-in-out;
+  animation: jumpFlightGlide 0.42s infinite alternate ease-in-out;
 }
-.state-jump .cat-head        { transform: translateX(-50%) translateY(-2px) rotate(2deg); }
-.state-jump .front-paw.left  { transform: rotate(-24deg) scaleY(1.12); }
-.state-jump .front-paw.right { transform: rotate(24deg) scaleY(1.12); }
-.state-jump .hind-leg.left   { transform: rotate(18deg) scaleY(1.15) translateY(2px); }
-.state-jump .hind-leg.right  { transform: rotate(-18deg) scaleY(1.15) translateY(2px); }
-.state-jump .tail-segment    { transform: rotate(-52deg) skewX(8deg); }
-.state-jump .cozy-pet-shadow { animation: jumpShadow 0.45s infinite alternate ease-in-out; }
+.state-jump .cat-head        { transform: translateX(-50%) translateY(0) rotate(0deg); }
+.state-jump .front-paw.left  { transform: rotate(-18deg) translateY(-2px); }
+.state-jump .front-paw.right { transform: rotate(18deg) translateY(-2px); }
+.state-jump .hind-leg.left   { transform: rotate(14deg) translateY(2px); }
+.state-jump .hind-leg.right  { transform: rotate(-14deg) translateY(2px); }
+.state-jump .single-cat-tail { transform: rotate(-22deg) skewX(4deg); }
+.state-jump .cozy-pet-shadow { animation: jumpShadow 0.42s infinite alternate ease-in-out; }
 
 /* --- SIT & LICK PAWS STATE --- */
 .state-sit .cat-rig,
@@ -916,26 +1177,19 @@
   animation: bellJingle 0.2s infinite alternate ease-in-out;
 }
 
-/* Tail resting naturally behind body while sitting (root deeply buried behind torso and paw, pointing upwards) */
+/* Tail resting naturally behind body while sitting (curved and peaceful) */
 .state-sit .tail-anchor,
 .state-lick .tail-anchor {
-  bottom: 22px;
-  left: 8px;
-  width: 48px;
-  height: 68px;
+  bottom: 20px;
+  left: 10px;
+  width: 50px;
+  height: 54px;
   z-index: 1;
 }
 
-.state-sit .tail-segment,
-.state-lick .tail-segment {
-  bottom: -10px;
-  right: 6px;
-  width: 16px;
-  height: 72px;
-  border-radius: 14px 32px 10px 12px / 26px 44px 10px 14px;
-  transform-origin: bottom center;
-  transform: rotate(-26deg) skewX(8deg);
-  animation: tailSitWag 2.8s infinite alternate ease-in-out;
+.state-sit .single-cat-tail,
+.state-lick .single-cat-tail {
+  animation: tailSitOrganic 3.2s infinite alternate ease-in-out;
 }
 
 /* Head slightly tilted down towards the licking paw */
@@ -1001,8 +1255,8 @@
 
 .state-sleep .eye { display: none !important; }
 .state-sleep .eye-closed { display: block !important; }
-.state-sleep .ear.left { transform: rotate(-35deg); }
-.state-sleep .ear.right { transform: scaleX(-1) rotate(-35deg); }
+.state-sleep .ear.left { transform: rotate(-32deg) translateY(2px); }
+.state-sleep .ear.right { transform: rotate(32deg) translateY(2px); }
 
 .state-sleep .front-paws {
   top: 82px;
@@ -1040,22 +1294,15 @@
 .state-sleep .hind-leg.right { transform: rotate(-10deg); }
 
 .state-sleep .tail-anchor {
-  bottom: 20px;
-  left: 8px;
-  width: 46px;
-  height: 56px;
+  bottom: 18px;
+  left: 10px;
+  width: 48px;
+  height: 50px;
   z-index: 1;
 }
 
-.state-sleep .tail-segment {
-  bottom: -8px;
-  right: 6px;
-  width: 16px;
-  height: 52px;
-  border-radius: 14px 28px 10px 12px / 24px 36px 10px 14px;
-  transform-origin: bottom center;
-  transform: rotate(-30deg) skewX(8deg);
-  animation: tailSleepWag 4s infinite alternate ease-in-out;
+.state-sleep .single-cat-tail {
+  animation: tailSleepOrganic 4.5s infinite alternate ease-in-out;
 }
 
 /* --- DRAGGED / PANIC (Held in mid-air by scruff) --- */
@@ -1069,13 +1316,19 @@
 .state-dragged .front-paw.right { animation: panicPawR 0.15s infinite alternate ease-in-out; }
 .state-dragged .hind-leg.left   { animation: panicLegL 0.18s infinite alternate ease-in-out; }
 .state-dragged .hind-leg.right  { animation: panicLegR 0.18s infinite alternate ease-in-out; }
-.state-dragged .tail-segment    { animation: panicTail 0.14s infinite alternate ease-in-out; }
+.state-dragged .single-cat-tail { animation: tailPanicOrganic 0.14s infinite alternate ease-in-out; }
 .state-dragged .eye             { transform: scale(1.15); }
 .state-dragged .cozy-pet-shadow { opacity: 0.15; width: 45px; }
 
-/* --- LANDING SQUASH RECOVERY --- */
+/* --- LANDING SQUASH RECOVERY (Natural Cushion - Zero Facial Distortion) --- */
 .state-landing .cat-rig {
-  animation: landingBounce 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  animation: landingBounce 0.28s cubic-bezier(0.25, 1, 0.5, 1);
+}
+.state-landing .cat-head {
+  transform: translateX(-50%) translateY(0) rotate(0deg) !important;
+}
+.state-landing .single-cat-tail {
+  transform: rotate(-10deg) skewX(2deg);
 }
 
 /* --- PURR / LOVE STATE --- */
@@ -1086,12 +1339,16 @@
 .state-purr .eye-closed { display: block !important; }
 .state-purr .mouth-normal { display: none !important; }
 .state-purr .mouth-open { display: block !important; }
+.state-purr .single-cat-tail { animation: tailPurrOrganic 0.52s infinite alternate ease-in-out !important; }
 
 /* ===================== HOVER PETTING & TICKLING REACTIONS ===================== */
 
 /* --- Chin & Cheeks Petting (Pure Bliss Purr & Head Tilt) --- */
 .cat-rig.petting-chin .cat-head {
-  transform: translateX(-50%) translateY(-5px) rotate(2deg) scale(1.03) !important;
+  transform: translateX(-50%) translateY(-6px) rotate(3deg) scale(1.04) !important;
+}
+.cat-rig.petting-chin .blush {
+  transform: scale(1.25);
 }
 .cat-rig.petting-chin .eye { display: none !important; }
 .cat-rig.petting-chin .eye-closed { display: block !important; }
@@ -1100,50 +1357,49 @@
 .cat-rig.petting-chin {
   animation: purrThrum 0.22s infinite alternate ease-in-out !important;
 }
+.cat-rig.petting-chin .single-cat-tail { animation: tailPurrOrganic 0.55s infinite alternate ease-in-out !important; }
 
 /* --- Ears & Forehead Scritches (Ear Wiggle & Happy Bunting) --- */
 .cat-rig.petting-ears .cat-head {
-  transform: translateX(-50%) translateY(-3px) rotate(-3deg) scale(1.02) !important;
+  transform: translateX(-50%) translateY(-4px) rotate(-4deg) scale(1.03) !important;
 }
 .cat-rig.petting-ears .ear.left {
-  animation: earWiggleL 0.18s infinite alternate ease-in-out !important;
+  animation: earPetFoldL 0.22s infinite alternate ease-in-out !important;
 }
 .cat-rig.petting-ears .ear.right {
-  animation: earWiggleR 0.18s infinite alternate ease-in-out !important;
+  animation: earPetPerkR 0.22s infinite alternate ease-in-out !important;
+}
+.cat-rig.petting-ears .blush {
+  transform: scale(1.18);
 }
 .cat-rig.petting-ears .eye { display: none !important; }
 .cat-rig.petting-ears .eye-closed { display: block !important; }
 
 /* --- Belly Tickling (Playful Squirm & Paw Twitch) --- */
-.cat-rig.tickling-belly {
-  animation: bellySquirm 0.14s infinite alternate ease-in-out !important;
-}
 .cat-rig.tickling-belly .torso {
-  animation: bellyPuff 0.14s infinite alternate ease-in-out !important;
+  animation: bellyPuff 0.25s infinite alternate ease-in-out !important;
 }
 .cat-rig.tickling-belly .front-paw.left {
-  animation: ticklePawL 0.14s infinite alternate ease-in-out !important;
+  animation: ticklePawL 0.25s infinite alternate ease-in-out !important;
 }
 .cat-rig.tickling-belly .front-paw.right {
-  animation: ticklePawR 0.14s infinite alternate ease-in-out !important;
+  animation: ticklePawR 0.25s infinite alternate ease-in-out !important;
 }
 .cat-rig.tickling-belly .eye { display: none !important; }
 .cat-rig.tickling-belly .eye-closed { display: block !important; }
 .cat-rig.tickling-belly .mouth-normal { display: none !important; }
 .cat-rig.tickling-belly .mouth-open { display: block !important; }
 
-/* --- Tail Base Scratch / Tail Tickle (Elevator Butt & Rapid Wag) --- */
-.cat-rig.tickling-tail {
-  transform: translateY(-4px) scale(1.02) !important;
-}
-.cat-rig.tickling-tail .tail-segment {
-  animation: tailTickleWag 0.12s infinite alternate ease-in-out !important;
+/* --- Tail Base Scratch / Tail Tickle (Rapid Wag & Purr) --- */
+.cat-rig.tickling-tail .single-cat-tail {
+  animation: tailTickleOrganic 0.38s infinite alternate ease-in-out !important;
 }
 .cat-rig.tickling-tail .cat-head {
-  transform: translateX(-50%) rotate(4deg) !important;
+  transform: translateX(-50%) rotate(3deg) !important;
+  transition: transform 0.25s ease;
 }
 
-/* --- Paws / Toe Beans Tickle (Gentle Kneading) --- */
+/* --- Paws / Toe Beans Tickle (Gentle Kneading & Biscuits) --- */
 .cat-rig.petting-paws .front-paw.left {
   animation: pawKneadL 0.24s infinite alternate ease-in-out !important;
 }
@@ -1170,9 +1426,162 @@
   96%, 98%      { transform: scaleY(0.08); }
 }
 
-@keyframes tailSwish {
-  0%   { transform: rotate(-32deg) skewX(6deg); }
-  100% { transform: rotate(-62deg) skewX(9deg); }
+@keyframes blushPulse {
+  0%, 100% { opacity: 0.85; transform: scale(1); }
+  50%      { opacity: 1; transform: scale(1.1); }
+}
+
+/* --- AMBIENT & AUTONOMOUS EAR SWAYS & TWITCHES --- */
+@keyframes earAmbientSwayL {
+  0%, 100% { transform: rotate(-16deg); }
+  50%      { transform: rotate(-12deg) translateY(-1px); }
+}
+
+@keyframes earAmbientSwayR {
+  0%, 100% { transform: rotate(16deg); }
+  50%      { transform: rotate(12deg) translateY(-1px); }
+}
+
+@keyframes earFlickL {
+  0%   { transform: rotate(-16deg); }
+  30%  { transform: rotate(-36deg) scale(1.05); }
+  60%  { transform: rotate(-10deg); }
+  85%  { transform: rotate(-22deg); }
+  100% { transform: rotate(-16deg); }
+}
+
+@keyframes earFlickR {
+  0%   { transform: rotate(16deg); }
+  30%  { transform: rotate(36deg) scale(1.05); }
+  60%  { transform: rotate(10deg); }
+  85%  { transform: rotate(22deg); }
+  100% { transform: rotate(16deg); }
+}
+
+@keyframes earPerkL {
+  0%   { transform: rotate(-16deg); }
+  40%  { transform: rotate(-8deg) translateY(-4px); }
+  80%  { transform: rotate(-10deg) translateY(-3px); }
+  100% { transform: rotate(-16deg); }
+}
+
+@keyframes earPerkR {
+  0%   { transform: rotate(16deg); }
+  40%  { transform: rotate(8deg) translateY(-4px); }
+  80%  { transform: rotate(10deg) translateY(-3px); }
+  100% { transform: rotate(16deg); }
+}
+
+@keyframes earWiggleQuickL {
+  0%, 100% { transform: rotate(-16deg); }
+  25%      { transform: rotate(-28deg); }
+  50%      { transform: rotate(-12deg); }
+  75%      { transform: rotate(-24deg); }
+}
+
+@keyframes earWiggleQuickR {
+  0%, 100% { transform: rotate(16deg); }
+  25%      { transform: rotate(28deg); }
+  50%      { transform: rotate(12deg); }
+  75%      { transform: rotate(24deg); }
+}
+
+@keyframes earPetFoldL {
+  0%   { transform: rotate(-16deg); }
+  100% { transform: rotate(-34deg) translateY(2px); }
+}
+
+@keyframes earPetPerkR {
+  0%   { transform: rotate(16deg); }
+  100% { transform: rotate(8deg) translateY(-2px); }
+}
+
+/* --- FULL SINGLE SEAMLESS CURVED CAT TAIL KEYFRAMES --- */
+@keyframes tailOrganicSway {
+  0% {
+    transform: rotate(-14deg) skewX(2deg);
+  }
+  30% {
+    transform: rotate(18deg) skewX(-4deg) scaleY(1.03);
+  }
+  65% {
+    transform: rotate(-22deg) skewX(5deg) scaleY(0.98);
+  }
+  100% {
+    transform: rotate(-14deg) skewX(2deg);
+  }
+}
+
+@keyframes tailWalkOrganic {
+  0% {
+    transform: rotate(-18deg) skewX(4deg);
+  }
+  100% {
+    transform: rotate(20deg) skewX(-5deg);
+  }
+}
+
+@keyframes tailRunOrganic {
+  0% {
+    transform: rotate(-25deg) skewX(6deg) scale(0.96, 1.04);
+  }
+  50% {
+    transform: rotate(24deg) skewX(-7deg) scale(1.04, 0.96);
+  }
+  100% {
+    transform: rotate(-25deg) skewX(6deg) scale(0.96, 1.04);
+  }
+}
+
+@keyframes tailSitOrganic {
+  0% {
+    transform: rotate(-16deg) skewX(3deg);
+  }
+  50% {
+    transform: rotate(6deg) skewX(-3deg) scaleY(1.02);
+  }
+  100% {
+    transform: rotate(-22deg) skewX(5deg);
+  }
+}
+
+@keyframes tailSleepOrganic {
+  0% {
+    transform: rotate(-10deg) skewX(2deg);
+  }
+  50% {
+    transform: rotate(-2deg) skewX(-1deg);
+  }
+  100% {
+    transform: rotate(-14deg) skewX(3deg);
+  }
+}
+
+@keyframes tailPanicOrganic {
+  0% {
+    transform: rotate(-28deg) skewX(8deg) scaleY(1.1);
+  }
+  100% {
+    transform: rotate(24deg) skewX(-8deg) scaleY(0.92);
+  }
+}
+
+@keyframes tailPurrOrganic {
+  0% {
+    transform: rotate(-18deg) skewX(4deg) scaleY(1.02);
+  }
+  100% {
+    transform: rotate(-26deg) skewX(7deg) scaleY(0.98);
+  }
+}
+
+@keyframes tailTickleOrganic {
+  0% {
+    transform: rotate(-32deg) skewX(9deg) scale(1.05);
+  }
+  100% {
+    transform: rotate(30deg) skewX(-9deg) scale(0.95);
+  }
 }
 
 /* --- WALK KEYFRAMES --- */
@@ -1190,10 +1599,9 @@
 @keyframes walkLegR { 0% { transform: rotate(18deg); } 100% { transform: rotate(-18deg); } }
 @keyframes walkArmL { 0% { transform: rotate(22deg); } 100% { transform: rotate(-14deg); } }
 @keyframes walkArmR { 0% { transform: rotate(-14deg); } 100% { transform: rotate(22deg); } }
-@keyframes tailWalkSwish { 0% { transform: rotate(-35deg) skewX(6deg); } 100% { transform: rotate(-55deg) skewX(9deg); } }
 @keyframes walkShadow { 0% { transform: translateX(-50%) scaleX(0.92); } 100% { transform: translateX(-50%) scaleX(1.05); } }
 
-/* --- RUN KEYFRAMES (Seamless Rotary Bound) --- */
+/* --- RUN KEYFRAMES (Seamless Rotary Bound & Tail Flutter) --- */
 @keyframes runBounding {
   0%   { transform: translateY(0) scale(1.06, 0.94) rotate(-2deg); }
   50%  { transform: translateY(-14px) scale(0.94, 1.08) rotate(2deg); }
@@ -1230,26 +1638,20 @@
   100% { transform: rotate(26deg) translateY(-2px); }
 }
 
-@keyframes runTail {
-  0%   { transform: rotate(-30deg) skewX(6deg); }
-  50%  { transform: rotate(-60deg) skewX(10deg); }
-  100% { transform: rotate(-30deg) skewX(6deg); }
-}
-
 @keyframes runShadow {
   0%, 100% { transform: translateX(-50%) scaleX(1); opacity: 0.28; }
   50%      { transform: translateX(-50%) scaleX(0.7); opacity: 0.14; }
 }
 
-/* --- JUMP AERODYNAMIC FLIGHT GLIDE --- */
+/* --- JUMP AERODYNAMIC FLIGHT GLIDE (Uniform Leap Motion) --- */
 @keyframes jumpFlightGlide {
-  0%   { transform: scale(0.92, 1.10) rotate(-2deg); }
-  100% { transform: scale(0.96, 1.05) rotate(2deg); }
+  0%   { transform: translateY(0) rotate(-2deg); }
+  100% { transform: translateY(-3px) rotate(2deg); }
 }
 
 @keyframes jumpShadow {
-  0%   { transform: translateX(-50%) scale(0.45); opacity: 0.12; }
-  100% { transform: translateX(-50%) scale(0.35); opacity: 0.08; }
+  0%   { transform: translateX(-50%) scale(0.65); opacity: 0.22; }
+  100% { transform: translateX(-50%) scale(0.5); opacity: 0.12; }
 }
 
 /* --- LICKING KEYFRAMES (Visible Lapping Tongue & Paw) --- */
@@ -1288,20 +1690,6 @@
   0%, 100% { transform: translateY(18px) scale(1, 0.92); }
   50%      { transform: translateY(16px) scale(1.03, 0.95); }
 }
-@keyframes sleepTailRest {
-  0%   { transform: rotate(-88deg); }
-  100% { transform: rotate(-94deg); }
-}
-
-@keyframes tailSitWag {
-  0%   { transform: rotate(-18deg) skewX(7deg); }
-  100% { transform: rotate(-34deg) skewX(9deg); }
-}
-
-@keyframes tailSleepWag {
-  0%   { transform: rotate(-24deg) skewX(7deg); }
-  100% { transform: rotate(-36deg) skewX(9deg); }
-}
 
 @keyframes draggedWiggle {
   0%   { transform: rotate(-4deg) translateY(-2px); }
@@ -1311,23 +1699,17 @@
 @keyframes panicPawR { 0% { transform: rotate(-30deg); } 100% { transform: rotate(35deg); } }
 @keyframes panicLegL { 0% { transform: rotate(-35deg); } 100% { transform: rotate(25deg); } }
 @keyframes panicLegR { 0% { transform: rotate(25deg); } 100% { transform: rotate(-35deg); } }
-@keyframes panicTail { 0% { transform: rotate(-10deg) skewX(6deg); } 100% { transform: rotate(-80deg) skewX(12deg); } }
 
 @keyframes landingBounce {
-  0%   { transform: scale(1.28, 0.72); }
-  45%  { transform: scale(0.92, 1.08); }
-  75%  { transform: scale(1.04, 0.96); }
-  100% { transform: scale(1, 1); }
+  0%   { transform: translateY(4px); }
+  45%  { transform: translateY(-2px); }
+  75%  { transform: translateY(1px); }
+  100% { transform: translateY(0); }
 }
 
 @keyframes purrThrum {
   0%   { transform: translateY(0px) scale(1); }
   100% { transform: translateY(-1.5px) scale(1.02); }
-}
-
-@keyframes heartPump {
-  0%   { transform: scale(0.9); }
-  100% { transform: scale(1.2); }
 }
 
 /* ===================== PARTICLES & INTERACTION OVERLAYS ===================== */
@@ -1367,24 +1749,54 @@
   }
 }
 
-/* Floating Heart Burst */
-.cozy-heart-particle {
-  font-size: 20px;
-  animation: explodeHeart 1.1s cubic-bezier(0.18, 0.89, 0.32, 1.28) forwards;
+/* Landing Dust Puff Particle */
+.cozy-dust-particle {
+  position: absolute;
+  font-size: 16px;
+  pointer-events: none;
+  z-index: 9;
+  user-select: none;
+  animation: popDust 0.55s cubic-bezier(0.25, 1, 0.5, 1) forwards;
 }
 
-@keyframes explodeHeart {
+@keyframes popDust {
   0% {
-    opacity: 1;
-    transform: translate(0, 0) scale(0.4) rotate(0deg);
+    opacity: 0.9;
+    transform: translateY(0) scale(0.6) rotate(-10deg);
   }
-  60% {
-    opacity: 0.95;
-    transform: translate(var(--tx), var(--ty)) scale(1.2) rotate(var(--rot));
+  50% {
+    opacity: 0.8;
+    transform: translateY(-16px) scale(1.15) rotate(10deg);
   }
   100% {
     opacity: 0;
-    transform: translate(var(--tx), calc(var(--ty) - 25px)) scale(0.9) rotate(var(--rot));
+    transform: translateY(-26px) scale(1.3) rotate(15deg);
+  }
+}
+
+/* Floating Delicate Heart & Sparkle Particle */
+.cozy-heart-particle {
+  font-size: 18px;
+  filter: drop-shadow(0 2px 6px rgba(251, 113, 133, 0.55));
+  animation: floatHeart 1.1s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+@keyframes floatHeart {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0) scale(0.5) rotate(0deg);
+  }
+  25% {
+    opacity: 1;
+    transform: translate(calc(var(--tx) * 0.4), calc(var(--ty) * 0.4)) scale(1.15) rotate(calc(var(--rot) * 0.5));
+  }
+  75% {
+    opacity: 0.9;
+    transform: translate(var(--tx), var(--ty)) scale(1.0) rotate(var(--rot));
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--tx), calc(var(--ty) - 22px)) scale(0.8) rotate(var(--rot));
   }
 }
 
@@ -1430,9 +1842,9 @@
 /* Speech / Thought Bubble */
 .cozy-speech-bubble {
   position: absolute;
-  bottom: 165px;
+  bottom: 100%;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translateX(-50%) translateY(-8px);
   background: #FFFFFF;
   border: 2px solid var(--outline);
   border-radius: 16px;
@@ -1443,8 +1855,16 @@
   white-space: nowrap;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
   pointer-events: none;
-  z-index: 15;
+  z-index: 25;
   animation: popBubble 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Counter-flip speech bubbles & badges when pet is facing left so text is never mirrored/misplaced */
+.cozy-pet-actor[style*="scale(-"] .cozy-speech-bubble,
+.cozy-pet-actor[style*="scale(-"] .cozy-distrust-alert,
+.cozy-pet-actor[style*="scale(-"] .cozy-command-badge,
+.cozy-pet-actor[style*="scale(-"] .cozy-review-ask {
+  transform: translateX(-50%) translateY(-8px) scaleX(-1) !important;
 }
 
 .cozy-speech-bubble::after {
@@ -1452,7 +1872,6 @@
   position: absolute;
   bottom: -7px;
   left: 50%;
-  transform: translateX(-50%);
   width: 10px;
   height: 10px;
   background: #FFFFFF;
@@ -1462,20 +1881,11 @@
 }
 
 @keyframes popBubble {
-  0%   { opacity: 0; transform: translateX(-50%) translateY(10px) scale(0.7); }
-  100% { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); }
+  0%   { opacity: 0; transform: translateX(-50%) translateY(4px) scale(0.7); }
+  100% { opacity: 1; transform: translateX(-50%) translateY(-8px) scale(1); }
 }
 
 /* --- PETTING & TICKLING KEYFRAMES --- */
-@keyframes earWiggleL {
-  0% { transform: rotate(-18deg); }
-  100% { transform: rotate(-32deg); }
-}
-@keyframes earWiggleR {
-  0% { transform: scaleX(-1) rotate(-18deg); }
-  100% { transform: scaleX(-1) rotate(-32deg); }
-}
-
 @keyframes bellySquirm {
   0% { transform: rotate(-3.5deg) scale(1.03, 0.97); }
   100% { transform: rotate(3.5deg) scale(0.97, 1.03); }
@@ -1493,10 +1903,7 @@
   100% { transform: rotate(-18deg) translateY(2px); }
 }
 
-@keyframes tailTickleWag {
-  0% { transform: rotate(-18deg) skewX(8deg); }
-  100% { transform: rotate(-58deg) skewX(12deg); }
-}
+
 
 @keyframes pawKneadL {
   0% { transform: rotate(8deg) translateY(0); }
@@ -1512,6 +1919,659 @@
   0%   { transform: translateX(-50%) rotate(-12deg); }
   50%  { transform: translateX(-50%) rotate(0deg); }
   100% { transform: translateX(-50%) rotate(12deg); }
+}
+
+/* ==========================================================================
+   INTERACTIVE DRAGGABLE SLEEP TOY (Cozy Teddy Bear Plushie)
+   ========================================================================== */
+.cozy-sleep-toy {
+  position: absolute;
+  width: 58px;
+  height: 58px;
+  pointer-events: auto;
+  cursor: grab;
+  user-select: none;
+  z-index: 8;
+  transform: translate(-50%, -50%);
+  filter: drop-shadow(0 4px 10px rgba(120, 53, 15, 0.3));
+  transition: transform 0.1s ease-out;
+  animation: sleepToyFloat 2.8s infinite alternate ease-in-out;
+}
+
+.cozy-sleep-toy:active {
+  cursor: grabbing;
+  transform: translate(-50%, -50%) scale(1.1);
+}
+
+@keyframes sleepToyFloat {
+  0%   { transform: translate(-50%, -50%) translateY(0) rotate(-3deg); }
+  100% { transform: translate(-50%, -50%) translateY(-5px) rotate(3deg); }
+}
+
+.sleep-toy-plush {
+  width: 100%;
+  height: 100%;
+}
+
+/* ==========================================================================
+   HELD TEDDY BEAR PLUSHIE (Integrated in Cat's Sleep Hug)
+   ========================================================================== */
+.held-teddy-container {
+  display: none;
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 68px;
+  height: 68px;
+  z-index: 7;
+  pointer-events: auto;
+  cursor: grab;
+  filter: drop-shadow(0 4px 10px rgba(120, 53, 15, 0.35));
+}
+
+.held-teddy-svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* When kitty is in cuddling-teddy sleep state */
+.cozy-pet-actor.cuddling-teddy.state-sleep .held-teddy-container {
+  display: block;
+  animation: teddySnuggleBreath 3.6s infinite ease-in-out;
+}
+
+@keyframes teddySnuggleBreath {
+  0%   { transform: translateX(-50%) translateY(0) scale(1); }
+  50%  { transform: translateX(-50%) translateY(-2px) scale(1.02); }
+  100% { transform: translateX(-50%) translateY(0) scale(1); }
+}
+
+/* Kitty Paws Wrapping Naturally around the Teddy Bear */
+.cozy-pet-actor.cuddling-teddy.state-sleep .front-paws {
+  top: 92px !important;
+  bottom: auto !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  width: 86px !important;
+  height: 48px !important;
+  display: block !important;
+  z-index: 10 !important;
+}
+
+.cozy-pet-actor.cuddling-teddy.state-sleep .front-paw.left {
+  position: absolute !important;
+  left: 2px !important;
+  top: 0 !important;
+  width: 22px !important;
+  height: 38px !important;
+  border-radius: 11px !important;
+  transform-origin: top left !important;
+  transform: rotate(-28deg) translateY(4px) !important;
+  box-shadow: 2px 3px 6px rgba(0, 0, 0, 0.2) !important;
+}
+
+.cozy-pet-actor.cuddling-teddy.state-sleep .front-paw.right {
+  position: absolute !important;
+  right: 2px !important;
+  top: 0 !important;
+  width: 22px !important;
+  height: 38px !important;
+  border-radius: 11px !important;
+  transform-origin: top right !important;
+  transform: rotate(28deg) translateY(4px) !important;
+  box-shadow: -2px 3px 6px rgba(0, 0, 0, 0.2) !important;
+}
+
+.cozy-pet-actor.cuddling-teddy.state-sleep .cat-head {
+  transform: translateX(-50%) translateY(0) rotate(0deg) !important;
+}
+
+/* ==========================================================================
+   SIMPLE CUTE FLUTTERING BUTTERFLY (2 Wings Fluttering)
+   ========================================================================== */
+.cozy-butterfly {
+  position: absolute;
+  width: 32px;
+  height: 28px;
+  pointer-events: auto;
+  cursor: pointer;
+  user-select: none;
+  z-index: 12;
+  transform: translate(-50%, -50%);
+  filter: drop-shadow(0 3px 6px rgba(244, 114, 182, 0.45));
+  transition: transform 0.08s linear;
+}
+
+.butterfly-body {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.butterfly-torso {
+  width: 4px;
+  height: 14px;
+  background: #4C1D95;
+  border-radius: 2px;
+  z-index: 3;
+}
+
+.butterfly-wing {
+  position: absolute;
+  width: 15px;
+  height: 20px;
+  background: linear-gradient(135deg, #F472B6 0%, #C084FC 60%, #60A5FA 100%);
+  border: 1.5px solid #4C1D95;
+  border-radius: 12px 14px 4px 10px;
+  z-index: 2;
+}
+
+.butterfly-wing.left {
+  left: 2px;
+  transform-origin: right center;
+  animation: cuteWingFlapL 0.16s infinite alternate ease-in-out;
+}
+
+.butterfly-wing.right {
+  right: 2px;
+  transform-origin: left center;
+  transform: scaleX(-1);
+  animation: cuteWingFlapR 0.16s infinite alternate ease-in-out;
+}
+
+@keyframes cuteWingFlapL {
+  0%   { transform: scaleX(1) rotate(12deg); }
+  100% { transform: scaleX(0.2) rotate(-14deg); }
+}
+
+@keyframes cuteWingFlapR {
+  0%   { transform: scaleX(-1) rotate(12deg); }
+  100% { transform: scaleX(-0.2) rotate(-14deg); }
+}
+
+/* ==========================================================================
+   DISTRUST / FLEE & COMMAND REWARD PROMPTS
+   ========================================================================== */
+.cozy-distrust-alert {
+  position: absolute;
+  top: -24px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #FEF2F2;
+  border: 1.5px solid #FCA5A5;
+  color: #DC2626;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 2px 8px;
+  border-radius: 999px;
+  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.2);
+  white-space: nowrap;
+  pointer-events: none;
+  animation: popBubble 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.cozy-command-badge {
+  position: absolute;
+  top: -26px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #F0FDF4;
+  border: 1.5px solid #86EFAC;
+  color: #15803D;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 2px 8px;
+  border-radius: 999px;
+  box-shadow: 0 2px 8px rgba(34, 197, 94, 0.2);
+  white-space: nowrap;
+  pointer-events: none;
+  animation: popBubble 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Cuddling Teddy Plushie / Pillow Pose */
+.cozy-pet-actor.cuddling-teddy .front-paw.left {
+  transform: rotate(-35deg) translateY(-8px) scaleY(1.08) !important;
+  z-index: 10;
+}
+.cozy-pet-actor.cuddling-teddy .front-paw.right {
+  transform: rotate(35deg) translateY(-8px) scaleY(1.08) !important;
+  z-index: 10;
+}
+
+/* ==========================================================================
+   INTERACTIVE FRESH FISH TARGET (Attracts Cat to Chase & Eat)
+   ========================================================================== */
+.cozy-fish-target {
+  position: absolute;
+  width: 44px;
+  height: 32px;
+  pointer-events: auto;
+  cursor: grab;
+  user-select: none;
+  z-index: 11;
+  transform: translate(-50%, -50%);
+  filter: drop-shadow(0 4px 10px rgba(56, 189, 248, 0.5));
+  animation: fishFlop 0.6s infinite alternate ease-in-out;
+}
+
+.cozy-fish-target:active {
+  cursor: grabbing;
+  transform: translate(-50%, -50%) scale(1.15);
+}
+
+@keyframes fishFlop {
+  0%   { transform: translate(-50%, -50%) rotate(-8deg) scaleY(0.95); }
+  100% { transform: translate(-50%, -50%) rotate(8deg) scaleY(1.05); }
+}
+
+/* Cute Peeking / Peek-a-boo Surprise Animation */
+.state-peeking .cat-rig {
+  animation: cutePeekUp 0.85s cubic-bezier(0.34, 1.56, 0.64, 1) forwards !important;
+}
+
+@keyframes cutePeekUp {
+  0% {
+    opacity: 0;
+    transform: translateY(45px) scale(0.8);
+  }
+  65% {
+    opacity: 1;
+    transform: translateY(-8px) scale(1.08);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.state-peeking .cat-head {
+  transform: translateX(-50%) translateY(-6px) rotate(5deg) !important;
+}
+
+.state-peeking .ear.left {
+  animation: earPerkL 0.35s ease-in-out infinite alternate !important;
+}
+
+.state-peeking .ear.right {
+  animation: earPerkR 0.35s ease-in-out infinite alternate !important;
+}
+
+/* --- Edge Peeking Animations (Hide & Seek Stealth Mode - Head Emerges First!) --- */
+.state-edge-peek {
+  cursor: pointer !important;
+}
+
+.state-edge-peek .cat-head {
+  transform: translateX(-50%) translateY(-6px) rotate(4deg) !important;
+}
+
+.state-edge-peek .ear.left {
+  animation: earPerkL 0.28s ease-in-out infinite alternate !important;
+}
+
+.state-edge-peek .ear.right {
+  animation: earPerkR 0.28s ease-in-out infinite alternate !important;
+}
+
+/* Bottom edge: Kitty points upward, head popping up first */
+.state-edge-peek.edge-bottom .cat-rig {
+  transform-origin: top center;
+  animation: edgePeekBottomAnim 2.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards !important;
+}
+
+@keyframes edgePeekBottomAnim {
+  0%   { opacity: 0; transform: translateY(70px) scale(0.92); }
+  22%  { opacity: 1; transform: translateY(-24px) scale(1.04); }
+  32%  { transform: translateY(-18px) scale(1); }
+  78%  { opacity: 1; transform: translateY(-18px) scale(1); }
+  100% { opacity: 0; transform: translateY(75px) scale(0.92); }
+}
+
+/* Bottom corners: Angled upward-inward */
+.state-edge-peek.edge-bottom-left .cat-rig {
+  transform-origin: top center;
+  animation: edgePeekBottomLeftAnim 2.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards !important;
+}
+
+@keyframes edgePeekBottomLeftAnim {
+  0%   { opacity: 0; transform: translate(-30px, 70px) rotate(22deg) scale(0.92); }
+  22%  { opacity: 1; transform: translate(15px, -22px) rotate(14deg) scale(1.04); }
+  32%  { transform: translate(10px, -16px) rotate(16deg) scale(1); }
+  78%  { opacity: 1; transform: translate(10px, -16px) rotate(16deg) scale(1); }
+  100% { opacity: 0; transform: translate(-30px, 75px) rotate(22deg) scale(0.92); }
+}
+
+.state-edge-peek.edge-bottom-right .cat-rig {
+  transform-origin: top center;
+  animation: edgePeekBottomRightAnim 2.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards !important;
+}
+
+@keyframes edgePeekBottomRightAnim {
+  0%   { opacity: 0; transform: translate(30px, 70px) rotate(-22deg) scale(0.92); }
+  22%  { opacity: 1; transform: translate(-15px, -22px) rotate(-14deg) scale(1.04); }
+  32%  { transform: translate(-10px, -16px) rotate(-16deg) scale(1); }
+  78%  { opacity: 1; transform: translate(-10px, -16px) rotate(-16deg) scale(1); }
+  100% { opacity: 0; transform: translate(30px, 75px) rotate(-22deg) scale(0.92); }
+}
+
+/* Top edge: Upside down so head emerges first downwards! */
+.state-edge-peek.edge-top .cat-rig {
+  transform-origin: center center;
+  animation: edgePeekTopAnim 2.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards !important;
+}
+
+@keyframes edgePeekTopAnim {
+  0%   { opacity: 0; transform: rotate(180deg) translateY(70px) scale(0.92); }
+  22%  { opacity: 1; transform: rotate(180deg) translateY(-24px) scale(1.04); }
+  32%  { transform: rotate(180deg) translateY(-18px) scale(1); }
+  78%  { opacity: 1; transform: rotate(180deg) translateY(-18px) scale(1); }
+  100% { opacity: 0; transform: rotate(180deg) translateY(75px) scale(0.92); }
+}
+
+/* Top Corners: Inverted angled down-inward */
+.state-edge-peek.edge-top-left .cat-rig {
+  transform-origin: center center;
+  animation: edgePeekTopLeftAnim 2.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards !important;
+}
+
+@keyframes edgePeekTopLeftAnim {
+  0%   { opacity: 0; transform: rotate(155deg) translate(30px, 70px) scale(0.92); }
+  22%  { opacity: 1; transform: rotate(155deg) translate(-15px, -24px) scale(1.04); }
+  32%  { transform: rotate(155deg) translate(-10px, -18px) scale(1); }
+  78%  { opacity: 1; transform: rotate(155deg) translate(-10px, -18px) scale(1); }
+  100% { opacity: 0; transform: rotate(155deg) translate(30px, 75px) scale(0.92); }
+}
+
+.state-edge-peek.edge-top-right .cat-rig {
+  transform-origin: center center;
+  animation: edgePeekTopRightAnim 2.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards !important;
+}
+
+@keyframes edgePeekTopRightAnim {
+  0%   { opacity: 0; transform: rotate(-155deg) translate(-30px, 70px) scale(0.92); }
+  22%  { opacity: 1; transform: rotate(-155deg) translate(15px, -24px) scale(1.04); }
+  32%  { transform: rotate(-155deg) translate(10px, -18px) scale(1); }
+  78%  { opacity: 1; transform: rotate(-155deg) translate(10px, -18px) scale(1); }
+  100% { opacity: 0; transform: rotate(-155deg) translate(-30px, 75px) scale(0.92); }
+}
+
+/* Left side: Upright cute peeking face and paws popping from left border */
+.state-edge-peek.edge-left .cat-rig {
+  transform-origin: center left;
+  animation: edgePeekLeftAnim 2.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards !important;
+}
+
+.state-edge-peek.edge-left .front-paw.left {
+  top: 48px !important;
+  left: 28px !important;
+  transform: rotate(-35deg) scale(1.1) !important;
+  z-index: 10 !important;
+}
+.state-edge-peek.edge-left .front-paw.right {
+  top: 65px !important;
+  left: 36px !important;
+  transform: rotate(-15deg) scale(1.1) !important;
+  z-index: 10 !important;
+}
+
+@keyframes edgePeekLeftAnim {
+  0%   { opacity: 0; transform: translateX(-65px) scale(0.95); }
+  22%  { opacity: 1; transform: translateX(25px) scale(1.04); }
+  32%  { transform: translateX(18px) scale(1); }
+  78%  { opacity: 1; transform: translateX(18px) scale(1); }
+  100% { opacity: 0; transform: translateX(-65px) scale(0.95); }
+}
+
+/* Right side: Upright cute peeking face and paws popping from right border */
+.state-edge-peek.edge-right .cat-rig {
+  transform-origin: center right;
+  animation: edgePeekRightAnim 2.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards !important;
+}
+
+.state-edge-peek.edge-right .front-paw.right {
+  top: 48px !important;
+  right: 28px !important;
+  transform: rotate(35deg) scale(1.1) !important;
+  z-index: 10 !important;
+}
+.state-edge-peek.edge-right .front-paw.left {
+  top: 65px !important;
+  right: 36px !important;
+  transform: rotate(15deg) scale(1.1) !important;
+  z-index: 10 !important;
+}
+
+@keyframes edgePeekRightAnim {
+  0%   { opacity: 0; transform: translateX(65px) scale(0.95); }
+  22%  { opacity: 1; transform: translateX(-25px) scale(1.04); }
+  32%  { transform: translateX(-18px) scale(1); }
+  78%  { opacity: 1; transform: translateX(-18px) scale(1); }
+  100% { opacity: 0; transform: translateX(65px) scale(0.95); }
+}
+
+.cozy-dust-particle {
+  position: absolute;
+  font-size: 20px;
+  pointer-events: none;
+  z-index: 2147483647;
+  animation: dustPuffAnim 0.55s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+@keyframes dustPuffAnim {
+  0% { opacity: 0.95; transform: scale(0.4) translateY(0); }
+  100% { opacity: 0; transform: scale(1.6) translateY(-22px); }
+}
+
+/* Comedic Dramatic Pancake Squish & Slow Re-inflation */
+.state-landing .cat-rig {
+  animation: landingSquash 0.38s cubic-bezier(0.22, 1, 0.36, 1);
+  transform-origin: bottom center;
+}
+
+@keyframes landingSquash {
+  0%   { transform: scale(1.28, 0.72) translateY(8px); }
+  45%  { transform: scale(0.94, 1.06) translateY(-3px); }
+  75%  { transform: scale(1.02, 0.98) translateY(1px); }
+  100% { transform: scale(1, 1) translateY(0); }
+}
+
+.state-rolling-ball .cat-rig {
+  animation: pancakeSquishInflate 0.95s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  transform-origin: bottom center;
+}
+
+@keyframes pancakeSquishInflate {
+  0%   { transform: scale(1.48, 0.52) translateY(16px); }
+  35%  { transform: scale(1.32, 0.68) translateY(10px); }
+  60%  { transform: scale(0.92, 1.1) translateY(-5px); }
+  80%  { transform: scale(1.04, 0.96) translateY(2px); }
+  100% { transform: scale(1, 1) translateY(0); }
+}
+
+.state-dizzy .cat-head {
+  animation: dizzyHeadTilt 0.35s infinite alternate ease-in-out !important;
+}
+
+.state-dizzy .eye {
+  animation: dizzySquint 0.5s infinite ease-in-out !important;
+}
+
+@keyframes dizzyHeadTilt {
+  0% { transform: translateX(-50%) rotate(-6deg); }
+  100% { transform: translateX(-50%) rotate(6deg); }
+}
+
+@keyframes dizzySquint {
+  0%, 100% { transform: scale(1, 0.4); opacity: 0.9; }
+  50% { transform: scale(1, 0.6) translateY(-1px); opacity: 1; }
+}
+
+/* ==========================================================================
+   Cozy Blanket, Hot Cocoa Mug & Micro-Hat Accessories
+   ========================================================================== */
+.cozy-blanket {
+  position: absolute;
+  bottom: 24px;
+  left: 20px;
+  width: 96px;
+  height: 52px;
+  background: linear-gradient(135deg, #FECDD3 0%, #FFE4E6 100%);
+  border: 2.5px solid var(--outline);
+  border-radius: 24px 24px 16px 16px;
+  z-index: 8;
+  display: none;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  animation: blanketFadeIn 0.5s ease-out;
+}
+
+.state-sleep .cozy-blanket {
+  display: block !important;
+}
+
+.cozy-blanket::after {
+  content: '🐾';
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  font-size: 14px;
+  opacity: 0.6;
+}
+
+@keyframes blanketFadeIn {
+  0% { opacity: 0; transform: translateY(10px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.cozy-cocoa-mug {
+  position: absolute;
+  bottom: 24px;
+  left: -22px;
+  font-size: 22px;
+  z-index: 9;
+  display: none;
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.15));
+  animation: mugFloat 2.2s infinite ease-in-out;
+}
+
+.state-sleep .cozy-cocoa-mug {
+  display: block !important;
+}
+
+@keyframes mugFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+
+/* Cute Vector Head Bow 🎀 (Firmly anchored on right forehead, no emoji jumps) */
+.cat-head .head-bow {
+  position: absolute !important;
+  top: 14px !important;
+  right: 14px !important;
+  left: auto !important;
+  width: 32px !important;
+  height: 24px !important;
+  transform: rotate(14deg) !important;
+  transform-origin: center center !important;
+  z-index: 20;
+  pointer-events: none;
+  filter: drop-shadow(0 2px 4px rgba(225, 29, 72, 0.4));
+}
+
+.head-bow-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  overflow: visible;
+}
+
+/* Purr Vibration Rumble */
+.purr-vibrate .cat-rig {
+  animation: purrRumble 0.12s infinite alternate ease-in-out !important;
+}
+
+@keyframes purrRumble {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-1.5px); }
+}
+
+/* Yawn & Stretch Animation */
+.state-stretch .cat-head {
+  transform: translateX(-50%) translateY(-6px) rotate(-8deg) !important;
+}
+
+.state-stretch .front-paw.left {
+  transform: rotate(-45deg) translateY(-14px) scaleY(1.3) !important;
+}
+
+.state-stretch .front-paw.right {
+  transform: rotate(45deg) translateY(-14px) scaleY(1.3) !important;
+}
+
+/* In-Character Review Ask Card */
+.cozy-review-ask {
+  position: absolute;
+  bottom: 140px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #FFFFFF;
+  border: 2px solid #FECDD3;
+  border-radius: 18px;
+  padding: 12px 14px;
+  box-shadow: 0 8px 24px rgba(244, 63, 94, 0.2);
+  width: 240px;
+  z-index: 2147483647;
+  pointer-events: auto;
+  text-align: center;
+  animation: popReview 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes popReview {
+  0% { opacity: 0; transform: translateX(-50%) scale(0.6) translateY(20px); }
+  100% { opacity: 1; transform: translateX(-50%) scale(1) translateY(0); }
+}
+
+.review-ask-text {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #4C0519;
+  margin-bottom: 8px;
+  line-height: 1.4;
+}
+
+.review-ask-btns {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+}
+
+.review-btn-yes {
+  background: #F43F5E;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 5px 10px;
+  font-size: 11px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.review-btn-yes:hover {
+  background: #E11D48;
+}
+
+.review-btn-no {
+  background: #F1F5F9;
+  color: #64748B;
+  border: none;
+  border-radius: 8px;
+  padding: 5px 8px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
 }
 
 

@@ -1,5 +1,9 @@
 {
-  "dependencies": {
-    "sharp": "^0.35.4"
+  "name": "cozy-pets",
+  "version": "1.0.0",
+  "description": "Cozy Pets — Virtual Cat & Desktop Companion",
+  "private": true,
+  "scripts": {
+    "start": "serve -l 3000 ."
   }
 }

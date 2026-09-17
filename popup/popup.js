@@ -1,9 +1,8 @@
 /**
- * Cozy Browser Pets - Popup Controller
- * Manages configuration synchronization, live preview avatar, care triggers, and audio.
+ * itsMyPup - Minimalist Popup Controller
+ * Manages configuration synchronization, training commands, care tools, and trust status.
  */
 document.addEventListener('DOMContentLoaded', () => {
-  // Audio Synthesizer for popup feedback
   const audio = new (window.CozyAudioSynthesizer || class {
     meow() {} chirp() {} startPurr() {} stopPurr() {} snack() {} yawn() {} setMuted() {} setVolume() {}
   })();
@@ -13,36 +12,77 @@ document.addEventListener('DOMContentLoaded', () => {
     enabled: true,
     skin: 'orange-tabby',
     scale: 1.0,
-    speedMultiplier: 1.15,
+    speedMultiplier: 1.0,
     petName: 'Mochi',
     soundMuted: false,
     volume: 0.65,
-    friendship: 50
+    likeness: 45,
+    friendship: 45,
+    focusMode: false,
+    disabledDomains: []
   };
+
+  let currentDomain = '';
+
+  // Tool active toggle tracking
+  let sleepToyActive = false;
+  let butterflyActive = false;
+  let laserActive = false;
 
   // DOM Elements
   const masterToggle = document.getElementById('master-toggle');
   const petNameInput = document.getElementById('pet-name');
-  const statusPill = document.getElementById('pet-status-pill');
   const previewPet = document.getElementById('preview-pet');
   const avatarPedestal = document.getElementById('avatar-pedestal');
-  const friendshipLevel = document.getElementById('friendship-level');
-  const friendshipPercent = document.getElementById('friendship-percent');
-  const friendshipFill = document.getElementById('friendship-fill');
+  const likenessStatus = document.getElementById('likeness-status');
+  const likenessTier = document.getElementById('likeness-tier');
+  const likenessFill = document.getElementById('likeness-fill');
   const muteBtn = document.getElementById('mute-btn');
-  const volumeSlider = document.getElementById('volume-slider');
+
+  // Control Buttons
+  const btnTreat = document.getElementById('btn-treat');
+  const btnLaser = document.getElementById('btn-laser');
+  const btnSleepToy = document.getElementById('btn-sleep-toy');
+  const btnButterfly = document.getElementById('btn-butterfly');
+  const btnFocusMode = document.getElementById('btn-focus-mode');
+  const btnResetPet = document.getElementById('btn-reset-pet');
+  const btnToggleSite = document.getElementById('btn-toggle-site');
+
+  // Detect Current Active Tab Domain
+  if (typeof chrome !== 'undefined' && chrome.tabs && chrome.tabs.query) {
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+      if (tabs && tabs[0] && tabs[0].url) {
+        try {
+          const urlObj = new URL(tabs[0].url);
+          if (urlObj.hostname) {
+            currentDomain = urlObj.hostname;
+          }
+        } catch(e) {}
+      }
+      renderState();
+    });
+  }
 
   // Load Saved Settings from chrome.storage
   if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
     chrome.storage.local.get(null, (data) => {
       if (data) {
         state = { ...state, ...data };
+        if (data.likeness !== undefined) state.likeness = data.likeness;
+        else if (data.friendship !== undefined) state.likeness = data.friendship;
+        renderState();
+      }
+    });
+
+    chrome.storage.onChanged.addListener((changes, area) => {
+      if (area === 'local') {
+        if (changes.likeness) state.likeness = changes.likeness.newValue;
+        if (changes.friendship && changes.likeness === undefined) state.likeness = changes.friendship.newValue;
         renderState();
       }
     });
   } else {
-    // Fallback localStorage for standalone demo
-    const saved = localStorage.getItem('cozy_pet_popup_settings');
+    const saved = localStorage.getItem('cozypets_settings');
     if (saved) {
       try { state = { ...state, ...JSON.parse(saved) }; } catch(e) {}
     }
@@ -54,18 +94,20 @@ document.addEventListener('DOMContentLoaded', () => {
     if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
       chrome.storage.local.set(keyValObj);
     } else {
-      localStorage.setItem('cozy_pet_popup_settings', JSON.stringify(state));
+      localStorage.setItem('cozypets_settings', JSON.stringify(state));
     }
     renderState();
   }
 
-  function sendMessageToActiveTab(msg) {
+  function sendMessageToActiveTab(msg, callback) {
     if (typeof chrome !== 'undefined' && chrome.tabs && chrome.tabs.query) {
       chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
         if (tabs && tabs[0] && tabs[0].id) {
-          chrome.tabs.sendMessage(tabs[0].id, msg, () => {
+          chrome.tabs.sendMessage(tabs[0].id, msg, (res) => {
             if (chrome.runtime.lastError) {
-              // Target tab might not have content script (e.g. chrome:// extensions)
+              // Tab might not have content script mounted
+            } else if (callback && res) {
+              callback(res);
             }
           });
         }
@@ -82,13 +124,43 @@ document.addEventListener('DOMContentLoaded', () => {
       petNameInput.value = state.petName || 'Mochi';
     }
 
+    // Header Sound Mute Toggle Icon
+    if (muteBtn) {
+      muteBtn.textContent = state.soundMuted ? '🔇' : '🔊';
+      muteBtn.classList.toggle('muted', !!state.soundMuted);
+      muteBtn.title = state.soundMuted ? 'Unmute Sound' : 'Mute Sound';
+    }
+    audio.setMuted(state.soundMuted);
+    audio.setVolume(state.volume);
+
+    // Focus Mode Button
+    if (btnFocusMode) {
+      btnFocusMode.classList.toggle('active', !!state.focusMode);
+    }
+
+    // Domain Site Toggle Button
+    if (btnToggleSite) {
+      const isDomainDisabled = Array.isArray(state.disabledDomains) && state.disabledDomains.includes(currentDomain);
+      if (currentDomain) {
+        if (isDomainDisabled) {
+          btnToggleSite.textContent = `✅ Wake pet on ${currentDomain}`;
+          btnToggleSite.classList.add('disabled-site');
+        } else {
+          btnToggleSite.textContent = `🚫 Sleep pet on ${currentDomain}`;
+          btnToggleSite.classList.remove('disabled-site');
+        }
+      } else {
+        btnToggleSite.textContent = '🚫 Sleep pet on this site';
+      }
+    }
+
     // Avatar Skin Class
     if (previewPet) {
       previewPet.className = `mini-pet-rig skin-${state.skin} state-idle`;
     }
 
-    // Active Skin Card
-    document.querySelectorAll('.skin-card').forEach(btn => {
+    // Active Skin Chip
+    document.querySelectorAll('.skin-chip').forEach(btn => {
       if (btn.dataset.skin === state.skin) {
         btn.classList.add('active');
       } else {
@@ -96,43 +168,19 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    // Scale Buttons
-    document.querySelectorAll('#scale-control .seg-btn').forEach(btn => {
-      const val = parseFloat(btn.dataset.val);
-      if (Math.abs(val - state.scale) < 0.15) {
-        btn.classList.add('active');
-      } else {
-        btn.classList.remove('active');
-      }
-    });
+    // Friendship & Bond Curve
+    const val = Math.max(0, Math.min(100, state.likeness !== undefined ? state.likeness : 45));
 
-    // Speed Buttons
-    document.querySelectorAll('#speed-control .seg-btn').forEach(btn => {
-      const val = parseFloat(btn.dataset.val);
-      if (Math.abs(val - state.speedMultiplier) < 0.2) {
-        btn.classList.add('active');
-      } else {
-        btn.classList.remove('active');
-      }
-    });
+    let tier = 'Friendly';
+    if (val < 25) tier = 'New Companion';
+    else if (val < 45) tier = 'Cautious';
+    else if (val < 70) tier = 'Friendly';
+    else if (val < 90) tier = 'Devoted';
+    else tier = 'Best Friend 💕';
 
-    // Audio Controls
-    audio.setMuted(state.soundMuted);
-    audio.setVolume(state.volume);
-    if (muteBtn) {
-      muteBtn.textContent = state.soundMuted ? '🔇' : '🔊';
-    }
-    if (volumeSlider) {
-      volumeSlider.value = state.volume;
-    }
-
-    // Friendship
-    const lvl = Math.floor(state.friendship / 25) + 1;
-    const titles = ['New Pal', 'Cozy Friend', 'Bestie', 'Soulmate', 'Eternal Bond'];
-    const title = titles[Math.min(titles.length - 1, lvl - 1)];
-    if (friendshipLevel) friendshipLevel.textContent = `Lv. ${lvl} ${title}`;
-    if (friendshipPercent) friendshipPercent.textContent = `${state.friendship}%`;
-    if (friendshipFill) friendshipFill.style.width = `${state.friendship}%`;
+    if (likenessStatus) likenessStatus.textContent = `Bond: ${val}%`;
+    if (likenessTier) likenessTier.textContent = tier;
+    if (likenessFill) likenessFill.style.width = `${val}%`;
   }
 
   // ===================== EVENT BINDINGS =====================
@@ -142,11 +190,14 @@ document.addEventListener('DOMContentLoaded', () => {
     masterToggle.addEventListener('change', (e) => {
       const enabled = e.target.checked;
       saveSettings({ enabled });
-      if (statusPill) {
-        statusPill.textContent = enabled ? 'Happy & Exploring ✨' : 'Sleeping in bed 💤';
-        statusPill.style.color = enabled ? '#059669' : '#64748B';
-        statusPill.style.background = enabled ? '#ECFDF5' : '#F1F5F9';
-      }
+    });
+  }
+
+  // Header Mute Button
+  if (muteBtn) {
+    muteBtn.addEventListener('click', () => {
+      const soundMuted = !state.soundMuted;
+      saveSettings({ soundMuted });
     });
   }
 
@@ -157,98 +208,70 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Skin Picker Cards
-  document.querySelectorAll('.skin-card').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const skin = btn.dataset.skin;
-      saveSettings({ skin });
+  // Hide & Surprise stealth mode
+  const btnHidePet = document.getElementById('btn-hide-pet');
+  if (btnHidePet) {
+    btnHidePet.addEventListener('click', () => {
       audio.chirp();
-      if (statusPill) {
-        statusPill.textContent = `Changed coat to ${btn.querySelector('.skin-name').textContent}! ✨`;
-      }
+      sendMessageToActiveTab({ action: 'stealth_hide' });
     });
-  });
+  }
 
-  // Scale Segment Controls
-  document.querySelectorAll('#scale-control .seg-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const scale = parseFloat(btn.dataset.val);
-      saveSettings({ scale });
-      audio.chirp();
-    });
-  });
-
-  // Speed Segment Controls
-  document.querySelectorAll('#speed-control .seg-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const speedMultiplier = parseFloat(btn.dataset.val);
-      saveSettings({ speedMultiplier });
-      audio.chirp();
-    });
-  });
-
-  // Quick Care Actions
-  const btnFeedFish = document.getElementById('btn-feed-fish');
-  if (btnFeedFish) {
-    btnFeedFish.addEventListener('click', () => {
+  // Care & Interactive Tools
+  if (btnTreat) {
+    btnTreat.addEventListener('click', () => {
       audio.snack();
-      saveSettings({ friendship: Math.min(100, state.friendship + 2) });
+      saveSettings({ likeness: Math.min(100, state.likeness + 3) });
       sendMessageToActiveTab({ action: 'feed', treatType: 'fish' });
-      if (statusPill) statusPill.textContent = 'Munched a tasty fish! 🐟✨';
     });
   }
 
-  const btnFeedTreat = document.getElementById('btn-feed-treat');
-  if (btnFeedTreat) {
-    btnFeedTreat.addEventListener('click', () => {
-      audio.snack();
-      saveSettings({ friendship: Math.min(100, state.friendship + 2) });
-      sendMessageToActiveTab({ action: 'feed', treatType: 'treat' });
-      if (statusPill) statusPill.textContent = 'Ate a yummy treat! 🍖✨';
+  if (btnSleepToy) {
+    btnSleepToy.addEventListener('click', () => {
+      audio.chirp();
+      sendMessageToActiveTab({ action: 'sleep_toy' }, (res) => {
+        if (res && res.active !== undefined) {
+          sleepToyActive = res.active;
+          btnSleepToy.classList.toggle('active', sleepToyActive);
+        }
+      });
     });
   }
 
-  const btnPetLove = document.getElementById('btn-pet-love');
-  if (btnPetLove) {
-    btnPetLove.addEventListener('click', () => {
-      audio.meow(1.1);
-      audio.startPurr(2.0);
-      saveSettings({ friendship: Math.min(100, state.friendship + 1) });
-      sendMessageToActiveTab({ action: 'pet' });
-      if (statusPill) statusPill.textContent = 'Purring with happiness! ❤️';
+  if (btnButterfly) {
+    btnButterfly.addEventListener('click', () => {
+      audio.chirp();
+      sendMessageToActiveTab({ action: 'butterfly' }, (res) => {
+        if (res && res.active !== undefined) {
+          butterflyActive = res.active;
+          btnButterfly.classList.toggle('active', butterflyActive);
+        }
+      });
     });
   }
 
-  const btnLaser = document.getElementById('btn-laser-play');
   if (btnLaser) {
     btnLaser.addEventListener('click', () => {
       audio.chirp();
+      laserActive = !laserActive;
+      btnLaser.classList.toggle('active', laserActive);
       sendMessageToActiveTab({ action: 'laser' });
-      if (statusPill) statusPill.textContent = 'Chasing the red dot! 🔴👀';
     });
   }
 
-  const btnNap = document.getElementById('btn-sleep-nap');
-  if (btnNap) {
-    btnNap.addEventListener('click', () => {
-      audio.yawn();
-      sendMessageToActiveTab({ action: 'nap' });
-      if (statusPill) statusPill.textContent = 'Curled up for a nap... 💤';
-    });
-  }
-
-  // Audio Controls
-  if (muteBtn) {
-    muteBtn.addEventListener('click', () => {
-      const soundMuted = !state.soundMuted;
-      saveSettings({ soundMuted });
-    });
-  }
-
-  if (volumeSlider) {
-    volumeSlider.addEventListener('input', (e) => {
-      const volume = parseFloat(e.target.value);
-      saveSettings({ volume });
+  // Disable / Enable on Current Site
+  if (btnToggleSite) {
+    btnToggleSite.addEventListener('click', () => {
+      if (!currentDomain) return;
+      let disabledDomains = Array.isArray(state.disabledDomains) ? [...state.disabledDomains] : [];
+      if (disabledDomains.includes(currentDomain)) {
+        disabledDomains = disabledDomains.filter(d => d !== currentDomain);
+        audio.chirp();
+      } else {
+        disabledDomains.push(currentDomain);
+        audio.playSiteToggle();
+      }
+      saveSettings({ disabledDomains });
     });
   }
 
@@ -257,8 +280,7 @@ document.addEventListener('DOMContentLoaded', () => {
     avatarPedestal.addEventListener('click', () => {
       audio.meow(1.15);
       audio.startPurr(1.8);
-      saveSettings({ friendship: Math.min(100, state.friendship + 1) });
-      if (statusPill) statusPill.textContent = 'Mew! 💕 (Loves your headpats)';
+      saveSettings({ likeness: Math.min(100, state.likeness + 1) });
     });
   }
 });

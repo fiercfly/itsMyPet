@@ -44,35 +44,58 @@
     const engine = new PetEngineClass(shadow);
     window.__COZY_PET_ENGINE__ = engine;
 
+    // Check storage for site exclusion
+    function checkVisibility() {
+      if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
+        chrome.storage.local.get(['enabled', 'disabledDomains'], (data) => {
+          const enabled = data.enabled !== false;
+          const disabledDomains = Array.isArray(data.disabledDomains) ? data.disabledDomains : [];
+          const currentHostname = window.location.hostname;
+          const isSiteDisabled = disabledDomains.includes(currentHostname);
+
+          if (!enabled || isSiteDisabled) {
+            host.style.display = 'none';
+          } else {
+            host.style.display = 'block';
+          }
+        });
+      }
+    }
+
+    checkVisibility();
+
+    if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.onChanged) {
+      chrome.storage.onChanged.addListener((changes, area) => {
+        if (area === 'local') {
+          if (changes.enabled || changes.disabledDomains) {
+            checkVisibility();
+          }
+        }
+      });
+    }
+
     // Listen for direct messages from popup actions
     if (typeof chrome !== 'undefined' && chrome.runtime && chrome.runtime.onMessage) {
       chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
         if (!engine) return;
 
-        if (msg.action === 'feed') {
+        if (msg.action === 'stealth_hide') {
+          if (engine.triggerStealthHide) engine.triggerStealthHide();
+          sendResponse({ status: 'ok' });
+        } else if (msg.action === 'loaf_nap') {
+          if (engine.toggleDeskNap) engine.toggleDeskNap();
+          sendResponse({ status: 'ok' });
+        } else if (msg.action === 'sleep_toy') {
+          const active = engine.toggleSleepToy();
+          sendResponse({ status: 'ok', active });
+        } else if (msg.action === 'butterfly') {
+          const active = engine.toggleButterfly();
+          sendResponse({ status: 'ok', active });
+        } else if (msg.action === 'feed') {
           engine.feedTreat(msg.treatType || 'fish');
           sendResponse({ status: 'ok' });
         } else if (msg.action === 'pet') {
           engine.handleSingleClick({ clientX: engine.x + 70, clientY: engine.y + 40 });
-          sendResponse({ status: 'ok' });
-        } else if (msg.action === 'laser') {
-          engine.toggleLaser();
-          sendResponse({ status: 'ok', active: engine.laserActive });
-        } else if (msg.action === 'nap') {
-          engine.nap();
-          sendResponse({ status: 'ok' });
-        } else if (msg.action === 'sit') {
-          engine.setState('sit');
-          engine.stateTimer = 0;
-          engine.stateDuration = 6.0;
-          sendResponse({ status: 'ok' });
-        } else if (msg.action === 'lick') {
-          engine.setState('lick');
-          engine.stateTimer = 0;
-          engine.stateDuration = 6.0;
-          sendResponse({ status: 'ok' });
-        } else if (msg.action === 'wake') {
-          engine.wakeUp();
           sendResponse({ status: 'ok' });
         }
       });

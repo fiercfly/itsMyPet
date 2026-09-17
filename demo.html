@@ -4,19 +4,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cozy Browser Pets — Interactive Playground</title>
+  <title>Cozy Pets — Interactive Companion Playground</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐱</text></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg-gradient: linear-gradient(135deg, #FFF1F2 0%, #FEF3C7 50%, #F0FDF4 100%);
-      --card-bg: rgba(255, 255, 255, 0.88);
-      --card-border: rgba(254, 205, 211, 0.6);
-      --primary: #FB7185;
+      --bg-gradient: linear-gradient(135deg, #FFF5F6 0%, #FAF5FF 50%, #F0FDF4 100%);
+      --card-bg: rgba(255, 255, 255, 0.9);
+      --card-border: rgba(226, 232, 240, 0.8);
+      --primary: #F43F5E;
       --primary-dark: #881337;
-      --text: #1E293B;
+      --text: #0F172A;
       --text-muted: #64748B;
     }
 
@@ -41,7 +41,7 @@
       background: rgba(255, 255, 255, 0.85);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
-      border-bottom: 1px solid rgba(254, 205, 211, 0.5);
+      border-bottom: 1px solid rgba(226, 232, 240, 0.8);
       padding: 14px 28px;
       display: flex;
       justify-content: space-between;
@@ -49,17 +49,6 @@
       position: sticky;
       top: 0;
       z-index: 100;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .brand-emoji {
-      font-size: 28px;
-      filter: drop-shadow(0 2px 4px rgba(251, 113, 133, 0.3));
     }
 
     .brand-title {
@@ -75,44 +64,19 @@
       font-weight: 600;
     }
 
-    .live-badge {
+    .status-badge {
       background: #ECFDF5;
       color: #059669;
       border: 1px solid #A7F3D0;
-      padding: 5px 12px;
+      padding: 4px 12px;
       border-radius: 999px;
       font-size: 12px;
       font-weight: 800;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .live-dot {
-      width: 8px;
-      height: 8px;
-      background: #10B981;
-      border-radius: 50%;
-      animation: pulseDot 1.5s infinite;
-    }
-
-    @keyframes pulseDot {
-
-      0%,
-      100% {
-        opacity: 1;
-        transform: scale(1);
-      }
-
-      50% {
-        opacity: 0.4;
-        transform: scale(0.8);
-      }
     }
 
     /* Main Container */
     .container {
-      max-width: 960px;
+      max-width: 900px;
       margin: 28px auto;
       padding: 0 20px 140px 20px;
       width: 100%;
@@ -122,240 +86,216 @@
       background: var(--card-bg);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
-      border: 1.5px solid var(--card-border);
-      border-radius: 20px;
-      padding: 24px;
-      box-shadow: 0 12px 32px -8px rgba(251, 113, 133, 0.15);
-      margin-bottom: 20px;
+      border: 1px solid var(--card-border);
+      border-radius: 18px;
+      padding: 22px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
+      margin-bottom: 18px;
     }
 
     .card h2 {
-      font-size: 18px;
+      font-size: 17px;
       font-weight: 800;
-      color: var(--primary-dark);
-      margin-bottom: 8px;
+      color: var(--text);
+      margin-bottom: 6px;
     }
 
     .card p {
       color: var(--text-muted);
-      font-size: 14px;
+      font-size: 13.5px;
       line-height: 1.5;
     }
 
     /* Skin selector grid */
     .grid-skins {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-      gap: 12px;
-      margin: 18px 0;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 8px;
+      margin: 16px 0;
     }
 
     .skin-item {
-      background: rgba(255, 255, 255, 0.9);
-      border: 2px solid #F1F5F9;
-      border-radius: 14px;
-      padding: 12px 8px;
+      background: #FFFFFF;
+      border: 1.5px solid #E2E8F0;
+      border-radius: 10px;
+      padding: 8px;
       display: flex;
-      flex-direction: column;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
       cursor: pointer;
-      transition: all 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+      transition: all 0.15s ease;
     }
 
     .skin-item:hover {
-      border-color: #FDA4AF;
-      transform: translateY(-3px) scale(1.03);
-      background: #FFF1F2;
+      border-color: #CBD5E1;
+      transform: translateY(-2px);
     }
 
     .skin-item.selected {
       border-color: var(--primary);
-      background: #FFE4E6;
-      box-shadow: 0 0 0 2px var(--primary);
+      background: #FFF1F2;
     }
 
     .swatch-circle {
-      width: 28px;
-      height: 28px;
+      width: 18px;
+      height: 18px;
       border-radius: 50%;
-      border: 2px solid rgba(0, 0, 0, 0.12);
+      border: 1px solid rgba(0, 0, 0, 0.15);
+      flex-shrink: 0;
     }
 
     .skin-item-title {
       font-size: 12px;
-      font-weight: 800;
+      font-weight: 700;
       color: var(--text);
     }
 
-    /* Button rows */
+    /* Control Toolbar */
+    .toolbar-section {
+      margin-top: 14px;
+    }
+
+    .toolbar-label {
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
     .toolbar-row {
       display: flex;
       flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 16px;
+      gap: 6px;
+      margin-bottom: 12px;
     }
 
     .btn-act {
       background: #FFFFFF;
-      border: 1.5px solid #FBCFE8;
-      color: #881337;
-      font-size: 13px;
-      font-weight: 800;
-      padding: 9px 16px;
-      border-radius: 12px;
+      border: 1px solid #E2E8F0;
+      border-radius: 8px;
+      padding: 6px 12px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text);
       cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
-      box-shadow: 0 2px 6px rgba(251, 113, 133, 0.1);
+      transition: all 0.15s ease;
+      font-family: inherit;
     }
 
     .btn-act:hover {
+      background: #F1F5F9;
+      border-color: #CBD5E1;
+    }
+
+    .btn-act.primary {
+      background: #FFF1F2;
+      border-color: #FDA4AF;
+      color: #E11D48;
+    }
+
+    .btn-act.primary:hover {
       background: #FFE4E6;
-      border-color: var(--primary);
-      transform: translateY(-2px);
     }
 
-    .btn-act:active {
-      transform: scale(0.96);
+    .btn-act.active {
+      background: #0F172A;
+      color: #FFFFFF;
+      border-color: #0F172A;
     }
 
-    /* Feature Highlights */
-    .feature-list {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 12px;
-      margin-top: 14px;
-    }
-
-    .feature-box {
-      background: rgba(255, 255, 255, 0.7);
-      border: 1px solid rgba(254, 205, 211, 0.4);
-      padding: 12px 16px;
-      border-radius: 12px;
-      font-size: 13px;
-    }
-
-    .feature-box b {
-      color: var(--primary-dark);
-      display: block;
-      margin-bottom: 2px;
-    }
-
-    /* Instructions Box */
-    .install-card {
-      background: #EFF6FF;
-      border: 1.5px solid #BFDBFE;
-      color: #1E3A8A;
-      border-radius: 16px;
-      padding: 18px 22px;
-      margin-top: 24px;
-    }
-
-    .install-card h3 {
-      font-size: 16px;
+    .trust-indicator {
+      display: inline-block;
       font-weight: 800;
-      margin-bottom: 8px;
-    }
-
-    .install-card ol {
-      margin-left: 20px;
-      font-size: 13px;
-      line-height: 1.6;
-    }
-
-    /* Host container for pet */
-    #cozy-pet-host {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      pointer-events: none;
-      z-index: 2147483647;
+      padding: 2px 8px;
+      border-radius: 6px;
+      background: #F1F5F9;
     }
   </style>
 </head>
 
 <body>
-
   <!-- Top Navigation -->
   <header>
-    <div class="brand">
-      <span class="brand-emoji">🐾</span>
-      <div>
-        <h1 class="brand-title">Cozy Browser Pets</h1>
-        <p class="brand-sub">Manifest V3 Interactive Cat Extension</p>
-      </div>
+    <div>
+      <h1 class="brand-title">itsMyPup</h1>
+      <span class="brand-sub">Autonomous Companion Simulation</span>
     </div>
-    <div class="live-badge">
-      <div class="live-dot"></div>
-      Cat is Roaming Free!
-    </div>
+    <div class="status-badge" id="sim-trust-badge">Trust: 75% • Friendly</div>
   </header>
 
-  <!-- Main Playground Content -->
   <main class="container">
 
-    <!-- Playground Controller Card -->
     <div class="card">
-      <h2>🐱 Meet Your Desktop Companion!</h2>
+      <h2>Desktop Companion Controls</h2>
       <p>
-        Look down at the bottom of your screen! Your cat is actively exploring, loafing, and napping.
-        <b>Click & drag</b> the cat anywhere in mid-air to pick them up, or test the quick controls below:
+        Your companion is roaming along the floor at the bottom of the screen.
+        Pick them up by the scruff to test gravity physics, or use the interactive training and toys below:
       </p>
 
-      <!-- Coat Customization -->
+      <!-- Companion Characters -->
       <div class="grid-skins">
         <div class="skin-item selected" onclick="pickSkin('orange-tabby', this)">
           <div class="swatch-circle" style="background: #FB923C;"></div>
           <span class="skin-item-title">Orange Tabby</span>
         </div>
-        <div class="skin-item" onclick="pickSkin('calico', this)">
-          <div class="swatch-circle"
-            style="background: linear-gradient(135deg, #FFF 33%, #EA580C 33%, #EA580C 66%, #18181B 66%);"></div>
-          <span class="skin-item-title">Calico</span>
+        <div class="skin-item" onclick="pickSkin('white-kitty', this)">
+          <div class="swatch-circle" style="background: #FFFFFF; border-color: #CBD5E1;"></div>
+          <span class="skin-item-title">White Kitty</span>
         </div>
-        <div class="skin-item" onclick="pickSkin('tuxedo', this)">
-          <div class="swatch-circle" style="background: linear-gradient(135deg, #18181B 60%, #FFF 60%);"></div>
-          <span class="skin-item-title">Tuxedo</span>
+        <div class="skin-item" onclick="pickSkin('cute-bear', this)">
+          <div class="swatch-circle" style="background: #D97706;"></div>
+          <span class="skin-item-title">Cute Bear</span>
         </div>
-        <div class="skin-item" onclick="pickSkin('void-cat', this)">
-          <div class="swatch-circle" style="background: #0F172A;"></div>
-          <span class="skin-item-title">Void Cat</span>
-        </div>
-        <div class="skin-item" onclick="pickSkin('siamese', this)">
-          <div class="swatch-circle" style="background: radial-gradient(circle, #451A03 35%, #FDF4E3 40%);"></div>
-          <span class="skin-item-title">Siamese</span>
-        </div>
-        <div class="skin-item" onclick="pickSkin('silver-tabby', this)">
-          <div class="swatch-circle" style="background: #94A3B8;"></div>
-          <span class="skin-item-title">Silver Tabby</span>
+        <div class="skin-item" onclick="pickSkin('cute-panda', this)">
+          <div class="swatch-circle" style="background: linear-gradient(135deg, #0F172A 50%, #FFFFFF 50%);"></div>
+          <span class="skin-item-title">Cute Panda</span>
         </div>
       </div>
 
-      <!-- Quick Action Care Buttons -->
-      <div class="toolbar-row">
-        <button class="btn-act" onclick="petSit()">🪑 Sit Down</button>
-        <button class="btn-act" onclick="petLick()">😋 Lick Paws</button>
-        <button class="btn-act" onclick="feedPet('fish')">🐟 Feed Fish</button>
-        <button class="btn-act" onclick="feedPet('treat')">🍖 Treat Snack</button>
-        <button class="btn-act" onclick="petLove()">❤️ Pet & Purr</button>
-        <button class="btn-act" onclick="toggleLaser()">🔴 Laser Pointer</button>
-        <button class="btn-act" onclick="petNap()">💤 Nap Time</button>
-        <button class="btn-act" onclick="petWake()">☀️ Stand / Wake</button>
+      <!-- Training Commands -->
+      <div class="toolbar-section">
+        <div class="toolbar-label">Training Commands (Reward with fish treat when obeyed)</div>
+        <div class="toolbar-row">
+          <button class="btn-act primary" onclick="cmdSit()">Sit Command</button>
+          <button class="btn-act primary" onclick="cmdStand()">Stand Command</button>
+          <button class="btn-act primary" onclick="feedPet('fish')">Drop Fish Treat</button>
+        </div>
       </div>
 
-      <!-- Scale & Speed Toolbar -->
-      <div class="toolbar-row" style="margin-top: 12px;">
-        <button class="btn-act" onclick="setScale(1.0)">📏 Size 1x</button>
-        <button class="btn-act" onclick="setScale(1.4)">📏 Size 1.5x</button>
-        <button class="btn-act" onclick="setScale(1.9)">📏 Size 2x</button>
-        <button class="btn-act" onclick="setSpeed(0.75)">🐌 Cozy Walk</button>
-        <button class="btn-act" onclick="setSpeed(1.2)">🚶 Normal Gait</button>
-        <button class="btn-act" onclick="setSpeed(2.5)">⚡ Cat Zoomies</button>
+      <!-- Care & Interactive Toys (3 Core Options) -->
+      <div class="toolbar-section">
+        <div class="toolbar-label">Interactive Toys & Care</div>
+        <div class="toolbar-row">
+          <button class="btn-act" id="btn-toy-toggle" onclick="toggleSleepToy()">Teddy Bear Plushie</button>
+          <button class="btn-act" id="btn-butterfly-toggle" onclick="toggleButterfly()">Butterfly (Follows Cursor)</button>
+          <button class="btn-act primary" onclick="triggerHideAndSeek()">Hide & Seek (Peek-a-Boo! 🙈)</button>
+          <button class="btn-act" onclick="testJump()">Jump (Undistorted)</button>
+        </div>
+      </div>
+
+      <!-- Trust / Likeness Testing -->
+      <div class="toolbar-section">
+        <div class="toolbar-label">Trust / Likeness Simulator</div>
+        <div class="toolbar-row">
+          <button class="btn-act" onclick="setTrust(15)">Set Low Trust (15% - Test Flee / Distrust)</button>
+          <button class="btn-act" onclick="setTrust(50)">Set Medium Trust (50%)</button>
+          <button class="btn-act" onclick="setTrust(90)">Set High Trust (90%)</button>
+        </div>
+      </div>
+
+      <!-- Scale & Speed -->
+      <div class="toolbar-section">
+        <div class="toolbar-label">Size & Speed</div>
+        <div class="toolbar-row">
+          <button class="btn-act" onclick="setScale(1.0)">Size 1x</button>
+          <button class="btn-act" onclick="setScale(1.4)">Size 1.5x</button>
+          <button class="btn-act" onclick="setScale(1.9)">Size 2x</button>
+          <button class="btn-act" onclick="setSpeed(0.8)">Cozy Pace</button>
+          <button class="btn-act" onclick="setSpeed(1.2)">Active</button>
+          <button class="btn-act" onclick="setSpeed(2.2)">Zoomies</button>
+        </div>
       </div>
     </div>
 
@@ -392,6 +332,23 @@
 
       petEngine = new window.CozyPetEngine(shadow);
       window.petEngine = petEngine;
+
+      // Update trust indicator regularly
+      setInterval(() => {
+        if (!petEngine) return;
+        const badge = document.getElementById('sim-trust-badge');
+        if (badge) {
+          const lk = petEngine.likeness;
+          let tier = 'Friendly';
+          if (lk < 25) tier = 'Distrustful & Fleeing';
+          else if (lk < 50) tier = 'Cautious';
+          else if (lk > 85) tier = 'Best Friend';
+          badge.textContent = `Trust: ${lk}% • ${tier}`;
+          badge.style.color = lk < 25 ? '#DC2626' : '#059669';
+          badge.style.borderColor = lk < 25 ? '#FCA5A5' : '#A7F3D0';
+          badge.style.backgroundColor = lk < 25 ? '#FEF2F2' : '#ECFDF5';
+        }
+      }, 500);
     })();
 
     function pickSkin(skin, el) {
@@ -403,47 +360,66 @@
       }
     }
 
-    function petSit() {
-      if (petEngine) {
-        petEngine.setState('sit');
-        petEngine.stateTimer = 0;
-        petEngine.stateDuration = 8.0;
-        petEngine.say('Loafing comfy! 🍞', 2000);
-      }
+    function cmdSit() {
+      if (petEngine) petEngine.executeCommand('sit');
     }
 
-    function petLick() {
-      if (petEngine) {
-        petEngine.setState('lick');
-        petEngine.stateTimer = 0;
-        petEngine.stateDuration = 8.0;
-        petEngine.say('Nom nom! ✨', 2000);
-      }
+    function cmdStand() {
+      if (petEngine) petEngine.executeCommand('stand');
     }
 
     function feedPet(type) {
       if (petEngine) petEngine.feedTreat(type);
     }
 
-    function petLove() {
-      if (petEngine) {
-        petEngine.handleSingleClick({
-          clientX: petEngine.x + 70,
-          clientY: petEngine.y + 40
-        });
-      }
+    function toggleSleepToy() {
+      if (!petEngine) return;
+      const active = petEngine.toggleSleepToy();
+      const btn = document.getElementById('btn-toy-toggle');
+      if (btn) btn.classList.toggle('active', active);
+    }
+
+    function toggleButterfly() {
+      if (!petEngine) return;
+      const active = petEngine.toggleButterfly();
+      const btn = document.getElementById('btn-butterfly-toggle');
+      if (btn) btn.classList.toggle('active', active);
     }
 
     function toggleLaser() {
-      if (petEngine) petEngine.toggleLaser();
+      if (!petEngine) return;
+      petEngine.toggleLaser();
+      const btn = document.getElementById('btn-laser-toggle');
+      if (btn) btn.classList.toggle('active', petEngine.laserActive);
     }
 
-    function petNap() {
-      if (petEngine) petEngine.nap();
+    function testJump() {
+      if (petEngine) {
+        petEngine.setState('jump');
+        petEngine.vy = -12;
+        petEngine.isGrounded = false;
+        petEngine.audio.chirp();
+      }
     }
 
-    function petWake() {
-      if (petEngine) petEngine.wakeUp();
+    function triggerHideAndSeek() {
+      if (petEngine) {
+        petEngine.triggerStealthHide();
+      }
+    }
+
+    function setTrust(val) {
+      if (petEngine) {
+        petEngine.likeness = val;
+        petEngine.friendship = val;
+        if (val < 25) {
+          petEngine.showDistrustBadge();
+          petEngine.say('(•ˋ _ ˊ•) Distrustful! Feed treats to tame!', 2400);
+        } else {
+          petEngine.hideDistrustBadge();
+          petEngine.say('(˶ᵔ ᵕ ᵔ˶) Trust restored! 💕', 2400);
+        }
+      }
     }
 
     function setScale(scale) {

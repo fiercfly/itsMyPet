@@ -1,18 +1,32 @@
 /**
  * Cozy Browser Pets - Web Audio Synthesizer
- * Zero-dependency, procedural sound generator for cozy cat meows, purrs, chirps, and eating effects.
+ * Clean procedural audio controller.
+ * Sounds enabled:
+ * 1. Quack on falling/splat (meme_quack.mp3)
+ * 2. Crunch on eating (mew_crunch.mp3) - stops if interrupted
+ * 3. Random meow every 10-15s (3 cute meow variations)
+ * NO sound on petting.
  */
 (function(root) {
+  let globalActiveAudio = null;
+  let globalActiveTimeout = null;
+
   class CozyAudioSynthesizer {
     constructor() {
       this.ctx = null;
       this.isMuted = false;
-      this.volume = 0.65;
-      this.purrOsc = null;
-      this.purrGain = null;
+      this.volume = 0.55;
       this.userUnlocked = false;
 
-      // Listen for user gesture to unlock Web Audio API cleanly
+      // Master normalized audio map - strictly 3 sound types
+      this.soundMap = {
+        'mew_short': { path: 'sounds/mew_short_cute.mp3', vol: 0.32, maxSec: 0.8 },
+        'mew_clean': { path: 'sounds/mew_meow_clean.mp3', vol: 0.30, maxSec: 1.1 },
+        'mew_kitten': { path: 'sounds/mew_kitten1.mp3', vol: 0.30, maxSec: 1.0 },
+        'mew_crunch': { path: 'sounds/mew_crunch.mp3', vol: 0.34, maxSec: 1.4 },
+        'meme_quack': { path: 'sounds/meme_quack.mp3', vol: 0.34, maxSec: 0.7 }
+      };
+
       const unlock = () => {
         this.userUnlocked = true;
         if (this.ctx && this.ctx.state === 'suspended') {
@@ -38,9 +52,7 @@
       if (!this.ctx) {
         const AudioCtx = root.AudioContext || root.webkitAudioContext || (typeof window !== 'undefined' ? (window.AudioContext || window.webkitAudioContext) : null);
         if (AudioCtx) {
-          try {
-            this.ctx = new AudioCtx();
-          } catch (e) {}
+          try { this.ctx = new AudioCtx(); } catch (e) {}
         }
       }
       if (this.ctx && this.ctx.state === 'suspended' && this.userUnlocked) {
@@ -51,7 +63,7 @@
     setMuted(muted) {
       this.isMuted = !!muted;
       if (this.isMuted) {
-        this.stopPurr();
+        this.stopAll();
       }
     }
 
@@ -59,358 +71,136 @@
       this.volume = Math.max(0, Math.min(1, vol));
     }
 
-    // Cute vocalized meow with formant harmonics & pitch envelope
-    meow(pitch = 1.0) {
-      if (this.isMuted) return;
-      this.init();
-      if (!this.ctx) return;
-
-      const t = this.ctx.currentTime;
-      const osc = this.ctx.createOscillator();
-      const gain = this.ctx.createGain();
-      const filter = this.ctx.createBiquadFilter();
-
-      osc.type = 'triangle';
-
-      // Pitch glide: starts medium, rises cute, then gently resolves down
-      const baseFreq = 540 * pitch;
-      osc.frequency.setValueAtTime(baseFreq, t);
-      osc.frequency.exponentialRampToValueAtTime(baseFreq * 1.45, t + 0.12);
-      osc.frequency.exponentialRampToValueAtTime(baseFreq * 0.85, t + 0.38);
-
-      // Formant filter for "m-e-o-w" mouth movement
-      filter.type = 'bandpass';
-      filter.frequency.setValueAtTime(800, t);
-      filter.frequency.exponentialRampToValueAtTime(1800, t + 0.15);
-      filter.frequency.exponentialRampToValueAtTime(1100, t + 0.38);
-      filter.Q.setValueAtTime(3.0, t);
-
-      // Volume envelope
-      const maxVol = 0.28 * this.volume;
-      gain.gain.setValueAtTime(0.001, t);
-      gain.gain.linearRampToValueAtTime(maxVol, t + 0.08);
-      gain.gain.exponentialRampToValueAtTime(0.001, t + 0.4);
-
-      osc.connect(filter);
-      filter.connect(gain);
-      gain.connect(this.ctx.destination);
-
-      osc.start(t);
-      osc.stop(t + 0.42);
-    }
-
-    // High-pitched friendly chirp / greeting mew
-    chirp() {
-      if (this.isMuted) return;
-      this.init();
-      if (!this.ctx) return;
-
-      const t = this.ctx.currentTime;
-      const osc = this.ctx.createOscillator();
-      const gain = this.ctx.createGain();
-
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(780, t);
-      osc.frequency.exponentialRampToValueAtTime(1200, t + 0.06);
-      osc.frequency.exponentialRampToValueAtTime(950, t + 0.14);
-
-      const maxVol = 0.22 * this.volume;
-      gain.gain.setValueAtTime(0.001, t);
-      gain.gain.linearRampToValueAtTime(maxVol, t + 0.03);
-      gain.gain.exponentialRampToValueAtTime(0.001, t + 0.16);
-
-      osc.connect(gain);
-      gain.connect(this.ctx.destination);
-
-      osc.start(t);
-      osc.stop(t + 0.18);
-    }
-
-    // Continuous rhythmic low-frequency rumble purr
-    startPurr(duration = 2.5) {
-      if (this.isMuted) return;
-      this.init();
-      if (!this.ctx) return;
-
-      this.stopPurr();
-
-      const t = this.ctx.currentTime;
-      const carrier = this.ctx.createOscillator();
-      const modulator = this.ctx.createOscillator();
-      const modGain = this.ctx.createGain();
-      const masterGain = this.ctx.createGain();
-      const filter = this.ctx.createBiquadFilter();
-
-      // Low frequency vibration (~28Hz feline purr fundamental)
-      carrier.type = 'sawtooth';
-      carrier.frequency.setValueAtTime(32, t);
-
-      // Amplitude modulation (~24Hz breath pulsing)
-      modulator.type = 'sine';
-      modulator.frequency.setValueAtTime(24, t);
-
-      modGain.gain.setValueAtTime(18, t);
-      modulator.connect(carrier.frequency);
-
-      // Lowpass filter to keep it warm and rumbling
-      filter.type = 'lowpass';
-      filter.frequency.setValueAtTime(180, t);
-
-      const maxVol = 0.15 * this.volume;
-      masterGain.gain.setValueAtTime(0.001, t);
-      masterGain.gain.linearRampToValueAtTime(maxVol, t + 0.3);
-      masterGain.gain.setValueAtTime(maxVol, t + duration - 0.4);
-      masterGain.gain.exponentialRampToValueAtTime(0.001, t + duration);
-
-      carrier.connect(filter);
-      filter.connect(masterGain);
-      masterGain.connect(this.ctx.destination);
-
-      carrier.start(t);
-      modulator.start(t);
-      carrier.stop(t + duration + 0.1);
-      modulator.stop(t + duration + 0.1);
-
-      this.purrOsc = carrier;
-      this.purrGain = masterGain;
-    }
-
-    stopPurr() {
-      if (this.purrGain && this.ctx) {
+    getSoundUrl(filename) {
+      if (typeof chrome !== 'undefined' && chrome.runtime && chrome.runtime.getURL) {
         try {
-          this.purrGain.gain.linearRampToValueAtTime(0.001, this.ctx.currentTime + 0.1);
+          return chrome.runtime.getURL(filename);
         } catch (e) {}
       }
-      this.purrOsc = null;
-      this.purrGain = null;
+      return filename;
     }
 
-    // Playful bubbly trill when belly is tickled
-    tickleTrill() {
-      if (this.isMuted) return;
-      this.init();
-      if (!this.ctx) return;
-
-      const t = this.ctx.currentTime;
-      for (let i = 0; i < 4; i++) {
-        const offset = t + i * 0.05;
-        const osc = this.ctx.createOscillator();
-        const gain = this.ctx.createGain();
-
-        osc.type = 'sine';
-        const f = 680 + i * 90 + Math.random() * 40;
-        osc.frequency.setValueAtTime(f, offset);
-        osc.frequency.exponentialRampToValueAtTime(f * 1.3, offset + 0.04);
-
-        const maxVol = 0.16 * this.volume;
-        gain.gain.setValueAtTime(0.001, offset);
-        gain.gain.linearRampToValueAtTime(maxVol, offset + 0.015);
-        gain.gain.exponentialRampToValueAtTime(0.001, offset + 0.05);
-
-        osc.connect(gain);
-        gain.connect(this.ctx.destination);
-
-        osc.start(offset);
-        osc.stop(offset + 0.06);
+    stopCurrent() {
+      if (globalActiveTimeout) {
+        clearTimeout(globalActiveTimeout);
+        globalActiveTimeout = null;
+      }
+      if (globalActiveAudio) {
+        try {
+          globalActiveAudio.pause();
+          globalActiveAudio.currentTime = 0;
+          globalActiveAudio.src = '';
+        } catch (e) {}
+        globalActiveAudio = null;
       }
     }
 
-    // Cute sleepy yawn
-    yawn() {
-      if (this.isMuted) return;
-      this.init();
-      if (!this.ctx) return;
-
-      const t = this.ctx.currentTime;
-      const osc = this.ctx.createOscillator();
-      const gain = this.ctx.createGain();
-      const filter = this.ctx.createBiquadFilter();
-
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(650, t);
-      osc.frequency.exponentialRampToValueAtTime(380, t + 0.7);
-
-      filter.type = 'lowpass';
-      filter.frequency.setValueAtTime(700, t);
-
-      const maxVol = 0.18 * this.volume;
-      gain.gain.setValueAtTime(0.001, t);
-      gain.gain.linearRampToValueAtTime(maxVol, t + 0.2);
-      gain.gain.exponentialRampToValueAtTime(0.001, t + 0.75);
-
-      osc.connect(filter);
-      filter.connect(gain);
-      gain.connect(this.ctx.destination);
-
-      osc.start(t);
-      osc.stop(t + 0.8);
+    stopAll() {
+      this.stopCurrent();
     }
 
-    // Crunchy munch sound when eating a treat
+    isAudioPlaying() {
+      return !!globalActiveAudio && !globalActiveAudio.paused && globalActiveAudio.currentTime > 0;
+    }
+
+    playSample(key, customVolMultiplier = 1.0, customMaxSec = 0) {
+      if (this.isMuted) return null;
+      const soundDef = this.soundMap[key];
+      if (!soundDef) return null;
+
+      this.stopCurrent();
+
+      const url = this.getSoundUrl(soundDef.path);
+      try {
+        const audio = new Audio(url);
+        const finalVol = Math.max(0, Math.min(1, this.volume * soundDef.vol * customVolMultiplier));
+        audio.volume = finalVol;
+        audio.playbackRate = 0.97 + Math.random() * 0.06;
+
+        const p = audio.play();
+        if (p && p.catch) p.catch(() => {});
+
+        globalActiveAudio = audio;
+
+        const limitSec = customMaxSec || soundDef.maxSec;
+        if (limitSec > 0) {
+          globalActiveTimeout = setTimeout(() => {
+            if (globalActiveAudio === audio) {
+              try {
+                audio.pause();
+                audio.currentTime = 0;
+              } catch(e) {}
+              globalActiveAudio = null;
+              globalActiveTimeout = null;
+            }
+          }, limitSec * 1000);
+        }
+
+        audio.onended = () => {
+          if (globalActiveAudio === audio) {
+            globalActiveAudio = null;
+            if (globalActiveTimeout) {
+              clearTimeout(globalActiveTimeout);
+              globalActiveTimeout = null;
+            }
+          }
+        };
+
+        return audio;
+      } catch (e) {
+        return null;
+      }
+    }
+
+    // --- APPROVED SOUND API ---
+
+    // 1. Quack ONLY on squishing upon falling
+    playSquishQuack() {
+      this.playSample('meme_quack', 1.0, 0.7);
+    }
+
+    // 2. Crunch on eating (stops immediately if interrupted)
     snack() {
-      if (this.isMuted) return;
-      this.init();
-      if (!this.ctx) return;
-
-      const t = this.ctx.currentTime;
-      for (let i = 0; i < 3; i++) {
-        const offset = t + i * 0.08;
-        const osc = this.ctx.createOscillator();
-        const gain = this.ctx.createGain();
-
-        osc.type = 'square';
-        osc.frequency.setValueAtTime(400 + Math.random() * 200, offset);
-        osc.frequency.exponentialRampToValueAtTime(150, offset + 0.05);
-
-        const maxVol = 0.12 * this.volume;
-        gain.gain.setValueAtTime(maxVol, offset);
-        gain.gain.exponentialRampToValueAtTime(0.001, offset + 0.05);
-
-        osc.connect(gain);
-        gain.connect(this.ctx.destination);
-
-        osc.start(offset);
-        osc.stop(offset + 0.06);
-      }
+      this.playSample('mew_crunch', 1.0, 1.4);
     }
 
-    // Soft thud landing bounce
-    landing() {
-      if (this.isMuted) return;
-      this.init();
-      if (!this.ctx) return;
-
-      const t = this.ctx.currentTime;
-      const osc = this.ctx.createOscillator();
-      const gain = this.ctx.createGain();
-
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(140, t);
-      osc.frequency.exponentialRampToValueAtTime(45, t + 0.12);
-
-      const maxVol = 0.2 * this.volume;
-      gain.gain.setValueAtTime(maxVol, t);
-      gain.gain.exponentialRampToValueAtTime(0.001, t + 0.14);
-
-      osc.connect(gain);
-      gain.connect(this.ctx.destination);
-
-      osc.start(t);
-      osc.stop(t + 0.15);
+    stopSnack() {
+      this.stopCurrent();
     }
 
-    // Startled / annoyed cat hiss
-    hiss() {
-      if (this.isMuted) return;
-      this.init();
-      if (!this.ctx) return;
-
-      const t = this.ctx.currentTime;
-      const bufferSize = Math.floor(this.ctx.sampleRate * 0.35);
-      const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
-      const data = buffer.getChannelData(0);
-      for (let i = 0; i < bufferSize; i++) {
-        data[i] = (Math.random() * 2 - 1) * 0.4;
-      }
-
-      const noise = this.ctx.createBufferSource();
-      noise.buffer = buffer;
-
-      const filter = this.ctx.createBiquadFilter();
-      filter.type = 'bandpass';
-      filter.frequency.setValueAtTime(3200, t);
-      filter.Q.setValueAtTime(2.5, t);
-
-      const gain = this.ctx.createGain();
-      const maxVol = 0.22 * this.volume;
-      gain.gain.setValueAtTime(0.001, t);
-      gain.gain.linearRampToValueAtTime(maxVol, t + 0.05);
-      gain.gain.exponentialRampToValueAtTime(0.001, t + 0.35);
-
-      noise.connect(filter);
-      filter.connect(gain);
-      gain.connect(this.ctx.destination);
-
-      noise.start(t);
+    // 3. Random meow once every 10-15s (using 3 meow sound variations)
+    playRandomMeow() {
+      if (this.isAudioPlaying()) return; // Skip if quack or crunch is currently playing!
+      const meowKeys = ['mew_short', 'mew_clean', 'mew_kitten'];
+      const chosen = meowKeys[Math.floor(Math.random() * meowKeys.length)];
+      this.playSample(chosen);
     }
 
-    // Startled bonk / flinch squeak
-    bonk() {
-      if (this.isMuted) return;
-      this.init();
-      if (!this.ctx) return;
-
-      const t = this.ctx.currentTime;
-      const osc = this.ctx.createOscillator();
-      const gain = this.ctx.createGain();
-
-      osc.type = 'triangle';
-      osc.frequency.setValueAtTime(450, t);
-      osc.frequency.exponentialRampToValueAtTime(850, t + 0.04);
-      osc.frequency.exponentialRampToValueAtTime(280, t + 0.14);
-
-      const maxVol = 0.25 * this.volume;
-      gain.gain.setValueAtTime(maxVol, t);
-      gain.gain.exponentialRampToValueAtTime(0.001, t + 0.16);
-
-      osc.connect(gain);
-      gain.connect(this.ctx.destination);
-
-      osc.start(t);
-      osc.stop(t + 0.16);
-    }
-
-    // Tiny surprise squeak
-    panic() {
-      if (this.isMuted) return;
-      this.init();
-      if (!this.ctx) return;
-
-      const t = this.ctx.currentTime;
-      const osc = this.ctx.createOscillator();
-      const gain = this.ctx.createGain();
-
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(850, t);
-      osc.frequency.exponentialRampToValueAtTime(1350, t + 0.08);
-
-      const maxVol = 0.16 * this.volume;
-      gain.gain.setValueAtTime(0.001, t);
-      gain.gain.linearRampToValueAtTime(maxVol, t + 0.02);
-      gain.gain.exponentialRampToValueAtTime(0.001, t + 0.1);
-
-      osc.connect(gain);
-      gain.connect(this.ctx.destination);
-
-      osc.start(t);
-      osc.stop(t + 0.12);
-    }
-
-    // Tiny magical metallic bell chime
-    bellChime() {
-      if (this.isMuted) return;
-      this.init();
-      if (!this.ctx) return;
-
-      const t = this.ctx.currentTime;
-      [1800, 2400, 3600].forEach((freq, i) => {
-        const osc = this.ctx.createOscillator();
-        const gain = this.ctx.createGain();
-
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(freq, t);
-
-        const maxVol = (0.09 / (i + 1)) * this.volume;
-        gain.gain.setValueAtTime(maxVol, t);
-        gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.55 + i * 0.1);
-
-        osc.connect(gain);
-        gain.connect(this.ctx.destination);
-
-        osc.start(t);
-        osc.stop(t + 0.7);
-      });
-    }
+    // NO sound on petting or other interactions
+    playAnnooo() {}
+    playTouchMew() {}
+    playPeekMew() {}
+    playShortMew() { this.playRandomMeow(); }
+    chirp() {}
+    petChin() {}
+    petEars() {}
+    petBelly() {}
+    petPaws() {}
+    boop() {}
+    startPurr() {}
+    stopPurr() {}
+    landing() {}
+    drinkWater() {}
+    meow() { this.playRandomMeow(); }
+    fallCry() {}
+    yawn() {}
+    panic() {}
+    playSiteToggle() {}
+    playHappyTrust() {}
+    playSad() {}
+    playWakeUp() {}
+    playBrosCooking() {}
+    playDropScream() {}
   }
 
   root.CozyAudioSynthesizer = CozyAudioSynthesizer;

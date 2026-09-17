@@ -3,41 +3,48 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cozy Browser Pets</title>
+  <title>Cozy Pets</title>
   <link rel="stylesheet" href="popup.css">
 </head>
 <body>
   <div class="popup-card">
     
-    <!-- Top Bar: Header & Master Switch -->
+    <!-- Top Bar -->
     <header class="popup-header">
       <div class="brand">
-        <span class="logo-emoji">🐾</span>
-        <div>
-          <h1 class="brand-title">Cozy Pets</h1>
-          <p class="brand-subtitle">Desktop Cat Companion</p>
-        </div>
+        <h1 class="brand-title">Cozy Pets 🐾</h1>
       </div>
-
-      <!-- Master Toggle Switch -->
-      <label class="toggle-switch" title="Toggle pet visibility on pages">
-        <input type="checkbox" id="master-toggle" checked>
-        <span class="slider"></span>
-      </label>
+      <div class="header-controls">
+        <button class="icon-btn" id="mute-btn" title="Toggle Sound (Mute/Unmute)">🎵</button>
+        <label class="toggle-switch" title="Toggle companion visibility">
+          <input type="checkbox" id="master-toggle" checked>
+          <span class="slider"></span>
+        </label>
+      </div>
     </header>
 
-    <!-- Pet Hero & Live Mini Preview -->
+    <!-- Hero section -->
     <section class="pet-hero">
-      <div class="avatar-pedestal" id="avatar-pedestal" title="Click to pet!">
+      <div class="avatar-pedestal" id="avatar-pedestal" title="Tap to pet your companion">
         <div class="mini-pet-rig skin-orange-tabby state-idle" id="preview-pet">
-          <!-- Mini Cat Rig for live preview -->
           <div class="cat-rig">
-            <div class="tail-anchor"><div class="tail-segment"><div class="tail-stripe s1"></div><div class="tail-stripe s2"></div></div></div>
+            <div class="tail-anchor">
+              <div class="single-cat-tail">
+                <svg class="tail-svg" viewBox="0 0 60 70" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path class="tail-path-bg" d="M 44 64 C 22 52, 8 32, 12 18 C 15 7, 28 6, 32 12" stroke-linecap="round" stroke-linejoin="round" />
+                  <path class="tail-path-main" d="M 44 64 C 22 52, 8 32, 12 18 C 15 7, 28 6, 32 12" stroke-linecap="round" stroke-linejoin="round" />
+                  <path class="tail-path-tip" d="M 15 14 C 18 8, 27 7, 32 12" stroke-linecap="round" stroke-linejoin="round" />
+                  <path class="tail-path-stripe s1" d="M 23 47 C 20 44, 18 42, 16 39" stroke-linecap="round" />
+                  <path class="tail-path-stripe s2" d="M 13 29 C 12 26, 12 24, 13 21" stroke-linecap="round" />
+                </svg>
+              </div>
+            </div>
             <div class="hind-legs"><div class="hind-leg left"></div><div class="hind-leg right"></div></div>
             <div class="torso"><div class="torso-belly"></div></div>
             <div class="front-paws"><div class="front-paw left"></div><div class="front-paw right"></div></div>
             <div class="cat-head">
-              <div class="ear left"></div><div class="ear right"></div>
+              <div class="ear left"><div class="ear-inner"></div></div>
+              <div class="ear right"><div class="ear-inner"></div></div>
               <div class="head-contour">
                 <div class="head-base"><div class="head-stripes"><div class="head-stripe l"></div><div class="head-stripe c"></div><div class="head-stripe r"></div></div></div>
                 <div class="muzzle-cheeks"><div class="cheek-puff l"></div><div class="cheek-puff r"></div></div>
@@ -45,6 +52,8 @@
               <div class="face-cluster">
                 <div class="blush-spots"><div class="blush"></div><div class="blush"></div></div>
                 <div class="eyes-cluster">
+                  <div class="panda-patch l"></div>
+                  <div class="panda-patch r"></div>
                   <div class="eye l"></div><div class="eye-closed l"></div><div class="eye-heart l">❤️</div>
                   <div class="eye r"></div><div class="eye-closed r"></div><div class="eye-heart r">❤️</div>
                 </div>
@@ -55,124 +64,34 @@
             </div>
           </div>
         </div>
-        <div class="tap-hint">Tap me! ✨</div>
       </div>
 
       <div class="pet-profile">
-        <input type="text" id="pet-name" class="pet-name-input" value="Mochi" maxlength="16" placeholder="Name your cat..." />
-        <span class="status-pill" id="pet-status-pill">Happy & Wandering ✨</span>
-        
-        <!-- Friendship Meter -->
-        <div class="friendship-wrapper">
-          <div class="friendship-header">
-            <span class="friendship-label" id="friendship-level">Lv. 1 Bestie</span>
-            <span class="friendship-val" id="friendship-percent">50%</span>
-          </div>
-          <div class="progress-track">
-            <div class="progress-fill" id="friendship-fill" style="width: 50%;"></div>
-          </div>
-        </div>
+        <input type="text" id="pet-name" class="pet-name-input" value="Mochi" maxlength="16" placeholder="Pet Name" />
+        <button class="hide-hide-btn" id="btn-hide-pet" title="Hide pet into stealth peeking mode (pops up randomly!)">
+          🙈 Hide & Surprise
+        </button>
       </div>
     </section>
 
-    <!-- Coat / Skin Selector -->
+    <!-- Care & Toys (3 Core Options) -->
     <section class="section-group">
-      <div class="section-title">Coat Pattern</div>
-      <div class="skin-grid">
-        <button class="skin-card active" data-skin="orange-tabby">
-          <span class="swatch orange"></span>
-          <span class="skin-name">Orange Tabby</span>
+      <div class="section-label">Toys & Treats</div>
+      <div class="btn-grid-3">
+        <button class="tool-btn" id="btn-treat" title="Drop fresh fish treat on page">
+          <span class="tool-icon">🐟</span>
+          <span class="tool-name">Fish Cracker</span>
         </button>
-        <button class="skin-card" data-skin="calico">
-          <span class="swatch calico"></span>
-          <span class="skin-name">Calico</span>
+        <button class="tool-btn" id="btn-sleep-toy" title="Teddy plushie for cozy sleep">
+          <span class="tool-icon">🧸</span>
+          <span class="tool-name">Teddy Plush</span>
         </button>
-        <button class="skin-card" data-skin="tuxedo">
-          <span class="swatch tuxedo"></span>
-          <span class="skin-name">Tuxedo</span>
-        </button>
-        <button class="skin-card" data-skin="void-cat">
-          <span class="swatch void"></span>
-          <span class="skin-name">Void / Black</span>
-        </button>
-        <button class="skin-card" data-skin="siamese">
-          <span class="swatch siamese"></span>
-          <span class="skin-name">Siamese</span>
-        </button>
-        <button class="skin-card" data-skin="silver-tabby">
-          <span class="swatch silver"></span>
-          <span class="skin-name">Silver Tabby</span>
+        <button class="tool-btn" id="btn-butterfly" title="Cute butterfly chase toy">
+          <span class="tool-icon">🦋</span>
+          <span class="tool-name">Butterfly</span>
         </button>
       </div>
     </section>
-
-    <!-- Scale & Roaming Speed -->
-    <section class="section-group">
-      <div class="dual-row">
-        <!-- Scale -->
-        <div class="sub-col">
-          <div class="section-title">Pet Size</div>
-          <div class="segment-control" id="scale-control">
-            <button class="seg-btn active" data-val="1.0">1x</button>
-            <button class="seg-btn" data-val="1.4">1.5x</button>
-            <button class="seg-btn" data-val="1.9">2x</button>
-          </div>
-        </div>
-
-        <!-- Speed -->
-        <div class="sub-col">
-          <div class="section-title">Roaming Speed</div>
-          <div class="segment-control" id="speed-control">
-            <button class="seg-btn" data-val="0.75">Cozy</button>
-            <button class="seg-btn active" data-val="1.15">Active</button>
-            <button class="seg-btn" data-val="2.4">Zoomies</button>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Quick Care & Fun Actions -->
-    <section class="section-group">
-      <div class="section-title">Quick Care & Play</div>
-      <div class="actions-grid">
-        <button class="care-btn" id="btn-feed-fish" title="Feed a delicious fish snack">
-          <span class="btn-emoji">🐟</span>
-          <span class="btn-txt">Fish</span>
-        </button>
-        <button class="care-btn" id="btn-feed-treat" title="Give a yummy treat">
-          <span class="btn-emoji">🍖</span>
-          <span class="btn-txt">Treat</span>
-        </button>
-        <button class="care-btn" id="btn-pet-love" title="Shower with love">
-          <span class="btn-emoji">❤️</span>
-          <span class="btn-txt">Love</span>
-        </button>
-        <button class="care-btn" id="btn-laser-play" title="Play laser chase">
-          <span class="btn-emoji">🔴</span>
-          <span class="btn-txt">Laser</span>
-        </button>
-        <button class="care-btn" id="btn-sleep-nap" title="Cozy nap time">
-          <span class="btn-emoji">💤</span>
-          <span class="btn-txt">Nap</span>
-        </button>
-      </div>
-    </section>
-
-    <!-- Audio Settings -->
-    <section class="section-group audio-row">
-      <div class="audio-header">
-        <span class="audio-label">🔊 Meow & Purr Sound</span>
-        <button class="mute-toggle-btn" id="mute-btn" title="Toggle Sound">🔊</button>
-      </div>
-      <div class="slider-row">
-        <input type="range" id="volume-slider" min="0" max="1" step="0.05" value="0.65" class="cozy-range" />
-      </div>
-    </section>
-
-    <!-- Footer Tip -->
-    <footer class="popup-footer">
-      💡 <b>Tip:</b> Drag your cat by the scruff to lift them, or let them roam across any webpage!
-    </footer>
 
   </div>
 

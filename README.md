@@ -4,6 +4,31 @@ An open-source browser extension (Manifest V3) that adds an interactive virtual 
 
 ---
 
+## ⚡ Easy 2-Step Setup (For Non-Tech Users)
+
+Works on **Google Chrome**, **Microsoft Edge**, **Brave**, **Opera**, and **Vivaldi**.
+
+### Step 1: Download & Unzip
+1. Download **[`CozyPets.zip`](CozyPets.zip)** from this repository (or click [Download CozyPets.zip](https://github.com/fiercfly/itsMyPet/raw/main/CozyPets.zip)).
+2. Double-click the downloaded `CozyPets.zip` file to unzip/extract it on your computer.
+
+### Step 2: Add to Your Browser
+
+#### For Google Chrome / Brave / Opera / Vivaldi
+1. Type `chrome://extensions` in your address bar and press Enter.
+2. Turn on **Developer mode** (toggle switch in the top-right corner).
+3. Click **Load unpacked** (top-left button).
+4. Select the unzipped `CozyPets` folder.
+
+#### For Microsoft Edge
+1. Type `edge://extensions` in your address bar and press Enter.
+2. Turn on **Developer mode** (toggle switch in the bottom-left sidebar).
+3. Click **Load unpacked** (top-left button) and select the unzipped `CozyPets` folder.
+
+Your companion is ready! Click any website tab and enjoy your cozy browser pet!
+
+---
+
 ## Features
 
 - **Autonomous Behavior**: Wanders, sits, stretches, grooms, and naps on browser tabs.
@@ -15,35 +40,11 @@ An open-source browser extension (Manifest V3) that adds an interactive virtual 
 
 ---
 
-## Installation Guide (Load Unpacked)
-
-Cozy Pets works on all Chromium browsers (**Google Chrome**, **Microsoft Edge**, **Brave**, **Opera**, **Vivaldi**).
-
-### 1. Download the Extension
-Clone or download this repository to your computer:
-```bash
-git clone https://github.com/fiercfly/itsMyPet.git
-```
-
-### 2. Load into Your Browser
-
-#### Google Chrome / Brave / Opera / Vivaldi
-1. Open your browser and navigate to `chrome://extensions`.
-2. Enable **Developer mode** (toggle switch in the top-right corner).
-3. Click **Load unpacked** (top-left button).
-4. Select the downloaded `itsMyPet` folder.
-
-#### Microsoft Edge
-1. Open Edge and navigate to `edge://extensions`.
-2. Enable **Developer mode** (toggle switch in the left sidebar).
-3. Click **Load unpacked** and select the downloaded `itsMyPet` folder.
-
----
-
 ## Directory Structure
 
 ```
 itsMyPet/
+├── CozyPets.zip               # Ready-to-use zip file for browser loading
 ├── manifest.json              # Manifest V3 extension configuration
 ├── README.md                  # Documentation & setup guide
 ├── PRIVACY_POLICY.md          # Privacy policy

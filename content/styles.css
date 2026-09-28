@@ -1020,14 +1020,24 @@
 .state-run .cozy-pet-shadow { animation: runShadow 0.36s infinite ease-in-out; }
 
 /* --- JUMP STATE (Graceful Aerodynamic Leap - Zero Facial Distortion) --- */
-.state-jump .cat-rig { transform: translateY(-3px) scaleY(1.04) scaleX(0.96); }
-.state-jump .cat-head { transform: translateX(-50%) translateY(0) rotate(2deg); }
-.state-jump .front-paw.left  { transform: rotate(-25deg) translateY(-4px); }
-.state-jump .front-paw.right { transform: rotate(25deg) translateY(-4px); }
-.state-jump .hind-leg.left   { transform: rotate(18deg) translateY(3px); }
-.state-jump .hind-leg.right  { transform: rotate(-18deg) translateY(3px); }
-.state-jump .single-cat-tail { transform: rotate(-20deg) skewX(6deg); }
-.state-jump .cozy-pet-shadow { transform: translateX(-50%) scale(0.5); opacity: 0.15; }
+.state-jump .cat-rig,
+.state-jump .cat-head,
+.state-jump .front-paw,
+.state-jump .hind-leg,
+.state-jump .single-cat-tail,
+.state-jump .cozy-pet-shadow {
+  will-change: transform;
+}
+.state-jump .cat-rig {
+  animation: jumpFlightGlide 0.45s infinite alternate ease-in-out;
+}
+.state-jump .cat-head        { animation: jumpHead 0.45s infinite alternate ease-in-out; }
+.state-jump .front-paw.left  { animation: jumpFrontPawLeft 0.45s infinite alternate ease-in-out; }
+.state-jump .front-paw.right { animation: jumpFrontPawRight 0.45s infinite alternate ease-in-out; }
+.state-jump .hind-leg.left   { animation: jumpHindLegLeft 0.45s infinite alternate ease-in-out; }
+.state-jump .hind-leg.right  { animation: jumpHindLegRight 0.45s infinite alternate ease-in-out; }
+.state-jump .single-cat-tail { animation: jumpTail 0.45s infinite alternate ease-in-out; }
+.state-jump .cozy-pet-shadow { animation: jumpShadow 0.45s infinite alternate ease-in-out; }
 
 /* --- SIT & LICK PAWS STATE --- */
 .state-sit .cat-rig,
@@ -1627,7 +1637,41 @@
   50%      { transform: translateX(-50%) scaleX(0.7); opacity: 0.14; }
 }
 
-/* Jump keyframes removed: static pose used for smoother ballistic flight */
+/* --- JUMP AERODYNAMIC FLIGHT GLIDE (Uniform Leap Motion) --- */
+@keyframes jumpFlightGlide {
+  0%   { transform: translate3d(0, 0, 0) scaleY(1.02) scaleX(0.98) rotate(-2deg); }
+  100% { transform: translate3d(0, -4px, 0) scaleY(0.98) scaleX(1.02) rotate(2deg); }
+}
+
+@keyframes jumpShadow {
+  0%   { transform: translate3d(-50%, 0, 0) scale(0.65); opacity: 0.25; }
+  100% { transform: translate3d(-50%, 0, 0) scale(0.5); opacity: 0.15; }
+}
+
+@keyframes jumpHead {
+  0%   { transform: translate3d(-50%, 0, 0) rotate(-1deg); }
+  100% { transform: translate3d(-50%, -1px, 0) rotate(1deg); }
+}
+@keyframes jumpFrontPawLeft {
+  0%   { transform: translate3d(0, -2px, 0) rotate(-18deg); }
+  100% { transform: translate3d(0, -4px, 0) rotate(-24deg); }
+}
+@keyframes jumpFrontPawRight {
+  0%   { transform: translate3d(0, -2px, 0) rotate(18deg); }
+  100% { transform: translate3d(0, -4px, 0) rotate(24deg); }
+}
+@keyframes jumpHindLegLeft {
+  0%   { transform: translate3d(0, 2px, 0) rotate(14deg); }
+  100% { transform: translate3d(0, 0, 0) rotate(8deg); }
+}
+@keyframes jumpHindLegRight {
+  0%   { transform: translate3d(0, 2px, 0) rotate(-14deg); }
+  100% { transform: translate3d(0, 0, 0) rotate(-8deg); }
+}
+@keyframes jumpTail {
+  0%   { transform: translate3d(0, 0, 0) rotate(-22deg) skewX(4deg); }
+  100% { transform: translate3d(0, 0, 0) rotate(-32deg) skewX(8deg); }
+}
 
 /* --- LICKING KEYFRAMES (Visible Lapping Tongue & Paw) --- */
 @keyframes pawLickingAction {

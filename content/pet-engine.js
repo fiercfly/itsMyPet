@@ -2213,18 +2213,18 @@
 
       if (this.state === 'dragged') {
         const rot = Math.max(-20, Math.min(20, this.dragInertiaX || 0));
-        this.actorEl.style.transform = `translate3d(${Math.round(this.x)}px, ${Math.round(this.y)}px, 0) scale(${this.scale * flip}, ${this.scale}) rotate(${rot}deg)`;
+        this.actorEl.style.transform = `translate3d(${this.x.toFixed(2)}px, ${this.y.toFixed(2)}px, 0) scale(${this.scale * flip}, ${this.scale}) rotate(${rot.toFixed(2)}deg)`;
         return;
       }
 
       if (!this.isGrounded && (this.state === 'jump' || Math.abs(this.vy) > 1.5)) {
         // Smooth parabolic rotation while airborne / thrown in air
         const flightRot = Math.max(-24, Math.min(24, (this.vx * 2.2) + (this.vy < 0 ? -6 : 6) * flip));
-        this.actorEl.style.transform = `translate3d(${Math.round(this.x)}px, ${Math.round(this.y)}px, 0) scale(${this.scale * flip}, ${this.scale}) rotate(${flightRot}deg)`;
+        this.actorEl.style.transform = `translate3d(${this.x.toFixed(2)}px, ${this.y.toFixed(2)}px, 0) scale(${this.scale * flip}, ${this.scale}) rotate(${flightRot.toFixed(2)}deg)`;
         return;
       }
 
-      this.actorEl.style.transform = `translate3d(${Math.round(this.x)}px, ${Math.round(this.y)}px, 0) scale(${this.scale * flip}, ${this.scale})`;
+      this.actorEl.style.transform = `translate3d(${this.x.toFixed(2)}px, ${this.y.toFixed(2)}px, 0) scale(${this.scale * flip}, ${this.scale})`;
     }
 
     spawnDustPuff(x, y) {

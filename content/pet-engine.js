@@ -1585,6 +1585,20 @@
       // Make cursor into butterfly
       if (this.butterflyActive) {
         document.body.classList.add('cozy-butterfly-cursor');
+        // Inject global style so the cursor works across the entire page (outside Shadow DOM)
+        if (!document.getElementById('cozy-butterfly-cursor-style')) {
+          const style = document.createElement('style');
+          style.id = 'cozy-butterfly-cursor-style';
+          // Use the local PNG extracted from the zip!
+          const cursorUrl = chrome.runtime.getURL('icons/butterfly_cursor.png');
+          style.innerHTML = `
+            body.cozy-butterfly-cursor,
+            body.cozy-butterfly-cursor * {
+              cursor: url('${cursorUrl}') 0 0, auto !important;
+            }
+          `;
+          document.head.appendChild(style);
+        }
       } else {
         document.body.classList.remove('cozy-butterfly-cursor');
       }

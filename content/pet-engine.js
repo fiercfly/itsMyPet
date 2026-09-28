@@ -7,6 +7,7 @@
     constructor(shadowRoot, options = {}) {
       this.shadow = shadowRoot;
       this.options = options;
+      this.instanceId = options.instanceId || 'default';
 
       // Audio Synthesizer
       this.audio = new (root.CozyAudioSynthesizer || function() {
@@ -142,7 +143,7 @@
       // Create Actor Container
       this.actorEl = document.createElement('div');
       this.actorEl.className = `cozy-pet-actor skin-${this.skin} state-${this.state}`;
-      this.actorEl.id = 'cozy-cat-actor';
+      this.actorEl.id = `cozy-cat-actor-${this.instanceId}`;
       this.actorEl.setAttribute('role', 'img');
       this.actorEl.setAttribute('aria-label', 'Cozy Browser Cat Pet');
 
@@ -417,12 +418,12 @@
       // Save state when switching tabs or closing page to preserve position
       const saveState = () => {
         if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
-          chrome.storage.local.set({
-            petPosX: this.x,
-            petPosY: this.y,
-            petState: this.state,
-            petDirection: this.direction
-          });
+          const stateToSave = {};
+          stateToSave[`petPosX_${this.instanceId}`] = this.x;
+          stateToSave[`petPosY_${this.instanceId}`] = this.y;
+          stateToSave[`petState_${this.instanceId}`] = this.state;
+          stateToSave[`petDirection_${this.instanceId}`] = this.direction;
+          chrome.storage.local.set(stateToSave);
         }
       };
 
@@ -444,17 +445,22 @@
 
     loadSettings() {
       if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
-        chrome.storage.local.get(['enabled', 'skin', 'scale', 'speedMultiplier', 'soundMuted', 'volume', 'likeness', 'friendship', 'focusMode', 'hydrationReminder', 'petPosX', 'petPosY', 'petState', 'petDirection'], (data) => {
+        chrome.storage.local.get(['enabled', 'skin', 'scale', 'speedMultiplier', 'soundMuted', 'volume', 'likeness', 'friendship', 'focusMode', 'hydrationReminder', `petPosX_${this.instanceId}`, `petPosY_${this.instanceId}`, `petState_${this.instanceId}`, `petDirection_${this.instanceId}`], (data) => {
           if (data) {
-            if (data.petPosX !== undefined && data.petPosY !== undefined) {
+            const px = data[`petPosX_${this.instanceId}`];
+            const py = data[`petPosY_${this.instanceId}`];
+            const pdir = data[`petDirection_${this.instanceId}`];
+            const pstate = data[`petState_${this.instanceId}`];
+
+            if (px !== undefined && py !== undefined) {
               // Clamp loaded positions to current window bounds
-              this.x = Math.max(20, Math.min(window.innerWidth - 160, data.petPosX));
-              this.y = Math.max(20, Math.min(window.innerHeight - this.baseHeight - 10, data.petPosY));
-              this.updateTransform();
+              this.x = Math.max(20, Math.min(window.innerWidth - 160, px));
+              this.y = Math.max(20, Math.min(window.innerHeight - this.baseHeight - 10, py));
+              if (this.updateTransform) this.updateTransform();
             }
-            if (data.petDirection !== undefined) this.direction = data.petDirection;
-            if (data.petState !== undefined && data.petState !== 'dragged' && data.petState !== 'jump' && data.petState !== 'landing') {
-              this.state = data.petState;
+            if (pdir !== undefined) this.direction = pdir;
+            if (pstate !== undefined && pstate !== 'dragged' && pstate !== 'jump' && pstate !== 'landing') {
+              this.state = pstate;
             }
             if (data.enabled !== undefined) this.setEnabled(data.enabled);
             if (data.skin) this.setSkin(data.skin);

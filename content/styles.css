@@ -126,8 +126,8 @@
   --paw: #0F172A;
   --ear-inner: #1E293B;
   --nose: #0F172A;
-  --eye: #FFFFFF;
-  --eye-shine: #0F172A;
+  --eye: #3B82F6;
+  --eye-shine: #FFFFFF;
   --outline: #0F172A;
   --blush: rgba(251, 113, 133, 0.45);
 }
@@ -201,17 +201,6 @@
   border-radius: 50% 50% 45% 45%;
   transform: rotate(16deg);
   z-index: 1;
-}
-.skin-cute-panda .eyes-cluster .eye {
-  z-index: 2 !important;
-  background: #FFFFFF !important;
-}
-.skin-cute-panda .eyes-cluster .eye::before {
-  background: #0F172A !important;
-}
-.skin-cute-panda .eyes-cluster .eye-closed {
-  stroke: #FFFFFF !important;
-  z-index: 2 !important;
 }
 .skin-cute-panda .tail-anchor {
   width: 24px !important;
@@ -2266,9 +2255,9 @@
 
 @keyframes edgePeekTopAnim {
   0%   { opacity: 0; transform: rotate(180deg) translateY(70px) scale(0.92); }
-  22%  { opacity: 1; transform: rotate(180deg) translateY(-24px) scale(1.04); }
-  32%  { transform: rotate(180deg) translateY(-18px) scale(1); }
-  78%  { opacity: 1; transform: rotate(180deg) translateY(-18px) scale(1); }
+  22%  { opacity: 1; transform: rotate(180deg) translateY(24px) scale(1.04); }
+  32%  { transform: rotate(180deg) translateY(30px) scale(1); }
+  78%  { opacity: 1; transform: rotate(180deg) translateY(30px) scale(1); }
   100% { opacity: 0; transform: rotate(180deg) translateY(75px) scale(0.92); }
 }
 
@@ -2314,6 +2303,7 @@
 .state-edge-peek.edge-left .front-paw.right {
   top: 65px !important;
   left: 36px !important;
+  right: auto !important;
   transform: rotate(-15deg) scale(1.1) !important;
   z-index: 10 !important;
 }
@@ -2341,6 +2331,7 @@
 .state-edge-peek.edge-right .front-paw.left {
   top: 65px !important;
   right: 36px !important;
+  left: auto !important;
   transform: rotate(15deg) scale(1.1) !important;
   z-index: 10 !important;
 }

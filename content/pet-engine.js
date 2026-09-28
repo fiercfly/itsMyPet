@@ -414,6 +414,18 @@
         this.clampToBounds();
       });
 
+      // Save state when switching tabs or closing page to preserve position
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'hidden' && typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
+          chrome.storage.local.set({
+            petPosX: this.x,
+            petPosY: this.y,
+            petState: this.state,
+            petDirection: this.direction
+          });
+        }
+      });
+
       // Storage Sync
       if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.onChanged) {
         chrome.storage.onChanged.addListener((changes, area) => {
@@ -426,8 +438,18 @@
 
     loadSettings() {
       if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
-        chrome.storage.local.get(['enabled', 'skin', 'scale', 'speedMultiplier', 'soundMuted', 'volume', 'likeness', 'friendship', 'focusMode', 'hydrationReminder'], (data) => {
+        chrome.storage.local.get(['enabled', 'skin', 'scale', 'speedMultiplier', 'soundMuted', 'volume', 'likeness', 'friendship', 'focusMode', 'hydrationReminder', 'petPosX', 'petPosY', 'petState', 'petDirection'], (data) => {
           if (data) {
+            if (data.petPosX !== undefined && data.petPosY !== undefined) {
+              // Clamp loaded positions to current window bounds
+              this.x = Math.max(20, Math.min(window.innerWidth - 160, data.petPosX));
+              this.y = Math.max(20, Math.min(window.innerHeight - this.baseHeight - 10, data.petPosY));
+              this.updateTransform();
+            }
+            if (data.petDirection !== undefined) this.direction = data.petDirection;
+            if (data.petState !== undefined && data.petState !== 'dragged' && data.petState !== 'jump' && data.petState !== 'landing') {
+              this.state = data.petState;
+            }
             if (data.enabled !== undefined) this.setEnabled(data.enabled);
             if (data.skin) this.setSkin(data.skin);
             if (data.scale) this.setScale(data.scale);

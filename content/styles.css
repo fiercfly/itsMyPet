@@ -2573,3 +2573,9 @@
 }
 
 
+
+/* Butterfly Custom Cursor */
+body.cozy-butterfly-cursor,
+body.cozy-butterfly-cursor * {
+  cursor: url('https://cdn.cursors-4u.net/css-previews/cute-light-pink-flying-butterfly-7f1a819a-css.webp') 0 0, auto !important;
+}

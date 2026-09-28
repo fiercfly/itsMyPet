@@ -1582,11 +1582,11 @@
     toggleButterfly() {
       this.butterflyActive = !this.butterflyActive;
       
-      // Make cursor invisible while chasing butterfly
+      // Make cursor into butterfly
       if (this.butterflyActive) {
-        document.body.style.cursor = 'none';
+        document.body.classList.add('cozy-butterfly-cursor');
       } else {
-        document.body.style.cursor = '';
+        document.body.classList.remove('cozy-butterfly-cursor');
       }
 
       if (!this.butterflyActive) {
@@ -1616,6 +1616,7 @@
 
       this.butterflyEl.style.left = `${this.butterflyX}px`;
       this.butterflyEl.style.top = `${this.butterflyY}px`;
+      this.butterflyEl.style.display = 'none'; // Hidden because we use CSS cursor now
       this.shadow.appendChild(this.butterflyEl);
 
       this.say('mew! ✨', 1600);

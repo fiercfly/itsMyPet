@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Cozy Pets — Virtual Cat & Desktop Companion",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "An adorable, autonomous virtual pet companion for your browser tabs! Interactive toys, laser chase, cozy naps & smooth physics.",
   "permissions": [
     "storage"

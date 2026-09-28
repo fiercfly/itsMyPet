@@ -449,7 +449,7 @@
 
     loadSettings() {
       if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
-        chrome.storage.local.get(['enabled', 'skin', 'scale', 'speedMultiplier', 'soundMuted', 'volume', 'likeness', 'friendship', 'focusMode', 'hydrationReminder', `petPosX_${this.instanceId}`, `petPosY_${this.instanceId}`, `petState_${this.instanceId}`, `petDirection_${this.instanceId}`], (data) => {
+        chrome.storage.local.get(['enabled', 'skin', 'scale', 'speedMultiplier', 'soundMuted', 'volume', 'likeness', 'friendship', 'focusMode', 'hydrationReminder', 'butterflyActive', 'sleepToyActive', `petPosX_${this.instanceId}`, `petPosY_${this.instanceId}`, `petState_${this.instanceId}`, `petDirection_${this.instanceId}`], (data) => {
           if (data) {
             const px = data[`petPosX_${this.instanceId}`];
             const py = data[`petPosY_${this.instanceId}`];
@@ -477,6 +477,15 @@
             const lk = data.likeness !== undefined ? data.likeness : (data.friendship !== undefined ? data.friendship : 75);
             this.likeness = Math.max(0, Math.min(100, lk));
             this.friendship = this.likeness;
+
+            this.clampToBounds(true);
+
+            if (data.butterflyActive !== undefined && data.butterflyActive) {
+              this.toggleButterfly(true, true);
+            }
+            if (data.sleepToyActive !== undefined && data.sleepToyActive) {
+              this.toggleSleepToy(true, true);
+            }
           }
         });
       }
@@ -497,6 +506,13 @@
       } else if (changes.friendship) {
         this.likeness = Math.max(0, Math.min(100, changes.friendship.newValue));
         this.friendship = this.likeness;
+      }
+      
+      if (changes.butterflyActive && this.butterflyActive !== changes.butterflyActive.newValue) {
+        this.toggleButterfly(changes.butterflyActive.newValue, true);
+      }
+      if (changes.sleepToyActive && this.sleepToyActive !== changes.sleepToyActive.newValue) {
+        this.toggleSleepToy(changes.sleepToyActive.newValue, true);
       }
     }
 
@@ -1476,8 +1492,16 @@
     // INTERACTIVE SLEEP TOY (Draggable Baby Teddy / Pillow)
     // ==========================================
 
-    toggleSleepToy() {
-      this.sleepToyActive = !this.sleepToyActive;
+    toggleSleepToy(forceState = null, skipSave = false) {
+      if (forceState !== null) {
+        this.sleepToyActive = !!forceState;
+      } else {
+        this.sleepToyActive = !this.sleepToyActive;
+      }
+      
+      if (!skipSave && typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
+        try { chrome.storage.local.set({ sleepToyActive: this.sleepToyActive }); } catch(e){}
+      }
 
       if (!this.sleepToyActive) {
         if (this.actorEl) {
@@ -1579,8 +1603,16 @@
     // INTERACTIVE BUTTERFLY CHASE 🦋
     // ==========================================
 
-    toggleButterfly() {
-      this.butterflyActive = !this.butterflyActive;
+    toggleButterfly(forceState = null, skipSave = false) {
+      if (forceState !== null) {
+        this.butterflyActive = !!forceState;
+      } else {
+        this.butterflyActive = !this.butterflyActive;
+      }
+      
+      if (!skipSave && typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
+        try { chrome.storage.local.set({ butterflyActive: this.butterflyActive }); } catch(e){}
+      }
       
       // Make cursor into butterfly
       if (this.butterflyActive) {
@@ -2098,6 +2130,32 @@
         this.butterflyEl.style.transform = `translate(-50%, -50%) scaleX(${flipX})`;
         this.butterflyEl.style.left = `${this.butterflyX}px`;
         this.butterflyEl.style.top = `${this.butterflyY}px`;
+        this.butterflyEl.style.display = 'none'; // Hidden because we use CSS cursor now
+        
+        // Spawn magical butterfly trail sparks occasionally
+        if (Math.random() < 0.15) {
+          const spark = document.createElement('div');
+          spark.style.position = 'absolute';
+          spark.style.left = `${this.butterflyX + (Math.random() * 20 - 10)}px`;
+          spark.style.top = `${this.butterflyY + (Math.random() * 20 - 10)}px`;
+          spark.style.width = '5px';
+          spark.style.height = '5px';
+          spark.style.background = 'radial-gradient(circle, #fff 20%, #f472b6 80%)';
+          spark.style.borderRadius = '50%';
+          spark.style.pointerEvents = 'none';
+          spark.style.zIndex = '2147483647';
+          spark.style.transition = 'transform 0.8s ease-out, opacity 0.8s ease-out';
+          spark.style.opacity = '0.9';
+          spark.style.boxShadow = '0 0 4px #f472b6';
+          this.shadow.appendChild(spark);
+          
+          requestAnimationFrame(() => {
+            spark.style.transform = `translate(${Math.random() * 40 - 20}px, ${Math.random() * 40}px) scale(0)`;
+            spark.style.opacity = '0';
+          });
+          
+          setTimeout(() => spark.remove(), 800);
+        }
       }
     }
 

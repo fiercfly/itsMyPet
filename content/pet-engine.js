@@ -1718,6 +1718,7 @@
 
     updateAI(dt) {
       if (this.isDragging || this.isStealthHidden) return;
+      if (this.jumpCooldown > 0) this.jumpCooldown -= dt;
 
       // Desk Loaf Nap Mode (Stationary loaf when grounded, falls with full gravity if airborne)
       if (this.isDeskLoaf) {
@@ -1831,10 +1832,11 @@
         } else {
           // Playful pounce / swat! (Tiny Kitten Roar meme)
           this.vx *= 0.5;
-          if (this.isGrounded && Math.random() < 0.04) {
+          if (this.isGrounded && Math.random() < 0.04 && (this.jumpCooldown || 0) <= 0) {
             this.setState('jump');
             this.vy = -10.5;
             this.isGrounded = false;
+            this.jumpCooldown = 2.5;
             this.audio.playShortMew();
             this.say('mew! 🐾', 1400);
           }
@@ -1883,10 +1885,11 @@
           this.vx = this.direction * 5.5 * this.speedMultiplier;
         } else {
           this.vx = 0;
-          if (this.isGrounded && Math.random() < 0.35) {
+          if (this.isGrounded && Math.random() < 0.35 && (this.jumpCooldown || 0) <= 0) {
             this.setState('jump');
             this.vy = -10;
             this.isGrounded = false;
+            this.jumpCooldown = 2.0;
             this.audio.playShortMew();
           }
         }
@@ -2030,11 +2033,17 @@
       }
       // 5% Dynamic Play / Hop
       else {
-        this.setState('jump');
-        this.vy = -9;
-        this.vx = this.direction * 2.0;
-        this.isGrounded = false;
-        this.stateDuration = 1.0;
+        if ((this.jumpCooldown || 0) <= 0) {
+          this.setState('jump');
+          this.vy = -9;
+          this.vx = this.direction * 2.0;
+          this.isGrounded = false;
+          this.stateDuration = 1.0;
+          this.jumpCooldown = 2.0;
+        } else {
+          this.setState('idle');
+          this.stateDuration = 1.0;
+        }
       }
     }
 

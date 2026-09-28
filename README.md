@@ -4,7 +4,7 @@ An adorable, open-source browser extension (Manifest V3) that adds an interactiv
 Features realistic physics, interactive toys, cozy focus mode, and zero external dependencies!
 
 [![Available on Edge Add-ons](https://img.shields.io/badge/Available%20on-Edge%20Add--ons-0078D7?style=for-the-badge&logo=microsoft-edge)](https://microsoftedge.microsoft.com/addons/detail/cozy-pets-%E2%80%94-virtual-cat-/nmababpceaihanjjpojmhfnmabihhgmg)
-[![Download Zip](https://img.shields.io/badge/Download-CozyPets.zip-2ea44f?style=for-the-badge&logo=github)](https://github.com/fiercfly/itsMyPet/blob/main/CozyPets.zip?raw=true)
+[![Download Zip](https://img.shields.io/badge/Download-CozyPets.zip-2ea44f?style=for-the-badge&logo=github)](https://github.com/fiercfly/itsMyPet/blob/main/CozyPets.zip)
 
 ---
 
@@ -15,7 +15,7 @@ Features realistic physics, interactive toys, cozy focus mode, and zero external
 Works on **Google Chrome**, **Microsoft Edge**, **Brave**, **Opera**, and **Vivaldi**.
 
 ### Step 1: Download
-1. Click the green button above, or click here to **[Download CozyPets.zip](https://github.com/fiercfly/itsMyPet/blob/main/CozyPets.zip?raw=true)**.
+1. Click the green button above, or click here to **[Download CozyPets.zip](https://github.com/fiercfly/itsMyPet/blob/main/CozyPets.zip)**.
 2. Double-click the downloaded `CozyPets.zip` file to unzip/extract it on your computer.
 
 ### Step 2: Add to Your Browser

@@ -21,16 +21,16 @@ Works on **Google Chrome**, **Microsoft Edge**, **Brave**, **Opera**, and **Viva
 ### Step 2: Add to Your Browser
 
 #### For Google Chrome / Brave / Opera / Vivaldi
-1. Type `chrome://extensions` in your address bar and press Enter.
-2. Turn on **Developer mode** (toggle switch in the top-right corner).
-3. Click **Load unpacked** (top-left button).
+1. Navigate to your extensions page. You can copy and paste `chrome://extensions` (or `brave://extensions` for Brave, `opera://extensions` for Opera) in your address bar and press Enter.
+2. Turn on **[Developer mode](https://developer.chrome.com/docs/extensions/mv3/getstarted/development-basics/#load-unpacked)** (the toggle switch in the top-right corner).
+3. Click the **[Load unpacked](https://developer.chrome.com/docs/extensions/mv3/getstarted/development-basics/#load-unpacked)** button (top-left corner).
 4. Select the unzipped `CozyPets` folder you downloaded in Step 1.
 
 #### For Microsoft Edge
-1. You can install it directly from the **[Edge Add-ons Store](https://microsoftedge.microsoft.com/addons/detail/cozy-pets-%E2%80%94-virtual-cat-/nmababpceaihanjjpojmhfnmabihhgmg)**, OR:
-2. Type `edge://extensions` in your address bar and press Enter.
-3. Turn on **Developer mode** (toggle switch in the bottom-left sidebar).
-4. Click **Load unpacked** (top-left button) and select the unzipped `CozyPets` folder.
+1. You can easily install it directly from the **[Edge Add-ons Store](https://microsoftedge.microsoft.com/addons/detail/cozy-pets-%E2%80%94-virtual-cat-/nmababpceaihanjjpojmhfnmabihhgmg)**, OR to install manually:
+2. Copy and paste `edge://extensions` in your address bar and press Enter.
+3. Turn on **[Developer mode](https://learn.microsoft.com/en-us/microsoft-edge/extensions-chromium/getting-started/extension-sideloading)** (the toggle switch in the bottom-left sidebar).
+4. Click **[Load unpacked](https://learn.microsoft.com/en-us/microsoft-edge/extensions-chromium/getting-started/extension-sideloading)** (top-left button) and select the unzipped `CozyPets` folder.
 
 🎉 **Your companion is ready!** Click any website tab and enjoy your cozy browser pet!
 

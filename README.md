@@ -3,7 +3,7 @@
 An adorable, open-source browser extension (Manifest V3) that adds an interactive virtual pet companion to your web browser. 
 Features realistic physics, interactive toys, cozy focus mode, and zero external dependencies!
 
-[![Available on Edge Add-ons](https://img.shields.io/badge/Available%20on-Edge%20Add--ons-0078D7?style=for-the-badge&logo=microsoft-edge)](https://microsoftedge.microsoft.com/addons)
+[![Available on Edge Add-ons](https://img.shields.io/badge/Available%20on-Edge%20Add--ons-0078D7?style=for-the-badge&logo=microsoft-edge)](https://microsoftedge.microsoft.com/addons/detail/cozy-pets-%E2%80%94-virtual-cat-/nmababpceaihanjjpojmhfnmabihhgmg)
 [![Download Zip](https://img.shields.io/badge/Download-CozyPets.zip-2ea44f?style=for-the-badge&logo=github)](https://github.com/fiercfly/itsMyPet/blob/main/CozyPets.zip?raw=true)
 
 ---
@@ -27,7 +27,7 @@ Works on **Google Chrome**, **Microsoft Edge**, **Brave**, **Opera**, and **Viva
 4. Select the unzipped `CozyPets` folder you downloaded in Step 1.
 
 #### For Microsoft Edge
-1. You can install it directly from the Edge Store (Link coming soon!), OR:
+1. You can install it directly from the **[Edge Add-ons Store](https://microsoftedge.microsoft.com/addons/detail/cozy-pets-%E2%80%94-virtual-cat-/nmababpceaihanjjpojmhfnmabihhgmg)**, OR:
 2. Type `edge://extensions` in your address bar and press Enter.
 3. Turn on **Developer mode** (toggle switch in the bottom-left sidebar).
 4. Click **Load unpacked** (top-left button) and select the unzipped `CozyPets` folder.

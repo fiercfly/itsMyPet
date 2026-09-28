@@ -1641,7 +1641,6 @@
 
       this.butterflyEl.style.left = `${this.butterflyX}px`;
       this.butterflyEl.style.top = `${this.butterflyY}px`;
-      this.butterflyEl.style.display = 'none'; // Hidden because we use CSS cursor now
       this.shadow.appendChild(this.butterflyEl);
 
       this.say('mew! ✨', 1600);

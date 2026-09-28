@@ -1020,15 +1020,16 @@
 .state-run .cozy-pet-shadow { animation: runShadow 0.36s infinite ease-in-out; }
 
 /* --- JUMP STATE (Graceful Aerodynamic Leap - Zero Facial Distortion) --- */
-.state-jump .cat-rig { animation: jumpFlightGlide 0.35s infinite alternate ease-in-out; }
-.state-jump .torso { animation: jumpTorsoStretch 0.35s infinite alternate ease-in-out; }
-.state-jump .cat-head { animation: jumpHeadLook 0.35s infinite alternate ease-in-out; }
-.state-jump .front-paw.left  { animation: jumpPawL 0.35s infinite alternate ease-in-out; }
-.state-jump .front-paw.right { animation: jumpPawR 0.35s infinite alternate ease-in-out; }
-.state-jump .hind-leg.left   { animation: jumpLegL 0.35s infinite alternate ease-in-out; }
-.state-jump .hind-leg.right  { animation: jumpLegR 0.35s infinite alternate ease-in-out; }
-.state-jump .single-cat-tail { animation: jumpTailFlap 0.35s infinite alternate ease-in-out; }
-.state-jump .cozy-pet-shadow { animation: jumpShadow 0.35s infinite alternate ease-in-out; }
+.state-jump .cat-rig {
+  animation: jumpFlightGlide 0.42s infinite alternate ease-in-out;
+}
+.state-jump .cat-head        { transform: translateX(-50%) translateY(0) rotate(0deg); }
+.state-jump .front-paw.left  { transform: rotate(-18deg) translateY(-2px); }
+.state-jump .front-paw.right { transform: rotate(18deg) translateY(-2px); }
+.state-jump .hind-leg.left   { transform: rotate(14deg) translateY(2px); }
+.state-jump .hind-leg.right  { transform: rotate(-14deg) translateY(2px); }
+.state-jump .single-cat-tail { transform: rotate(-22deg) skewX(4deg); }
+.state-jump .cozy-pet-shadow { animation: jumpShadow 0.42s infinite alternate ease-in-out; }
 
 /* --- SIT & LICK PAWS STATE --- */
 .state-sit .cat-rig,
@@ -1628,38 +1629,10 @@
   50%      { transform: translateX(-50%) scaleX(0.7); opacity: 0.14; }
 }
 
-/* --- JUMP AERODYNAMIC FLIGHT GLIDE (Fluid Leap Motion) --- */
+/* --- JUMP AERODYNAMIC FLIGHT GLIDE (Uniform Leap Motion) --- */
 @keyframes jumpFlightGlide {
-  0%   { transform: translateY(0) rotate(-4deg); }
-  100% { transform: translateY(-6px) rotate(2deg); }
-}
-@keyframes jumpTorsoStretch {
-  0%   { transform: scaleY(1.08) scaleX(0.92); }
-  100% { transform: scaleY(1.02) scaleX(0.98); }
-}
-@keyframes jumpHeadLook {
-  0%   { transform: translateX(-50%) translateY(-2px) rotate(3deg); }
-  100% { transform: translateX(-50%) translateY(2px) rotate(-3deg); }
-}
-@keyframes jumpPawL {
-  0%   { transform: rotate(-35deg) translateY(-6px); }
-  100% { transform: rotate(-15deg) translateY(-2px); }
-}
-@keyframes jumpPawR {
-  0%   { transform: rotate(35deg) translateY(-6px); }
-  100% { transform: rotate(15deg) translateY(-2px); }
-}
-@keyframes jumpLegL {
-  0%   { transform: rotate(30deg) translateY(6px); }
-  100% { transform: rotate(10deg) translateY(2px); }
-}
-@keyframes jumpLegR {
-  0%   { transform: rotate(-30deg) translateY(6px); }
-  100% { transform: rotate(-10deg) translateY(2px); }
-}
-@keyframes jumpTailFlap {
-  0%   { transform: rotate(-35deg) skewX(10deg); }
-  100% { transform: rotate(-15deg) skewX(2deg); }
+  0%   { transform: translateY(0) rotate(-2deg); }
+  100% { transform: translateY(-3px) rotate(2deg); }
 }
 
 @keyframes jumpShadow {

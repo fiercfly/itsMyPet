@@ -76,9 +76,9 @@
       this.y = window.innerHeight - this.baseHeight - 10;
       this.vx = 0;
       this.vy = 0;
-      this.gravity = 0.95;
+      this.gravity = 2.1;
       this.friction = 0.92;
-      this.maxFallSpeed = 22;
+      this.maxFallSpeed = 34;
       this.bounceDamping = 0.32;
       this.direction = -1; // -1 = facing left, 1 = facing right
       this.isGrounded = true;
@@ -1123,7 +1123,7 @@
       this.x = Math.max(60, Math.min(window.innerWidth - 200, Math.random() * (window.innerWidth - 260) + 60));
       this.y = floorY - 140;
       this.vx = (Math.random() - 0.5) * 4;
-      this.vy = -3;
+      this.vy = -5;
       this.isGrounded = false;
       this.updateTransform();
 
@@ -1833,7 +1833,7 @@
           this.vx *= 0.5;
           if (this.isGrounded && Math.random() < 0.35) {
             this.setState('jump');
-            this.vy = -10.5;
+            this.vy = -17;
             this.isGrounded = false;
             this.audio.playShortMew();
             this.say('mew! 🐾', 1400);
@@ -1885,7 +1885,7 @@
           this.vx = 0;
           if (this.isGrounded && Math.random() < 0.35) {
             this.setState('jump');
-            this.vy = -10;
+            this.vy = -16.5;
             this.isGrounded = false;
             this.audio.playShortMew();
           }
@@ -2031,7 +2031,7 @@
       // 5% Dynamic Play / Hop
       else {
         this.setState('jump');
-        this.vy = -9;
+        this.vy = -15;
         this.vx = this.direction * 2.0;
         this.isGrounded = false;
         this.stateDuration = 1.0;

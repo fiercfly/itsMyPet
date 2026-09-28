@@ -415,8 +415,8 @@
       });
 
       // Save state when switching tabs or closing page to preserve position
-      document.addEventListener('visibilitychange', () => {
-        if (document.visibilityState === 'hidden' && typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
+      const saveState = () => {
+        if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
           chrome.storage.local.set({
             petPosX: this.x,
             petPosY: this.y,
@@ -424,7 +424,13 @@
             petDirection: this.direction
           });
         }
+      };
+
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'hidden') saveState();
       });
+      window.addEventListener('pagehide', saveState);
+      window.addEventListener('beforeunload', saveState);
 
       // Storage Sync
       if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.onChanged) {

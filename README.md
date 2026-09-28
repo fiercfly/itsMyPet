@@ -4,7 +4,7 @@ An adorable, open-source browser extension (Manifest V3) that adds an interactiv
 Features realistic physics, interactive toys, cozy focus mode, and zero external dependencies!
 
 [![Available on Edge Add-ons](https://img.shields.io/badge/Available%20on-Edge%20Add--ons-0078D7?style=for-the-badge&logo=microsoft-edge)](https://microsoftedge.microsoft.com/addons)
-[![Download Zip](https://img.shields.io/badge/Download-CozyPets.zip-2ea44f?style=for-the-badge&logo=github)](#)
+[![Download Zip](https://img.shields.io/badge/Download-CozyPets.zip-2ea44f?style=for-the-badge&logo=github)](https://github.com/fiercfly/itsMyPet/raw/main/CozyPets.zip)
 
 ---
 

@@ -1613,27 +1613,6 @@
       if (!skipSave && typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
         try { chrome.storage.local.set({ butterflyActive: this.butterflyActive }); } catch(e){}
       }
-      
-      // Make cursor into butterfly
-      if (this.butterflyActive) {
-        document.body.classList.add('cozy-butterfly-cursor');
-        // Inject global style so the cursor works across the entire page (outside Shadow DOM)
-        if (!document.getElementById('cozy-butterfly-cursor-style')) {
-          const style = document.createElement('style');
-          style.id = 'cozy-butterfly-cursor-style';
-          // Use the local PNG extracted from the zip!
-          const cursorUrl = chrome.runtime.getURL('icons/butterfly_cursor.png');
-          style.innerHTML = `
-            body.cozy-butterfly-cursor,
-            body.cozy-butterfly-cursor * {
-              cursor: url('${cursorUrl}') 0 0, auto !important;
-            }
-          `;
-          document.head.appendChild(style);
-        }
-      } else {
-        document.body.classList.remove('cozy-butterfly-cursor');
-      }
 
       if (!this.butterflyActive) {
         if (this.butterflyEl) {
@@ -2116,21 +2095,21 @@
       if (this.butterflyActive && this.butterflyEl) {
         this.butterflyTime += dt;
 
-        const targetX = this.lastCursorX || (this.x + 90);
-        const targetY = this.lastCursorY || this.getFloorY() - 80;
+        // Target center point follows cursor position (or hovers above pet if no mouse event yet)
+        const targetX = (this.lastCursorX || (this.x + 90)) + Math.sin(this.butterflyTime * 3.2) * 26;
+        const targetY = Math.max(30, (this.lastCursorY ? this.lastCursorY - 25 : this.getFloorY() - 80) + Math.cos(this.butterflyTime * 2.6) * 20);
 
+        // Smoothly glide towards mouse cursor with soft natural easing
         const dx = targetX - this.butterflyX;
-        
-        // Snap precisely to the mouse cursor to replace it!
-        this.butterflyX = targetX;
-        this.butterflyY = targetY;
+        const dy = targetY - this.butterflyY;
+        this.butterflyX += dx * 0.14;
+        this.butterflyY += dy * 0.14;
 
-        // Still flip based on movement direction
-        const flipX = dx < 0 ? -1 : 1;
+        // Orient butterfly towards motion direction
+        const flipX = dx < -0.5 ? -1 : 1;
         this.butterflyEl.style.transform = `translate(-50%, -50%) scaleX(${flipX})`;
         this.butterflyEl.style.left = `${this.butterflyX}px`;
         this.butterflyEl.style.top = `${this.butterflyY}px`;
-        this.butterflyEl.style.display = 'none'; // Hidden because we use CSS cursor now
         
         // Spawn magical butterfly trail sparks occasionally
         if (Math.random() < 0.15) {

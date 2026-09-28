@@ -2118,13 +2118,13 @@
           spark.style.top = `${this.butterflyY + (Math.random() * 20 - 10)}px`;
           spark.style.width = '5px';
           spark.style.height = '5px';
-          spark.style.background = 'radial-gradient(circle, #fff 20%, #f472b6 80%)';
+          spark.style.background = 'radial-gradient(circle, #fff 20%, #60A5FA 80%)';
           spark.style.borderRadius = '50%';
           spark.style.pointerEvents = 'none';
           spark.style.zIndex = '2147483647';
           spark.style.transition = 'transform 0.8s ease-out, opacity 0.8s ease-out';
           spark.style.opacity = '0.9';
-          spark.style.boxShadow = '0 0 4px #f472b6';
+          spark.style.boxShadow = '0 0 4px #3B82F6';
           this.shadow.appendChild(spark);
           
           requestAnimationFrame(() => {

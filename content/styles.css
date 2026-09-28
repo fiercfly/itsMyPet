@@ -2018,12 +2018,12 @@
    ========================================================================== */
 .cozy-butterfly {
   position: absolute;
-  width: 32px;
-  height: 28px;
+  width: 44px;
+  height: 38px;
   pointer-events: none;
   z-index: 12;
   transform: translate(-50%, -50%);
-  filter: drop-shadow(0 3px 6px rgba(244, 114, 182, 0.45));
+  filter: drop-shadow(0 4px 6px rgba(37, 99, 235, 0.4));
   transition: transform 0.08s linear;
 }
 
@@ -2044,31 +2044,37 @@
 
 .butterfly-torso {
   width: 5px;
-  height: 12px;
-  background: #3B0764;
+  height: 18px;
+  background: #171717;
   border-radius: 4px;
   z-index: 3;
 }
 
 .butterfly-wing {
   position: absolute;
-  width: 16px;
-  height: 22px;
-  background: radial-gradient(circle at 70% 30%, #fff 5%, #F472B6 20%, #A855F7 80%);
-  border: 1px solid #7E22CE;
-  border-radius: 50% 50% 10% 50%;
-  box-shadow: inset -2px -2px 6px rgba(0,0,0,0.15), 0 0 8px rgba(244, 114, 182, 0.6);
+  width: 22px;
+  height: 32px;
+  background-color: #2563EB;
+  background-image: 
+    radial-gradient(circle at 80% 15%, #fff 1.5px, transparent 2px),
+    radial-gradient(circle at 90% 35%, #fff 1px, transparent 1.5px),
+    radial-gradient(circle at 85% 65%, #fff 1.5px, transparent 2px),
+    radial-gradient(circle at 60% 88%, #fff 1px, transparent 1.5px),
+    radial-gradient(ellipse at 40% 50%, #93C5FD 0%, #3B82F6 50%, transparent 100%);
+  border: 3px solid #171717;
+  border-radius: 45% 55% 15% 55% / 45% 60% 30% 75%;
+  box-shadow: inset -2px -2px 6px rgba(0,0,0,0.3);
   z-index: 2;
 }
 
 .butterfly-wing.left {
-  left: 2px;
+  left: 1px;
   transform-origin: right center;
   animation: cuteWingFlapL 0.16s infinite alternate ease-in-out;
 }
 
 .butterfly-wing.right {
-  right: 2px;
+  right: 1px;
   transform-origin: left center;
   transform: scaleX(-1);
   animation: cuteWingFlapR 0.16s infinite alternate ease-in-out;

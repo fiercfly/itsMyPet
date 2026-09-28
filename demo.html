@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Cozy Pets Demo</title>
+  <style>
+    body { font-family: system-ui, sans-serif; background-color: #f8fafc; height: 100vh; margin: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+    h1 { color: #1e293b; font-size: 3rem; margin-bottom: 1rem; }
+    p { color: #475569; font-size: 1.2rem; max-width: 600px; text-align: center; line-height: 1.6; }
+    .btn { margin-top: 2rem; padding: 12px 24px; background: #3b82f6; color: white; border: none; border-radius: 8px; font-size: 1.1rem; cursor: pointer; transition: background 0.2s; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); }
+    .btn:hover { background: #2563eb; }
+  </style>
+</head>
+<body>
+  <h1>🐾 Cozy Pets Demo</h1>
+  <p>This is a live demonstration of the Cozy Pets extension physics and behaviors.</p>
+  <button class="btn" id="demo-btn">Spawn Butterfly</button>
+
+  <script>
+    // Mock Chrome Extension API for standalone demo
+    window.chrome = {
+      runtime: {
+        getURL: function(path) { return path; }
+      },
+      storage: {
+        local: {
+          get: function(keys, cb) { cb({}); },
+          set: function(obj, cb) { if(cb) cb(); }
+        }
+      }
+    };
+  </script>
+  <script src="content/audio-synthesizer.js"></script>
+  <script src="content/pet-engine.js"></script>
+  <script src="content/content.js"></script>
+  <script>
+    setTimeout(() => {
+      document.getElementById('demo-btn').addEventListener('click', () => {
+        window.postMessage({ type: 'COZY_PET_COMMAND', command: 'TOGGLE_BUTTERFLY' }, '*');
+      });
+      window.postMessage({ type: 'COZY_PET_COMMAND', command: 'WAKE_UP' }, '*');
+    }, 500);
+  </script>
+</body>
+</html>

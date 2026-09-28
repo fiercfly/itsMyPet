@@ -2202,6 +2202,12 @@
   cursor: pointer !important;
 }
 
+.state-edge-peek .back-leg,
+.state-edge-peek .cat-tail {
+  opacity: 0 !important;
+  visibility: hidden !important;
+}
+
 .state-edge-peek .cat-head {
   transform: translateX(-50%) translateY(-6px) rotate(4deg) !important;
 }

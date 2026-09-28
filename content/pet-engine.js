@@ -2060,15 +2060,17 @@
 
       const floorY = this.getFloorY();
 
+      const timeScale = dt * 60;
+
       // Apply Gravity
       if (!this.isGrounded) {
-        this.vy += this.gravity;
+        this.vy += this.gravity * timeScale;
         if (this.vy > this.maxFallSpeed) this.vy = this.maxFallSpeed;
       }
 
       // Integrate velocities
-      this.x += this.vx;
-      this.y += this.vy;
+      this.x += this.vx * timeScale;
+      this.y += this.vy * timeScale;
 
       // Ground Collision Detection
       if (this.y >= floorY) {

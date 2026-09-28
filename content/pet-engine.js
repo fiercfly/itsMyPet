@@ -417,13 +417,17 @@
 
       // Save state when switching tabs or closing page to preserve position
       const saveState = () => {
-        if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
-          const stateToSave = {};
-          stateToSave[`petPosX_${this.instanceId}`] = this.x;
-          stateToSave[`petPosY_${this.instanceId}`] = this.y;
-          stateToSave[`petState_${this.instanceId}`] = this.state;
-          stateToSave[`petDirection_${this.instanceId}`] = this.direction;
-          chrome.storage.local.set(stateToSave);
+        try {
+          if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local && chrome.runtime?.id) {
+            const stateToSave = {};
+            stateToSave[`petPosX_${this.instanceId}`] = this.x;
+            stateToSave[`petPosY_${this.instanceId}`] = this.y;
+            stateToSave[`petState_${this.instanceId}`] = this.state;
+            stateToSave[`petDirection_${this.instanceId}`] = this.direction;
+            chrome.storage.local.set(stateToSave);
+          }
+        } catch (err) {
+          // Extension context invalidated, ignore error
         }
       };
 
@@ -1356,7 +1360,10 @@
       }
 
       // Spawn flopping fresh fish target on the floor
-      const fishX = Math.max(50, Math.min(window.innerWidth - 60, this.x + (this.direction > 0 ? 160 : -140)));
+      let fishX = this.x + (this.direction > 0 ? 160 : -140);
+      if (fishX < 50) fishX = this.x + 160;
+      if (fishX > window.innerWidth - 60) fishX = this.x - 140;
+      fishX = Math.max(50, Math.min(window.innerWidth - 60, fishX));
       const fishY = this.getFloorY() + 85;
 
       this.fishTargetEl = document.createElement('div');
@@ -1574,6 +1581,13 @@
 
     toggleButterfly() {
       this.butterflyActive = !this.butterflyActive;
+      
+      // Make cursor invisible while chasing butterfly
+      if (this.butterflyActive) {
+        document.body.style.cursor = 'none';
+      } else {
+        document.body.style.cursor = '';
+      }
 
       if (!this.butterflyActive) {
         if (this.butterflyEl) {
@@ -1668,11 +1682,7 @@
         
         // If it stopped cuddling, ensure the physical toy drops on the floor
         if (wasCuddling && !isCuddling && this.sleepToyEl) {
-          this.sleepToyX = this.x + 70;
-          this.sleepToyY = this.getFloorY() - 30; // drop on floor
-          this.sleepToyEl.style.left = `${this.sleepToyX}px`;
-          this.sleepToyEl.style.top = `${this.sleepToyY}px`;
-          this.sleepToyEl.style.display = 'block';
+          this.sleepToyEl.style.display = 'none';
         }
       }
 
@@ -2059,18 +2069,17 @@
       if (this.butterflyActive && this.butterflyEl) {
         this.butterflyTime += dt;
 
-        // Target center point follows cursor position (or hovers above pet if no mouse event yet)
-        const targetX = (this.lastCursorX || (this.x + 90)) + Math.sin(this.butterflyTime * 3.2) * 26;
-        const targetY = Math.max(30, (this.lastCursorY ? this.lastCursorY - 25 : this.getFloorY() - 80) + Math.cos(this.butterflyTime * 2.6) * 20);
+        const targetX = this.lastCursorX || (this.x + 90);
+        const targetY = this.lastCursorY || this.getFloorY() - 80;
 
-        // Smoothly glide towards mouse cursor with soft natural easing
         const dx = targetX - this.butterflyX;
-        const dy = targetY - this.butterflyY;
-        this.butterflyX += dx * 0.14;
-        this.butterflyY += dy * 0.14;
+        
+        // Snap precisely to the mouse cursor to replace it!
+        this.butterflyX = targetX;
+        this.butterflyY = targetY;
 
-        // Orient butterfly towards motion direction
-        const flipX = dx < -0.5 ? -1 : 1;
+        // Still flip based on movement direction
+        const flipX = dx < 0 ? -1 : 1;
         this.butterflyEl.style.transform = `translate(-50%, -50%) scaleX(${flipX})`;
         this.butterflyEl.style.left = `${this.butterflyX}px`;
         this.butterflyEl.style.top = `${this.butterflyY}px`;

@@ -1258,9 +1258,6 @@
 }
 
 .state-sleep .front-paw {
-  width: 20px;
-  height: 26px;
-  border-radius: 10px;
   transform: rotate(0deg);
 }
 
@@ -2023,9 +2020,7 @@
   position: absolute;
   width: 32px;
   height: 28px;
-  pointer-events: auto;
-  cursor: pointer;
-  user-select: none;
+  pointer-events: none;
   z-index: 12;
   transform: translate(-50%, -50%);
   filter: drop-shadow(0 3px 6px rgba(244, 114, 182, 0.45));

@@ -2039,23 +2039,30 @@
   justify-content: center;
   align-items: center;
   position: relative;
+  animation: butterflyBob 1.2s infinite alternate ease-in-out;
+}
+
+@keyframes butterflyBob {
+  0% { transform: translateY(0px); }
+  100% { transform: translateY(-4px); }
 }
 
 .butterfly-torso {
-  width: 4px;
-  height: 14px;
-  background: #4C1D95;
-  border-radius: 2px;
+  width: 5px;
+  height: 12px;
+  background: #3B0764;
+  border-radius: 4px;
   z-index: 3;
 }
 
 .butterfly-wing {
   position: absolute;
-  width: 15px;
-  height: 20px;
-  background: linear-gradient(135deg, #F472B6 0%, #C084FC 60%, #60A5FA 100%);
-  border: 1.5px solid #4C1D95;
-  border-radius: 12px 14px 4px 10px;
+  width: 16px;
+  height: 22px;
+  background: radial-gradient(circle at 70% 30%, #fff 5%, #F472B6 20%, #A855F7 80%);
+  border: 1px solid #7E22CE;
+  border-radius: 50% 50% 10% 50%;
+  box-shadow: inset -2px -2px 6px rgba(0,0,0,0.15), 0 0 8px rgba(244, 114, 182, 0.6);
   z-index: 2;
 }
 
@@ -2470,6 +2477,11 @@
   z-index: 20;
   pointer-events: none;
   filter: drop-shadow(0 2px 4px rgba(225, 29, 72, 0.4));
+}
+.cozy-pet-actor.dir-flipped .cat-head .head-bow {
+  right: auto !important;
+  left: 14px !important;
+  transform: scaleX(-1) rotate(-14deg) !important;
 }
 
 .head-bow-svg {

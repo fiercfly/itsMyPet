@@ -161,7 +161,7 @@
 
     // 2. Crunch on eating (stops immediately if interrupted)
     snack() {
-      this.playSample('mew_crunch', 1.0, 1.4);
+      this.playSample('mew_crunch', 1.0, 0.8);
     }
 
     stopSnack() {

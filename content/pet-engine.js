@@ -733,7 +733,6 @@
       // If dragging the pet itself while cuddling, release cuddle pose
       if (this.actorEl && this.actorEl.classList.contains('cuddling-teddy')) {
         this.actorEl.classList.remove('cuddling-teddy');
-        if (this.sleepToyEl) this.sleepToyEl.style.display = 'block';
       }
 
       this.pointerDownX = e.clientX;
@@ -1663,8 +1662,18 @@
       this.state = newState;
 
       if (this.actorEl) {
-        const isCuddling = this.actorEl.classList.contains('cuddling-teddy') && newState === 'sleep';
+        const wasCuddling = this.actorEl.classList.contains('cuddling-teddy');
+        const isCuddling = wasCuddling && newState === 'sleep';
         this.actorEl.className = `cozy-pet-actor skin-${this.skin} state-${this.state}${isCuddling ? ' cuddling-teddy' : ''}`;
+        
+        // If it stopped cuddling, ensure the physical toy drops on the floor
+        if (wasCuddling && !isCuddling && this.sleepToyEl) {
+          this.sleepToyX = this.x + 70;
+          this.sleepToyY = this.getFloorY() - 30; // drop on floor
+          this.sleepToyEl.style.left = `${this.sleepToyX}px`;
+          this.sleepToyEl.style.top = `${this.sleepToyY}px`;
+          this.sleepToyEl.style.display = 'block';
+        }
       }
 
       if (newState === 'sleep') {
@@ -1787,7 +1796,7 @@
         } else {
           // Playful pounce / swat! (Tiny Kitten Roar meme)
           this.vx *= 0.5;
-          if (this.isGrounded && Math.random() < 0.35) {
+          if (this.isGrounded && Math.random() < 0.04) {
             this.setState('jump');
             this.vy = -10.5;
             this.isGrounded = false;
@@ -2073,7 +2082,7 @@
 
       if (this.isHighDrop) {
         this.isHighDrop = false;
-        this.audio.playSquishQuack(); // Quack ONLY on squishing upon falling
+        setTimeout(() => this.audio.playSquishQuack(), 120); // Quack EXACTLY on squish peak
         this.setState('rolling-ball'); // Triggers smooth pancakeSquishInflate animation
         this.say('mewww!! 🐾', 1600);
         setTimeout(() => {
@@ -2133,6 +2142,12 @@
     updateTransform() {
       if (!this.actorEl) return;
       const flip = this.direction < 0 ? -1 : 1;
+      
+      if (flip === -1) {
+        this.actorEl.classList.add('dir-flipped');
+      } else {
+        this.actorEl.classList.remove('dir-flipped');
+      }
 
       if (this.state === 'dragged') {
         const rot = Math.max(-20, Math.min(20, this.dragInertiaX || 0));

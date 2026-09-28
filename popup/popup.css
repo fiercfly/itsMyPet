@@ -165,12 +165,10 @@ input:checked + .slider:before {
   transform: scale(0.96);
 }
 
-.mini-pet-rig {
-  width: 140px;
-  height: 160px;
-  transform: scale(0.42) translateY(24px);
-  transform-origin: center center;
-  position: absolute;
+.pet-profile-pic {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   pointer-events: none;
 }
 

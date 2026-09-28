@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     skin: 'orange-tabby',
     scale: 1.0,
     speedMultiplier: 1.0,
-    petName: 'Mochi',
+    petName: 'Billuuu',
     soundMuted: false,
     volume: 0.65,
     likeness: 45,
@@ -121,7 +121,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Pet Name
     if (petNameInput && document.activeElement !== petNameInput) {
-      petNameInput.value = state.petName || 'Mochi';
+      petNameInput.value = state.petName || 'Billuuu';
     }
 
     // Header Sound Mute Toggle Icon
@@ -204,7 +204,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Pet Name Input
   if (petNameInput) {
     petNameInput.addEventListener('input', (e) => {
-      saveSettings({ petName: e.target.value.trim() || 'Mochi' });
+      saveSettings({ petName: e.target.value.trim() || 'Billuuu' });
     });
   }
 

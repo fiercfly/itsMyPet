@@ -1021,7 +1021,6 @@
 
 /* --- JUMP STATE (Graceful Aerodynamic Leap - Zero Facial Distortion) --- */
 .state-jump .cat-rig { animation: jumpFlightGlide 0.35s infinite alternate ease-in-out; }
-.state-jump .torso { animation: jumpTorsoStretch 0.35s infinite alternate ease-in-out; }
 .state-jump .cat-head { animation: jumpHeadLook 0.35s infinite alternate ease-in-out; }
 .state-jump .front-paw.left  { animation: jumpPawL 0.35s infinite alternate ease-in-out; }
 .state-jump .front-paw.right { animation: jumpPawR 0.35s infinite alternate ease-in-out; }
@@ -1630,12 +1629,8 @@
 
 /* --- JUMP AERODYNAMIC FLIGHT GLIDE (Fluid Leap Motion) --- */
 @keyframes jumpFlightGlide {
-  0%   { transform: translateY(0) rotate(-4deg); }
-  100% { transform: translateY(-6px) rotate(2deg); }
-}
-@keyframes jumpTorsoStretch {
-  0%   { transform: scaleY(1.08) scaleX(0.92); }
-  100% { transform: scaleY(1.02) scaleX(0.98); }
+  0%   { transform: translateY(0) rotate(-4deg) scaleY(1.03) scaleX(0.97); }
+  100% { transform: translateY(-6px) rotate(2deg) scaleY(1.01) scaleX(0.99); }
 }
 @keyframes jumpHeadLook {
   0%   { transform: translateX(-50%) translateY(-2px) rotate(3deg); }
